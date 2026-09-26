@@ -1,189 +1,140 @@
-console.log("TECH BRASIL - SCRIPT CARREGADO");
-// ============================================================
-// TECH BRASIL — SCRIPT PRINCIPAL
-// Catálogo, pesquisa, filtros, carrinho e detalhes dos produtos
-// ============================================================
+"use strict";
+
+/* =========================================================
+   TECH BRASIL
+   JavaScript principal da loja
+   ========================================================= */
+
+/* =========================================================
+   PRODUTOS
+   ========================================================= */
 
 const products = [
     {
         id: 1,
-        name: "Placa de Vídeo RTX 4070 12GB",
+        name: "RTX 4070 12GB",
         category: "gpu",
-        badge: "Mais vendido",
         price: 3299.90,
-        oldPrice: 3699.90,
-        rating: 4.9,
-        reviews: 126,
+        oldPrice: 3599.90,
+        installment: "12x de R$ 316,66",
         art: "RTX 4070",
-        description: "Placa de vídeo de alto desempenho para jogos em alta resolução, criação de conteúdo e aplicações gráficas."
+        badge: "Destaque"
     },
     {
         id: 2,
-        name: "Processador AMD Ryzen 5 5600",
+        name: "Ryzen 5 5600",
         category: "cpu",
-        badge: "Oferta",
         price: 749.90,
-        oldPrice: 899.90,
-        rating: 4.8,
-        reviews: 94,
+        oldPrice: 849.90,
+        installment: "12x de R$ 72,33",
         art: "RYZEN 5",
-        description: "Processador de 6 núcleos e 12 threads para gaming, estudos, trabalho e uso diário."
+        badge: "Oferta"
     },
     {
         id: 3,
-        name: "Placa-Mãe B550 Gaming",
+        name: "B550 Gaming",
         category: "motherboard",
-        badge: "Destaque",
         price: 1099.90,
-        oldPrice: null,
-        rating: 4.8,
-        reviews: 76,
+        oldPrice: 1199.90,
+        installment: "12x de R$ 106,33",
         art: "B550",
-        description: "Placa-mãe AM4 com recursos para gaming e upgrades, oferecendo conectividade e estabilidade."
+        badge: "Destaque"
     },
     {
         id: 4,
-        name: "Memória RAM 16GB DDR4 3200MHz",
+        name: "RAM 16GB DDR4",
         category: "ram",
-        badge: "Oferta",
         price: 399.90,
-        oldPrice: 459.90,
-        rating: 4.9,
-        reviews: 143,
+        oldPrice: 449.90,
+        installment: "12x de R$ 38,66",
         art: "16GB",
-        description: "Memória de 16GB para melhorar multitarefa, jogos e produtividade."
+        badge: "Oferta"
     },
     {
         id: 5,
-        name: "SSD NVMe M.2 1TB",
+        name: "SSD NVMe 1TB",
         category: "storage",
-        badge: "Mais vendido",
         price: 449.90,
-        oldPrice: 599.90,
-        rating: 4.9,
-        reviews: 187,
+        oldPrice: 499.90,
+        installment: "12x de R$ 43,49",
         art: "1TB",
-        description: "Armazenamento NVMe de alta velocidade para sistema operacional, jogos e arquivos."
+        badge: "Oferta"
     },
     {
         id: 6,
         name: "PC Gamer Tech Brasil Ryzen 5",
         category: "pc",
-        badge: "Lançamento",
         price: 3899.90,
         oldPrice: 4299.90,
-        rating: 4.8,
-        reviews: 52,
+        installment: "12x de R$ 377,32",
         art: "PC GAMER",
-        description: "Computador montado para gaming e produtividade, com componentes selecionados para equilíbrio de desempenho."
+        badge: "Destaque"
     },
     {
         id: 7,
-        name: "Fonte 650W 80 Plus Bronze",
+        name: "Fonte 650W",
         category: "accessories",
-        badge: "Destaque",
         price: 389.90,
-        oldPrice: null,
-        rating: 4.7,
-        reviews: 88,
+        oldPrice: 449.90,
+        installment: "12x de R$ 37,77",
         art: "650W",
-        description: "Fonte de alimentação de 650W para configurações de médio e alto desempenho."
+        badge: "Oferta"
     },
     {
         id: 8,
-        name: "Headset Gamer Surround 7.1",
+        name: "Headset Gamer 7.1",
         category: "peripherals",
-        badge: "Oferta",
         price: 249.90,
         oldPrice: 299.90,
-        rating: 4.7,
-        reviews: 61,
+        installment: "12x de R$ 24,20",
         art: "7.1",
-        description: "Headset confortável com áudio imersivo para jogos, chamadas e entretenimento."
+        badge: "Oferta"
     },
     {
         id: 9,
-        name: "Placa de Vídeo RX 7600 8GB",
+        name: "RX 7600 8GB",
         category: "gpu",
-        badge: "Oferta",
         price: 1999.90,
-        oldPrice: 2299.90,
-        rating: 4.8,
-        reviews: 73,
+        oldPrice: 2199.90,
+        installment: "12x de R$ 193,66",
         art: "RX 7600",
-        description: "GPU para gaming em Full HD com ótimo equilíbrio entre desempenho e recursos gráficos."
+        badge: "Destaque"
     },
     {
         id: 10,
-        name: "Processador Intel Core i5",
+        name: "Intel Core i5",
         category: "cpu",
-        badge: "Destaque",
         price: 1199.90,
-        oldPrice: null,
-        rating: 4.8,
-        reviews: 57,
+        oldPrice: 1299.90,
+        installment: "12x de R$ 116,16",
         art: "CORE i5",
-        description: "Processador Intel para computadores de alto desempenho em jogos e produtividade."
+        badge: "Oferta"
     },
     {
         id: 11,
-        name: "Memória RAM 32GB DDR5",
+        name: "RAM 32GB DDR5",
         category: "ram",
-        badge: "Novo",
         price: 799.90,
         oldPrice: 899.90,
-        rating: 4.9,
-        reviews: 41,
+        installment: "12x de R$ 77,49",
         art: "32GB",
-        description: "Kit de memória DDR5 de 32GB para máquinas modernas e aplicações exigentes."
+        badge: "Destaque"
     },
     {
         id: 12,
-        name: "SSD NVMe M.2 2TB",
+        name: "SSD NVMe 2TB",
         category: "storage",
-        badge: "Oferta",
         price: 799.90,
-        oldPrice: 949.90,
-        rating: 4.9,
-        reviews: 92,
+        oldPrice: 899.90,
+        installment: "12x de R$ 77,49",
         art: "2TB",
-        description: "2TB de armazenamento rápido para uma biblioteca maior de jogos e arquivos."
+        badge: "Oferta"
     }
 ];
 
-// ============================================================
-// ESTADO DO SITE
-// ============================================================
-
-let cart = JSON.parse(
-    localStorage.getItem("techBrasilCart") || "[]"
-);
-
-let currentProducts = [...products];
-
-// ============================================================
-// ELEMENTOS AUXILIARES
-// ============================================================
-
-const $ = (selector) => document.querySelector(selector);
-
-const $$ = (selector) => [
-    ...document.querySelectorAll(selector)
-];
-
-// ============================================================
-// FORMATAÇÃO DE VALORES
-// ============================================================
-
-const money = (value) =>
-    value.toLocaleString("pt-BR", {
-        style: "currency",
-        currency: "BRL"
-    });
-
-// ============================================================
-// CATEGORIAS
-// ============================================================
+/* =========================================================
+   CONFIGURAÇÕES
+   ========================================================= */
 
 const categoryNames = {
     pc: "PCs Montados",
@@ -196,53 +147,123 @@ const categoryNames = {
     accessories: "Acessórios"
 };
 
-// ============================================================
-// PROTEÇÃO DE TEXTO INSERIDO NO HTML
-// ============================================================
+/* =========================================================
+   ESTADO
+   ========================================================= */
+
+let currentProducts = [...products];
+let cart = [];
+
+/* =========================================================
+   LOCAL STORAGE
+   ========================================================= */
+
+function loadCart() {
+    try {
+        const savedCart = localStorage.getItem("techBrasilCart");
+
+        if (!savedCart) {
+            cart = [];
+            return;
+        }
+
+        const parsedCart = JSON.parse(savedCart);
+
+        cart = Array.isArray(parsedCart)
+            ? parsedCart
+            : [];
+
+    } catch (error) {
+        console.warn("Não foi possível carregar o carrinho:", error);
+        cart = [];
+    }
+}
+
+function saveCart() {
+    try {
+        localStorage.setItem(
+            "techBrasilCart",
+            JSON.stringify(cart)
+        );
+    } catch (error) {
+        console.warn("Não foi possível salvar o carrinho:", error);
+    }
+}
+
+/* =========================================================
+   SELETORES
+   ========================================================= */
+
+function $(selector) {
+    return document.querySelector(selector);
+}
+
+function $$(selector) {
+    return Array.from(document.querySelectorAll(selector));
+}
+
+/* =========================================================
+   EVENTOS SEGUROS
+   ========================================================= */
+
+function addEvent(selector, eventName, handler) {
+    const element = $(selector);
+
+    if (!element) {
+        return;
+    }
+
+    element.addEventListener(eventName, handler);
+}
+
+/* =========================================================
+   UTILITÁRIOS
+   ========================================================= */
+
+function money(value) {
+    return new Intl.NumberFormat("pt-BR", {
+        style: "currency",
+        currency: "BRL"
+    }).format(value);
+}
 
 function escapeHTML(value) {
-    return String(value).replace(/[&<>"']/g, char => ({
-        "&": "&amp;",
-        "<": "&lt;",
-        ">": "&gt;",
-        '"': "&quot;",
-        "'": "&#039;"
-    }[char]));
+    return String(value)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
 }
-
-// ============================================================
-// CLASSES VISUAIS DOS PRODUTOS
-// ============================================================
 
 function artClass(category) {
-    return {
-        gpu: "art-gpu",
-        cpu: "art-cpu",
-        motherboard: "art-board",
-        ram: "art-ram",
-        storage: "art-ssd",
-        pc: "art-pc",
-        peripherals: "art-peripheral",
-        accessories: "art-accessory"
-    }[category] || "";
+    return `product-art product-art-${category}`;
 }
 
-// ============================================================
-// CRIAÇÃO DOS CARDS DE PRODUTOS
-// ============================================================
+/* =========================================================
+   PRODUTO
+   ========================================================= */
+
+function getProductById(productId) {
+    return products.find(
+        product => product.id === Number(productId)
+    );
+}
 
 function productCard(product) {
     return `
-        <article class="product-card">
+        <article class="product-card" data-product-id="${product.id}">
 
-            <div class="product-image">
+            <div class="product-image-area">
 
-                <span class="product-badge">
-                    ${escapeHTML(product.badge)}
-                </span>
+                ${
+                    product.badge
+                        ? `<span class="product-badge">${escapeHTML(product.badge)}</span>`
+                        : ""
+                }
 
-                <div class="product-art ${artClass(product.category)}">
-                    ${escapeHTML(product.art)}
+                <div class="${artClass(product.category)}">
+                    <span>${escapeHTML(product.art)}</span>
                 </div>
 
             </div>
@@ -250,57 +271,49 @@ function productCard(product) {
             <div class="product-info">
 
                 <span class="product-category">
-                    ${escapeHTML(categoryNames[product.category])}
+                    ${escapeHTML(categoryNames[product.category] || "Produto")}
                 </span>
 
                 <h3 class="product-name">
                     ${escapeHTML(product.name)}
                 </h3>
 
-                <div class="rating">
-                    ★★★★★
-                    <span>(${product.reviews})</span>
+                <div class="product-rating">
+                    <span class="rating-stars" aria-label="5 estrelas">
+                        5/5
+                    </span>
                 </div>
 
                 <div class="product-price">
 
                     ${
                         product.oldPrice
-                            ? `
-                                <span class="old-price">
-                                    ${money(product.oldPrice)}
-                                </span>
-                            `
-                            : `
-                                <span class="old-price">&nbsp;</span>
-                            `
+                            ? `<span class="product-old-price">${money(product.oldPrice)}</span>`
+                            : ""
                     }
 
-                    <strong class="price">
-                        ${money(product.price)}
-                    </strong>
-
-                    <span class="installments">
-                        ou em até 10x no cartão
-                    </span>
+                    <strong>${money(product.price)}</strong>
 
                 </div>
+
+                <p class="product-installment">
+                    ${escapeHTML(product.installment)}
+                </p>
 
                 <div class="product-actions">
 
                     <button
-                        class="add-cart"
-                        data-add="${product.id}"
-                    >
-                        Adicionar ao carrinho
+                        type="button"
+                        class="btn btn-secondary btn-view-product"
+                        data-product-id="${product.id}">
+                        Ver produto
                     </button>
 
                     <button
-                        class="quick-view"
-                        data-view="${product.id}"
-                        aria-label="Ver detalhes"
-                    >
-                        ↗
+                        type="button"
+                        class="btn btn-primary btn-add-cart"
+                        data-product-id="${product.id}">
+                        Adicionar
                     </button>
 
                 </div>
@@ -311,823 +324,1130 @@ function productCard(product) {
     `;
 }
 
-// ============================================================
-// EXIBIÇÃO DOS PRODUTOS
-// ============================================================
+/* =========================================================
+   RENDERIZAÇÃO DOS PRODUTOS
+   ========================================================= */
 
-function renderProducts(list, targetId) {
-    const target = document.getElementById(targetId);
+function renderProducts(list, containerSelector) {
+    const container = $(containerSelector);
 
-    if (!target) return;
+    if (!container) {
+        return;
+    }
 
-    target.innerHTML = list
-        .map(productCard)
+    if (!Array.isArray(list) || list.length === 0) {
+        container.innerHTML = "";
+        return;
+    }
+
+    container.innerHTML = list
+        .map(product => productCard(product))
         .join("");
-
-    bindProductButtons();
 }
 
-// ============================================================
-// EVENTOS DOS BOTÕES DOS PRODUTOS
-// ============================================================
-
-function bindProductButtons() {
-
-    $$("[data-add]").forEach(button => {
-
-        button.addEventListener("click", () => {
-
-            addToCart(Number(button.dataset.add));
-
-        });
-
-    });
-
-    $$("[data-view]").forEach(button => {
-
-        button.addEventListener("click", () => {
-
-            openProductModal(Number(button.dataset.view));
-
-        });
-
-    });
-
-}
-
-// ============================================================
-// PRODUTOS EM DESTAQUE
-// ============================================================
+/* =========================================================
+   PRODUTOS EM DESTAQUE
+   ========================================================= */
 
 function renderFeatured() {
+    const featuredContainer = $("#featuredProducts");
 
-    renderProducts(
-        products.slice(0, 4),
-        "featuredProducts"
+    if (!featuredContainer) {
+        return;
+    }
+
+    const featured = products.filter(
+        product => product.badge === "Destaque"
     );
 
+    renderProducts(featured, "#featuredProducts");
+
+    bindProductButtons(featuredContainer);
 }
 
-// ============================================================
-// PESQUISA, FILTROS E ORDENAÇÃO
-// ============================================================
+/* =========================================================
+   FILTROS
+   ========================================================= */
+
+function getFilteredProducts() {
+    const searchInput = $("#searchInput");
+    const categoryFilter = $("#categoryFilter");
+    const sortFilter = $("#sortFilter");
+
+    const searchTerm = searchInput
+        ? searchInput.value.trim().toLowerCase()
+        : "";
+
+    const selectedCategory = categoryFilter
+        ? categoryFilter.value
+        : "all";
+
+    const selectedSort = sortFilter
+        ? sortFilter.value
+        : "featured";
+
+    let filtered = [...products];
+
+    /* Busca */
+
+    if (searchTerm) {
+        filtered = filtered.filter(product => {
+            const productName = product.name.toLowerCase();
+
+            const categoryName = (
+                categoryNames[product.category] || ""
+            ).toLowerCase();
+
+            const art = product.art.toLowerCase();
+
+            return (
+                productName.includes(searchTerm) ||
+                categoryName.includes(searchTerm) ||
+                art.includes(searchTerm)
+            );
+        });
+    }
+
+    /* Categoria */
+
+    if (
+        selectedCategory &&
+        selectedCategory !== "all"
+    ) {
+        filtered = filtered.filter(
+            product => product.category === selectedCategory
+        );
+    }
+
+    /* Ordenação */
+
+    switch (selectedSort) {
+
+        case "price-low":
+            filtered.sort(
+                (a, b) => a.price - b.price
+            );
+            break;
+
+        case "price-high":
+            filtered.sort(
+                (a, b) => b.price - a.price
+            );
+            break;
+
+        case "name":
+            filtered.sort(
+                (a, b) =>
+                    a.name.localeCompare(
+                        b.name,
+                        "pt-BR"
+                    )
+            );
+            break;
+
+        case "featured":
+        default:
+            filtered.sort((a, b) => {
+
+                if (
+                    a.badge === "Destaque" &&
+                    b.badge !== "Destaque"
+                ) {
+                    return -1;
+                }
+
+                if (
+                    a.badge !== "Destaque" &&
+                    b.badge === "Destaque"
+                ) {
+                    return 1;
+                }
+
+                return a.id - b.id;
+            });
+
+            break;
+    }
+
+    return filtered;
+}
+
+/* =========================================================
+   TODOS OS PRODUTOS
+   ========================================================= */
 
 function renderAllProducts() {
+    const productsContainer = $("#allProducts");
 
-    const searchTerm = $("#searchInput")
-        .value
-        .trim()
-        .toLowerCase();
+    if (!productsContainer) {
+        console.warn(
+            "Elemento #allProducts não encontrado no HTML."
+        );
 
-    const category = $("#categoryFilter").value;
+        return;
+    }
 
-    const sort = $("#sortFilter").value;
+    const filtered = getFilteredProducts();
 
-    let list = products.filter(product => {
+    currentProducts = filtered;
 
-        const matchesSearch =
-            !searchTerm ||
-            product.name.toLowerCase().includes(searchTerm) ||
-            categoryNames[product.category]
-                .toLowerCase()
-                .includes(searchTerm) ||
-            product.art.toLowerCase().includes(searchTerm);
+    renderProducts(
+        filtered,
+        "#allProducts"
+    );
 
-        const matchesCategory =
-            category === "all" ||
-            product.category === category;
+    bindProductButtons(productsContainer);
 
-        return matchesSearch && matchesCategory;
+    const emptyState = $("#emptyState");
+
+    if (emptyState) {
+        emptyState.hidden = filtered.length !== 0;
+    }
+
+    const resultText = $("#productResultText");
+
+    if (resultText) {
+
+        if (filtered.length === 0) {
+            resultText.textContent =
+                "Nenhum produto encontrado.";
+        } else if (filtered.length === 1) {
+            resultText.textContent =
+                "1 produto encontrado.";
+        } else {
+            resultText.textContent =
+                `${filtered.length} produtos encontrados.`;
+        }
+    }
+}
+
+/* =========================================================
+   BOTÕES DOS PRODUTOS
+   ========================================================= */
+
+function bindProductButtons(container) {
+    if (!container) {
+        return;
+    }
+
+    const addButtons = container.querySelectorAll(
+        ".btn-add-cart"
+    );
+
+    addButtons.forEach(button => {
+
+        button.addEventListener(
+            "click",
+            function () {
+
+                const productId =
+                    Number(this.dataset.productId);
+
+                addToCart(productId);
+            }
+        );
 
     });
 
-    if (sort === "price-low") {
+    const viewButtons = container.querySelectorAll(
+        ".btn-view-product"
+    );
 
-        list.sort((a, b) => a.price - b.price);
+    viewButtons.forEach(button => {
 
-    }
+        button.addEventListener(
+            "click",
+            function () {
 
-    if (sort === "price-high") {
+                const productId =
+                    Number(this.dataset.productId);
 
-        list.sort((a, b) => b.price - a.price);
-
-    }
-
-    if (sort === "name") {
-
-        list.sort((a, b) =>
-            a.name.localeCompare(b.name, "pt-BR")
+                openProductModal(productId);
+            }
         );
 
-    }
-
-    currentProducts = list;
-
-    renderProducts(list, "allProducts");
-
-    $("#emptyState").hidden = list.length !== 0;
-
-    $("#productResultText").textContent =
-        `${list.length} ${
-            list.length === 1
-                ? "produto encontrado"
-                : "produtos encontrados"
-        }.`;
-
+    });
 }
 
-// ============================================================
-// ADICIONAR PRODUTO AO CARRINHO
-// ============================================================
+/* =========================================================
+   CARRINHO
+   ========================================================= */
 
 function addToCart(productId) {
 
-    const product = products.find(
-        item => item.id === productId
+    const product = getProductById(productId);
+
+    if (!product) {
+        return;
+    }
+
+    const existingItem = cart.find(
+        item => Number(item.id) === product.id
     );
 
-    if (!product) return;
-
-    const existing = cart.find(
-        item => item.id === productId
-    );
-
-    if (existing) {
-
-        existing.quantity += 1;
-
+    if (existingItem) {
+        existingItem.quantity =
+            Number(existingItem.quantity || 0) + 1;
     } else {
-
         cart.push({
-            id: productId,
+            id: product.id,
             quantity: 1
         });
-
     }
 
     saveCart();
-
     updateCartUI();
+    showToast("Produto adicionado ao carrinho.");
 
-    showToast(
-        `${product.name} foi adicionado ao carrinho.`
-    );
-
+    openCart();
 }
-
-// ============================================================
-// REMOVER PRODUTO DO CARRINHO
-// ============================================================
 
 function removeFromCart(productId) {
 
     cart = cart.filter(
-        item => item.id !== productId
+        item => Number(item.id) !== Number(productId)
     );
 
     saveCart();
-
     updateCartUI();
-
 }
 
-// ============================================================
-// ALTERAR QUANTIDADE
-// ============================================================
-
-function changeQuantity(productId, amount) {
+function changeQuantity(productId, change) {
 
     const item = cart.find(
-        cartItem => cartItem.id === productId
+        cartItem =>
+            Number(cartItem.id) === Number(productId)
     );
 
-    if (!item) return;
-
-    item.quantity += amount;
-
-    if (item.quantity <= 0) {
-
-        removeFromCart(productId);
-
-    } else {
-
-        saveCart();
-
-        updateCartUI();
-
+    if (!item) {
+        return;
     }
 
+    item.quantity =
+        Number(item.quantity || 0) + Number(change);
+
+    if (item.quantity <= 0) {
+        removeFromCart(productId);
+        return;
+    }
+
+    saveCart();
+    updateCartUI();
 }
 
-// ============================================================
-// SALVAR CARRINHO NO NAVEGADOR
-// ============================================================
-
-function saveCart() {
-
-    localStorage.setItem(
-        "techBrasilCart",
-        JSON.stringify(cart)
-    );
-
-}
-
-// ============================================================
-// CALCULAR QUANTIDADE E TOTAL
-// ============================================================
+/* =========================================================
+   TOTAIS DO CARRINHO
+   ========================================================= */
 
 function cartTotals() {
 
     let quantity = 0;
-
     let total = 0;
 
     cart.forEach(item => {
 
-        const product = products.find(
-            productItem => productItem.id === item.id
-        );
+        const product = getProductById(item.id);
 
-        if (!product) return;
+        if (!product) {
+            return;
+        }
 
-        quantity += item.quantity;
+        const itemQuantity =
+            Number(item.quantity || 0);
 
-        total += product.price * item.quantity;
-
+        quantity += itemQuantity;
+        total += product.price * itemQuantity;
     });
 
     return {
         quantity,
         total
     };
-
 }
 
-// ============================================================
-// ATUALIZAR INTERFACE DO CARRINHO
-// ============================================================
+/* =========================================================
+   INTERFACE DO CARRINHO
+   ========================================================= */
 
 function updateCartUI() {
 
-    const { quantity, total } = cartTotals();
+    const cartItemsContainer = $("#cartItems");
+    const cartEmpty = $("#cartEmpty");
+    const cartTotal = $("#cartTotal");
+    const cartCount = $("#cartCount");
+    const checkoutButton = $("#checkoutButton");
 
-    $("#cartCount").textContent = quantity;
+    const totals = cartTotals();
 
-    $("#cartTotal").textContent = money(total);
+    /* Contador */
 
-    const container = $("#cartItems");
-
-    const empty = $("#cartEmpty");
-
-    if (!cart.length) {
-
-        container.innerHTML = "";
-
-        empty.style.display = "grid";
-
-        return;
-
+    if (cartCount) {
+        cartCount.textContent = totals.quantity;
     }
 
-    empty.style.display = "none";
+    /* Total */
 
-    container.innerHTML = cart.map(item => {
+    if (cartTotal) {
+        cartTotal.textContent =
+            money(totals.total);
+    }
 
-        const product = products.find(
-            productItem => productItem.id === item.id
-        );
+    /* Botão finalizar */
 
-        if (!product) return "";
+    if (checkoutButton) {
+        checkoutButton.disabled =
+            cart.length === 0;
+    }
 
-        return `
-            <div class="cart-item">
+    /* Carrinho vazio */
 
-                <div class="cart-item-art">
-                    ${escapeHTML(product.art)}
-                </div>
+    if (cart.length === 0) {
 
-                <div>
+        if (cartItemsContainer) {
+            cartItemsContainer.innerHTML = "";
+        }
 
-                    <strong>
-                        ${escapeHTML(product.name)}
-                    </strong>
+        if (cartEmpty) {
+            cartEmpty.hidden = false;
+        }
 
-                    <small>
-                        ${money(product.price)} cada
-                    </small>
+        return;
+    }
 
-                    <div class="qty-controls">
+    if (cartEmpty) {
+        cartEmpty.hidden = true;
+    }
+
+    if (!cartItemsContainer) {
+        return;
+    }
+
+    cartItemsContainer.innerHTML = cart
+        .map(item => {
+
+            const product =
+                getProductById(item.id);
+
+            if (!product) {
+                return "";
+            }
+
+            const quantity =
+                Number(item.quantity || 1);
+
+            const subtotal =
+                product.price * quantity;
+
+            return `
+                <div class="cart-item">
+
+                    <div class="${artClass(product.category)} cart-item-image">
+                        <span>${escapeHTML(product.art)}</span>
+                    </div>
+
+                    <div class="cart-item-info">
+
+                        <h4>
+                            ${escapeHTML(product.name)}
+                        </h4>
+
+                        <span>
+                            ${money(product.price)}
+                        </span>
+
+                        <div class="cart-item-controls">
+
+                            <button
+                                type="button"
+                                class="cart-quantity-btn"
+                                data-cart-action="decrease"
+                                data-product-id="${product.id}"
+                                aria-label="Diminuir quantidade">
+                                -
+                            </button>
+
+                            <span>
+                                ${quantity}
+                            </span>
+
+                            <button
+                                type="button"
+                                class="cart-quantity-btn"
+                                data-cart-action="increase"
+                                data-product-id="${product.id}"
+                                aria-label="Aumentar quantidade">
+                                +
+                            </button>
+
+                        </div>
+
+                        <strong>
+                            ${money(subtotal)}
+                        </strong>
 
                         <button
-                            data-minus="${product.id}"
-                            aria-label="Diminuir quantidade"
-                        >
-                            −
-                        </button>
-
-                        <span>${item.quantity}</span>
-
-                        <button
-                            data-plus="${product.id}"
-                            aria-label="Aumentar quantidade"
-                        >
-                            +
-                        </button>
-
-                        <button
-                            class="remove-item"
-                            data-remove="${product.id}"
-                        >
+                            type="button"
+                            class="cart-remove"
+                            data-cart-action="remove"
+                            data-product-id="${product.id}">
                             Remover
                         </button>
 
                     </div>
 
                 </div>
+            `;
+        })
+        .join("");
 
-                <strong>
-                    ${money(product.price * item.quantity)}
-                </strong>
-
-            </div>
-        `;
-
-    }).join("");
-
-    $$("[data-minus]").forEach(button => {
-
-        button.addEventListener("click", () => {
-
-            changeQuantity(
-                Number(button.dataset.minus),
-                -1
-            );
-
-        });
-
-    });
-
-    $$("[data-plus]").forEach(button => {
-
-        button.addEventListener("click", () => {
-
-            changeQuantity(
-                Number(button.dataset.plus),
-                1
-            );
-
-        });
-
-    });
-
-    $$("[data-remove]").forEach(button => {
-
-        button.addEventListener("click", () => {
-
-            removeFromCart(
-                Number(button.dataset.remove)
-            );
-
-        });
-
-    });
-
+    bindCartButtons(cartItemsContainer);
 }
 
-// ============================================================
-// ABRIR E FECHAR CARRINHO
-// ============================================================
+/* =========================================================
+   BOTÕES DO CARRINHO
+   ========================================================= */
+
+function bindCartButtons(container) {
+
+    if (!container) {
+        return;
+    }
+
+    const buttons = container.querySelectorAll(
+        "[data-cart-action]"
+    );
+
+    buttons.forEach(button => {
+
+        button.addEventListener(
+            "click",
+            function () {
+
+                const action =
+                    this.dataset.cartAction;
+
+                const productId =
+                    Number(this.dataset.productId);
+
+                if (action === "increase") {
+                    changeQuantity(productId, 1);
+                }
+
+                if (action === "decrease") {
+                    changeQuantity(productId, -1);
+                }
+
+                if (action === "remove") {
+                    removeFromCart(productId);
+                }
+            }
+        );
+    });
+}
+
+/* =========================================================
+   ABRIR CARRINHO
+   ========================================================= */
 
 function openCart() {
 
-    $("#cartDrawer").classList.add("active");
+    const cartDrawer = $("#cartDrawer");
+    const overlay = $("#overlay");
 
-    $("#cartDrawer").setAttribute(
-        "aria-hidden",
-        "false"
-    );
+    if (!cartDrawer) {
+        return;
+    }
 
-    $("#overlay").classList.add("active");
+    cartDrawer.classList.add("active");
 
-    document.body.classList.add("no-scroll");
+    if (overlay) {
+        overlay.classList.add("active");
+    }
 
+    document.body.classList.add("drawer-open");
 }
+
+/* =========================================================
+   FECHAR CARRINHO
+   ========================================================= */
 
 function closeCart() {
 
-    $("#cartDrawer").classList.remove("active");
+    const cartDrawer = $("#cartDrawer");
+    const overlay = $("#overlay");
 
-    $("#cartDrawer").setAttribute(
-        "aria-hidden",
-        "true"
-    );
-
-    closeOverlayIfUnused();
-
-}
-
-// ============================================================
-// CONTROLE DO FUNDO ESCURO
-// ============================================================
-
-function closeOverlayIfUnused() {
-
-    const modalOpen =
-        $("#productModal").classList.contains("active");
-
-    const cartOpen =
-        $("#cartDrawer").classList.contains("active");
-
-    if (!modalOpen && !cartOpen) {
-
-        $("#overlay").classList.remove("active");
-
-        document.body.classList.remove("no-scroll");
-
+    if (cartDrawer) {
+        cartDrawer.classList.remove("active");
     }
 
+    if (overlay) {
+        overlay.classList.remove("active");
+    }
+
+    document.body.classList.remove("drawer-open");
 }
 
-// ============================================================
-// ABRIR DETALHES DO PRODUTO
-// ============================================================
+/* =========================================================
+   MODAL DE PRODUTO
+   ========================================================= */
 
 function openProductModal(productId) {
 
-    const product = products.find(
-        item => item.id === productId
-    );
+    const product = getProductById(productId);
 
-    if (!product) return;
+    if (!product) {
+        return;
+    }
 
-    $("#modalContent").innerHTML = `
-        <div class="modal-product">
+    const modal = $("#productModal");
+    const modalContent = $("#modalContent");
+    const overlay = $("#overlay");
 
-            <div class="modal-product-image">
+    if (!modal || !modalContent) {
+        return;
+    }
 
-                <div class="product-art ${artClass(product.category)}">
-                    ${escapeHTML(product.art)}
-                </div>
+    modalContent.innerHTML = `
+        <div class="product-modal-image">
 
+            <div class="${artClass(product.category)}">
+                <span>${escapeHTML(product.art)}</span>
             </div>
 
-            <div class="modal-product-info">
+        </div>
 
-                <span class="section-kicker">
-                    ${escapeHTML(categoryNames[product.category])}
+        <div class="product-modal-info">
+
+            <span class="product-category">
+                ${escapeHTML(
+                    categoryNames[product.category] || "Produto"
+                )}
+            </span>
+
+            <h2>
+                ${escapeHTML(product.name)}
+            </h2>
+
+            <div class="product-rating">
+                <span class="rating-stars">
+                    5/5
                 </span>
-
-                <h2>
-                    ${escapeHTML(product.name)}
-                </h2>
-
-                <div class="rating">
-                    ★★★★★
-                    <span>
-                        ${product.rating}/5
-                        (${product.reviews} avaliações)
-                    </span>
-                </div>
-
-                <p>
-                    ${escapeHTML(product.description)}
-                </p>
-
-                ${
-                    product.oldPrice
-                        ? `
-                            <span class="old-price">
-                                ${money(product.oldPrice)}
-                            </span>
-                        `
-                        : ""
-                }
-
-                <div class="modal-price">
-                    ${money(product.price)}
-                </div>
-
-                <button
-                    class="btn btn-primary"
-                    id="modalAddButton"
-                >
-                    Adicionar ao carrinho
-                </button>
-
             </div>
+
+            ${
+                product.oldPrice
+                    ? `
+                        <span class="product-old-price">
+                            ${money(product.oldPrice)}
+                        </span>
+                    `
+                    : ""
+            }
+
+            <div class="modal-price">
+                ${money(product.price)}
+            </div>
+
+            <p class="product-installment">
+                ${escapeHTML(product.installment)}
+            </p>
+
+            <div class="modal-category">
+                Categoria:
+                <strong>
+                    ${escapeHTML(
+                        categoryNames[product.category] || "Produto"
+                    )}
+                </strong>
+            </div>
+
+            <button
+                type="button"
+                class="btn btn-primary btn-modal-add"
+                data-product-id="${product.id}">
+                Adicionar ao carrinho
+            </button>
 
         </div>
     `;
 
-    $("#modalAddButton").addEventListener(
-        "click",
-        () => {
+    modal.classList.add("active");
 
-            addToCart(product.id);
+    if (overlay) {
+        overlay.classList.add("active");
+    }
 
-            closeProductModal();
+    const modalAddButton =
+        modalContent.querySelector(
+            ".btn-modal-add"
+        );
 
-            openCart();
+    if (modalAddButton) {
 
-        }
-    );
+        modalAddButton.addEventListener(
+            "click",
+            function () {
 
-    $("#productModal").classList.add("active");
+                addToCart(
+                    Number(this.dataset.productId)
+                );
 
-    $("#productModal").setAttribute(
-        "aria-hidden",
-        "false"
-    );
-
-    $("#overlay").classList.add("active");
-
-    document.body.classList.add("no-scroll");
-
+                closeProductModal();
+            }
+        );
+    }
 }
 
-// ============================================================
-// FECHAR DETALHES DO PRODUTO
-// ============================================================
+/* =========================================================
+   FECHAR MODAL
+   ========================================================= */
 
 function closeProductModal() {
 
-    $("#productModal").classList.remove("active");
+    const modal = $("#productModal");
 
-    $("#productModal").setAttribute(
-        "aria-hidden",
-        "true"
-    );
+    if (modal) {
+        modal.classList.remove("active");
+    }
 
     closeOverlayIfUnused();
-
 }
 
-// ============================================================
-// NOTIFICAÇÕES
-// ============================================================
+/* =========================================================
+   OVERLAY
+   ========================================================= */
+
+function closeOverlayIfUnused() {
+
+    const overlay = $("#overlay");
+    const cartDrawer = $("#cartDrawer");
+    const productModal = $("#productModal");
+
+    if (!overlay) {
+        return;
+    }
+
+    const cartOpen =
+        cartDrawer &&
+        cartDrawer.classList.contains("active");
+
+    const modalOpen =
+        productModal &&
+        productModal.classList.contains("active");
+
+    if (!cartOpen && !modalOpen) {
+        overlay.classList.remove("active");
+        document.body.classList.remove("drawer-open");
+    }
+}
+
+function handleOverlayClick() {
+
+    const cartDrawer = $("#cartDrawer");
+    const productModal = $("#productModal");
+
+    if (
+        cartDrawer &&
+        cartDrawer.classList.contains("active")
+    ) {
+        closeCart();
+    }
+
+    if (
+        productModal &&
+        productModal.classList.contains("active")
+    ) {
+        closeProductModal();
+    }
+
+    closeOverlayIfUnused();
+}
+
+/* =========================================================
+   TOAST
+   ========================================================= */
+
+let toastTimeout = null;
 
 function showToast(message) {
 
     const toast = $("#toast");
 
+    if (!toast) {
+        return;
+    }
+
     toast.textContent = message;
+    toast.classList.add("active");
 
-    toast.classList.add("show");
+    clearTimeout(toastTimeout);
 
-    clearTimeout(showToast.timer);
-
-    showToast.timer = setTimeout(() => {
-
-        toast.classList.remove("show");
-
-    }, 2800);
-
+    toastTimeout = setTimeout(() => {
+        toast.classList.remove("active");
+    }, 2500);
 }
 
-// ============================================================
-// NAVEGAR PARA OS PRODUTOS COM FILTRO
-// ============================================================
+/* =========================================================
+   FILTRO POR CATEGORIA
+   ========================================================= */
 
-function scrollToProducts(category = "all") {
+function selectCategory(category) {
 
-    $("#categoryFilter").value = category;
+    const categoryFilter = $("#categoryFilter");
+
+    if (categoryFilter) {
+        categoryFilter.value = category;
+    }
 
     renderAllProducts();
 
-    document
-        .getElementById("produtos")
-        .scrollIntoView({
-            behavior: "smooth"
-        });
+    const productsSection =
+        $("#produtos");
 
+    if (productsSection) {
+        productsSection.scrollIntoView({
+            behavior: "smooth",
+            block: "start"
+        });
+    }
 }
 
-// ============================================================
-// EVENTOS DA PESQUISA
-// ============================================================
+/* =========================================================
+   LIMPAR FILTROS
+   ========================================================= */
 
-$("#searchForm").addEventListener(
-    "submit",
-    event => {
+function clearFilters() {
 
-        event.preventDefault();
+    const searchInput = $("#searchInput");
+    const categoryFilter = $("#categoryFilter");
+    const sortFilter = $("#sortFilter");
 
-        renderAllProducts();
-
-        document
-            .getElementById("produtos")
-            .scrollIntoView({
-                behavior: "smooth"
-            });
-
+    if (searchInput) {
+        searchInput.value = "";
     }
-);
 
-$("#searchInput").addEventListener(
-    "input",
-    renderAllProducts
-);
+    if (categoryFilter) {
+        categoryFilter.value = "all";
+    }
 
-// ============================================================
-// EVENTOS DOS FILTROS
-// ============================================================
+    if (sortFilter) {
+        sortFilter.value = "featured";
+    }
 
-$("#categoryFilter").addEventListener(
-    "change",
-    renderAllProducts
-);
+    renderAllProducts();
+}
 
-$("#sortFilter").addEventListener(
-    "change",
-    renderAllProducts
-);
+/* =========================================================
+   PESQUISA
+   ========================================================= */
 
-// ============================================================
-// CLIQUES NAS CATEGORIAS
-// ============================================================
+function handleSearch(event) {
 
-$$("[data-category]").forEach(button => {
+    event.preventDefault();
 
-    button.addEventListener("click", () => {
+    renderAllProducts();
 
-        scrollToProducts(button.dataset.category);
+    const productsSection =
+        $("#produtos");
 
-    });
+    if (productsSection) {
+        productsSection.scrollIntoView({
+            behavior: "smooth",
+            block: "start"
+        });
+    }
+}
 
-});
+/* =========================================================
+   NEWSLETTER
+   ========================================================= */
 
-$$("[data-category-link]").forEach(link => {
+function handleNewsletter(event) {
 
-    link.addEventListener("click", event => {
+    event.preventDefault();
 
-        event.preventDefault();
+    const emailInput = $("#newsletterEmail");
 
-        scrollToProducts(
-            link.dataset.categoryLink
+    if (!emailInput) {
+        return;
+    }
+
+    const email = emailInput.value.trim();
+
+    if (!email) {
+        showToast("Digite seu e-mail.");
+        return;
+    }
+
+    showToast(
+        "Cadastro realizado com sucesso."
+    );
+
+    emailInput.value = "";
+}
+
+/* =========================================================
+   CHECKOUT
+   ========================================================= */
+
+function handleCheckout() {
+
+    if (cart.length === 0) {
+        showToast(
+            "Seu carrinho está vazio."
         );
 
-    });
-
-});
-
-// ============================================================
-// EVENTOS DO CARRINHO E DO MODAL
-// ============================================================
-
-$("#cartButton").addEventListener(
-    "click",
-    openCart
-);
-
-$("#closeCart").addEventListener(
-    "click",
-    closeCart
-);
-
-$("#closeProductModal").addEventListener(
-    "click",
-    closeProductModal
-);
-
-$("#overlay").addEventListener("click", () => {
-
-    closeCart();
-
-    closeProductModal();
-
-});
-
-// Fechar janelas com a tecla Escape
-document.addEventListener("keydown", event => {
-
-    if (event.key === "Escape") {
-
-        closeCart();
-
-        closeProductModal();
-
+        return;
     }
 
-});
+    showToast(
+        "Checkout será disponibilizado em breve."
+    );
+}
 
-// ============================================================
-// FINALIZAÇÃO DO PEDIDO
-// ============================================================
+/* =========================================================
+   CONTA
+   ========================================================= */
 
-$("#checkoutButton").addEventListener(
-    "click",
-    () => {
+function handleAccount() {
 
-        if (!cart.length) {
+    showToast(
+        "Área da conta será disponibilizada em breve."
+    );
+}
 
-            showToast("Seu carrinho está vazio.");
+/* =========================================================
+   MENU MOBILE
+   ========================================================= */
 
-            return;
+function toggleMobileMenu() {
 
+    const categoryNav = $("#categoryNav");
+
+    if (!categoryNav) {
+        return;
+    }
+
+    categoryNav.classList.toggle("active");
+}
+
+/* =========================================================
+   EVENTOS DE CATEGORIA
+   ========================================================= */
+
+function bindCategoryEvents() {
+
+    $$("[data-category]").forEach(element => {
+
+        element.addEventListener(
+            "click",
+            function (event) {
+
+                event.preventDefault();
+
+                const category =
+                    this.dataset.category;
+
+                if (!category) {
+                    return;
+                }
+
+                selectCategory(category);
+            }
+        );
+    });
+
+    $$("[data-category-link]").forEach(element => {
+
+        element.addEventListener(
+            "click",
+            function (event) {
+
+                event.preventDefault();
+
+                const category =
+                    this.dataset.categoryLink;
+
+                if (!category) {
+                    return;
+                }
+
+                selectCategory(category);
+            }
+        );
+    });
+}
+
+/* =========================================================
+   TECLA ESC
+   ========================================================= */
+
+function bindEscapeKey() {
+
+    document.addEventListener(
+        "keydown",
+        function (event) {
+
+            if (event.key !== "Escape") {
+                return;
+            }
+
+            const cartDrawer = $("#cartDrawer");
+            const productModal = $("#productModal");
+
+            if (
+                cartDrawer &&
+                cartDrawer.classList.contains("active")
+            ) {
+                closeCart();
+            }
+
+            if (
+                productModal &&
+                productModal.classList.contains("active")
+            ) {
+                closeProductModal();
+            }
+
+            closeOverlayIfUnused();
         }
+    );
+}
 
-        showToast(
-            "Checkout preparado. O pagamento será conectado na próxima etapa."
-        );
+/* =========================================================
+   EVENTOS PRINCIPAIS
+   ========================================================= */
 
+function bindEvents() {
+
+    addEvent(
+        "#searchForm",
+        "submit",
+        handleSearch
+    );
+
+    addEvent(
+        "#searchInput",
+        "input",
+        renderAllProducts
+    );
+
+    addEvent(
+        "#categoryFilter",
+        "change",
+        renderAllProducts
+    );
+
+    addEvent(
+        "#sortFilter",
+        "change",
+        renderAllProducts
+    );
+
+    addEvent(
+        "#cartButton",
+        "click",
+        openCart
+    );
+
+    addEvent(
+        "#closeCart",
+        "click",
+        closeCart
+    );
+
+    addEvent(
+        "#closeProductModal",
+        "click",
+        closeProductModal
+    );
+
+    addEvent(
+        "#overlay",
+        "click",
+        handleOverlayClick
+    );
+
+    addEvent(
+        "#checkoutButton",
+        "click",
+        handleCheckout
+    );
+
+    addEvent(
+        "#clearFilters",
+        "click",
+        clearFilters
+    );
+
+    addEvent(
+        "#accountButton",
+        "click",
+        handleAccount
+    );
+
+    addEvent(
+        "#newsletterForm",
+        "submit",
+        handleNewsletter
+    );
+
+    addEvent(
+        "#mobileMenuButton",
+        "click",
+        toggleMobileMenu
+    );
+
+    bindCategoryEvents();
+    bindEscapeKey();
+}
+
+/* =========================================================
+   INICIALIZAÇÃO
+   ========================================================= */
+
+function initTechBrasil() {
+
+    console.info(
+        "Tech Brasil: JavaScript carregado."
+    );
+
+    loadCart();
+
+    const currentYear = $("#currentYear");
+
+    if (currentYear) {
+        currentYear.textContent =
+            new Date().getFullYear();
     }
-);
 
-// ============================================================
-// LIMPAR PESQUISA E FILTROS
-// ============================================================
+    bindEvents();
 
-$("#clearFilters").addEventListener(
-    "click",
-    () => {
+    renderFeatured();
 
-        $("#searchInput").value = "";
+    renderAllProducts();
 
-        $("#categoryFilter").value = "all";
+    updateCartUI();
 
-        $("#sortFilter").value = "featured";
+    console.info(
+        "Tech Brasil: produtos carregados:",
+        products.length
+    );
+}
 
-        renderAllProducts();
+/* =========================================================
+   GARANTE QUE O HTML ESTEJA CARREGADO
+   ========================================================= */
 
-    }
-);
+if (document.readyState === "loading") {
 
-// ============================================================
-// MINHA CONTA
-// ============================================================
+    document.addEventListener(
+        "DOMContentLoaded",
+        initTechBrasil
+    );
 
-$("#accountButton").addEventListener(
-    "click",
-    () => {
+} else {
 
-        showToast(
-            "A área de conta será conectada na próxima etapa."
-        );
+    initTechBrasil();
 
-    }
-);
-
-// ============================================================
-// NEWSLETTER
-// ============================================================
-
-$("#newsletterForm").addEventListener(
-    "submit",
-    event => {
-
-        event.preventDefault();
-
-        const email = $("#newsletterEmail")
-            .value
-            .trim();
-
-        if (!email) return;
-
-        $("#newsletterForm").reset();
-
-        showToast(
-            "Cadastro realizado. Obrigado por acompanhar a Tech Brasil!"
-        );
-
-    }
-);
-
-// ============================================================
-// MENU MOBILE
-// ============================================================
-
-$("#mobileMenuButton").addEventListener(
-    "click",
-    () => {
-
-        const nav = $("#categoryNav");
-
-        const button = $("#mobileMenuButton");
-
-        const isOpen =
-            nav.classList.toggle("mobile-open");
-
-        button.setAttribute(
-            "aria-expanded",
-            String(isOpen)
-        );
-
-    }
-);
-
-// ============================================================
-// ANO AUTOMÁTICO NO RODAPÉ
-// ============================================================
-
-$("#currentYear").textContent =
-    new Date().getFullYear();
-
-// ============================================================
-// INICIALIZAÇÃO
-// ============================================================
-
-renderFeatured();
-
-renderAllProducts();
-
-updateCartUI();
+}
