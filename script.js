@@ -1,3 +1,4 @@
+console.log("TECH BRASIL - SCRIPT CARREGADO");
 // ============================================================
 // TECH BRASIL — SCRIPT PRINCIPAL
 // Catálogo, pesquisa, filtros, carrinho e detalhes dos produtos
