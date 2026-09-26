@@ -1,8 +1,8 @@
-// ======================================================
-// TECH BRASIL — SCRIPT PRINCIPAL DA LOJA
-// ======================================================
+// ============================================================
+// TECH BRASIL — SCRIPT PRINCIPAL
+// Catálogo, pesquisa, filtros, carrinho e detalhes dos produtos
+// ============================================================
 
-// Catálogo de produtos de exemplo
 const products = [
     {
         id: 1,
@@ -150,10 +150,9 @@ const products = [
     }
 ];
 
-
-// ======================================================
-// VARIÁVEIS E ELEMENTOS
-// ======================================================
+// ============================================================
+// ESTADO DO SITE
+// ============================================================
 
 let cart = JSON.parse(
     localStorage.getItem("techBrasilCart") || "[]"
@@ -161,22 +160,29 @@ let cart = JSON.parse(
 
 let currentProducts = [...products];
 
-const $ = (selector) =>
-    document.querySelector(selector);
+// ============================================================
+// ELEMENTOS AUXILIARES
+// ============================================================
 
-const $$ = (selector) =>
-    [...document.querySelectorAll(selector)];
+const $ = (selector) => document.querySelector(selector);
 
+const $$ = (selector) => [
+    ...document.querySelectorAll(selector)
+];
 
-// ======================================================
-// FORMATAÇÃO E CATEGORIAS
-// ======================================================
+// ============================================================
+// FORMATAÇÃO DE VALORES
+// ============================================================
 
 const money = (value) =>
     value.toLocaleString("pt-BR", {
         style: "currency",
         currency: "BRL"
     });
+
+// ============================================================
+// CATEGORIAS
+// ============================================================
 
 const categoryNames = {
     pc: "PCs Montados",
@@ -189,10 +195,9 @@ const categoryNames = {
     accessories: "Acessórios"
 };
 
-
-// ======================================================
-// SEGURANÇA: ESCAPE DE TEXTO HTML
-// ======================================================
+// ============================================================
+// PROTEÇÃO DE TEXTO INSERIDO NO HTML
+// ============================================================
 
 function escapeHTML(value) {
     return String(value).replace(/[&<>"']/g, char => ({
@@ -204,10 +209,9 @@ function escapeHTML(value) {
     }[char]));
 }
 
-
-// ======================================================
-// ESTILOS DAS ILUSTRAÇÕES DOS PRODUTOS
-// ======================================================
+// ============================================================
+// CLASSES VISUAIS DOS PRODUTOS
+// ============================================================
 
 function artClass(category) {
     return {
@@ -222,10 +226,9 @@ function artClass(category) {
     }[category] || "";
 }
 
-
-// ======================================================
+// ============================================================
 // CRIAÇÃO DOS CARDS DE PRODUTOS
-// ======================================================
+// ============================================================
 
 function productCard(product) {
     return `
@@ -262,8 +265,14 @@ function productCard(product) {
 
                     ${
                         product.oldPrice
-                            ? `<span class="old-price">${money(product.oldPrice)}</span>`
-                            : '<span class="old-price">&nbsp;</span>'
+                            ? `
+                                <span class="old-price">
+                                    ${money(product.oldPrice)}
+                                </span>
+                            `
+                            : `
+                                <span class="old-price">&nbsp;</span>
+                            `
                     }
 
                     <strong class="price">
@@ -280,14 +289,16 @@ function productCard(product) {
 
                     <button
                         class="add-cart"
-                        data-add="${product.id}">
+                        data-add="${product.id}"
+                    >
                         Adicionar ao carrinho
                     </button>
 
                     <button
                         class="quick-view"
                         data-view="${product.id}"
-                        aria-label="Ver detalhes">
+                        aria-label="Ver detalhes"
+                    >
                         ↗
                     </button>
 
@@ -299,32 +310,34 @@ function productCard(product) {
     `;
 }
 
-
-// ======================================================
-// RENDERIZAÇÃO DOS PRODUTOS
-// ======================================================
+// ============================================================
+// EXIBIÇÃO DOS PRODUTOS
+// ============================================================
 
 function renderProducts(list, targetId) {
     const target = document.getElementById(targetId);
 
     if (!target) return;
 
-    target.innerHTML = list.map(productCard).join("");
+    target.innerHTML = list
+        .map(productCard)
+        .join("");
 
     bindProductButtons();
 }
 
-
-// ======================================================
+// ============================================================
 // EVENTOS DOS BOTÕES DOS PRODUTOS
-// ======================================================
+// ============================================================
 
 function bindProductButtons() {
 
     $$("[data-add]").forEach(button => {
 
         button.addEventListener("click", () => {
+
             addToCart(Number(button.dataset.add));
+
         });
 
     });
@@ -332,29 +345,31 @@ function bindProductButtons() {
     $$("[data-view]").forEach(button => {
 
         button.addEventListener("click", () => {
+
             openProductModal(Number(button.dataset.view));
+
         });
 
     });
 
 }
 
-
-// ======================================================
+// ============================================================
 // PRODUTOS EM DESTAQUE
-// ======================================================
+// ============================================================
 
 function renderFeatured() {
+
     renderProducts(
         products.slice(0, 4),
         "featuredProducts"
     );
+
 }
 
-
-// ======================================================
-// BUSCA, FILTROS E ORDENAÇÃO
-// ======================================================
+// ============================================================
+// PESQUISA, FILTROS E ORDENAÇÃO
+// ============================================================
 
 function renderAllProducts() {
 
@@ -364,6 +379,7 @@ function renderAllProducts() {
         .toLowerCase();
 
     const category = $("#categoryFilter").value;
+
     const sort = $("#sortFilter").value;
 
     let list = products.filter(product => {
@@ -384,29 +400,29 @@ function renderAllProducts() {
 
     });
 
-
-    // Ordenação dos produtos
-
     if (sort === "price-low") {
+
         list.sort((a, b) => a.price - b.price);
+
     }
 
     if (sort === "price-high") {
+
         list.sort((a, b) => b.price - a.price);
+
     }
 
     if (sort === "name") {
+
         list.sort((a, b) =>
             a.name.localeCompare(b.name, "pt-BR")
         );
+
     }
 
     currentProducts = list;
 
     renderProducts(list, "allProducts");
-
-
-    // Mensagem quando não há resultados
 
     $("#emptyState").hidden = list.length !== 0;
 
@@ -416,12 +432,12 @@ function renderAllProducts() {
                 ? "produto encontrado"
                 : "produtos encontrados"
         }.`;
+
 }
 
-
-// ======================================================
+// ============================================================
 // ADICIONAR PRODUTO AO CARRINHO
-// ======================================================
+// ============================================================
 
 function addToCart(productId) {
 
@@ -436,26 +452,31 @@ function addToCart(productId) {
     );
 
     if (existing) {
+
         existing.quantity += 1;
+
     } else {
+
         cart.push({
             id: productId,
             quantity: 1
         });
+
     }
 
     saveCart();
+
     updateCartUI();
 
     showToast(
         `${product.name} foi adicionado ao carrinho.`
     );
+
 }
 
-
-// ======================================================
+// ============================================================
 // REMOVER PRODUTO DO CARRINHO
-// ======================================================
+// ============================================================
 
 function removeFromCart(productId) {
 
@@ -464,13 +485,14 @@ function removeFromCart(productId) {
     );
 
     saveCart();
+
     updateCartUI();
+
 }
 
-
-// ======================================================
+// ============================================================
 // ALTERAR QUANTIDADE
-// ======================================================
+// ============================================================
 
 function changeQuantity(productId, amount) {
 
@@ -483,33 +505,40 @@ function changeQuantity(productId, amount) {
     item.quantity += amount;
 
     if (item.quantity <= 0) {
+
         removeFromCart(productId);
+
     } else {
+
         saveCart();
+
         updateCartUI();
+
     }
+
 }
 
-
-// ======================================================
+// ============================================================
 // SALVAR CARRINHO NO NAVEGADOR
-// ======================================================
+// ============================================================
 
 function saveCart() {
+
     localStorage.setItem(
         "techBrasilCart",
         JSON.stringify(cart)
     );
+
 }
 
-
-// ======================================================
-// CALCULAR TOTAL DO CARRINHO
-// ======================================================
+// ============================================================
+// CALCULAR QUANTIDADE E TOTAL
+// ============================================================
 
 function cartTotals() {
 
     let quantity = 0;
+
     let total = 0;
 
     cart.forEach(item => {
@@ -521,6 +550,7 @@ function cartTotals() {
         if (!product) return;
 
         quantity += item.quantity;
+
         total += product.price * item.quantity;
 
     });
@@ -529,38 +559,36 @@ function cartTotals() {
         quantity,
         total
     };
+
 }
 
-
-// ======================================================
+// ============================================================
 // ATUALIZAR INTERFACE DO CARRINHO
-// ======================================================
+// ============================================================
 
 function updateCartUI() {
 
     const { quantity, total } = cartTotals();
 
     $("#cartCount").textContent = quantity;
+
     $("#cartTotal").textContent = money(total);
 
     const container = $("#cartItems");
+
     const empty = $("#cartEmpty");
-
-
-    // Carrinho vazio
 
     if (!cart.length) {
 
         container.innerHTML = "";
+
         empty.style.display = "grid";
 
         return;
+
     }
 
     empty.style.display = "none";
-
-
-    // Produtos dentro do carrinho
 
     container.innerHTML = cart.map(item => {
 
@@ -591,7 +619,8 @@ function updateCartUI() {
 
                         <button
                             data-minus="${product.id}"
-                            aria-label="Diminuir quantidade">
+                            aria-label="Diminuir quantidade"
+                        >
                             −
                         </button>
 
@@ -599,13 +628,15 @@ function updateCartUI() {
 
                         <button
                             data-plus="${product.id}"
-                            aria-label="Aumentar quantidade">
+                            aria-label="Aumentar quantidade"
+                        >
                             +
                         </button>
 
                         <button
                             class="remove-item"
-                            data-remove="${product.id}">
+                            data-remove="${product.id}"
+                        >
                             Remover
                         </button>
 
@@ -622,53 +653,49 @@ function updateCartUI() {
 
     }).join("");
 
-
-    // Botão diminuir quantidade
-
     $$("[data-minus]").forEach(button => {
 
         button.addEventListener("click", () => {
+
             changeQuantity(
                 Number(button.dataset.minus),
                 -1
             );
+
         });
 
     });
-
-
-    // Botão aumentar quantidade
 
     $$("[data-plus]").forEach(button => {
 
         button.addEventListener("click", () => {
+
             changeQuantity(
                 Number(button.dataset.plus),
                 1
             );
+
         });
 
     });
 
-
-    // Botão remover
-
     $$("[data-remove]").forEach(button => {
 
         button.addEventListener("click", () => {
+
             removeFromCart(
                 Number(button.dataset.remove)
             );
+
         });
 
     });
 
 }
 
-
-// ======================================================
+// ============================================================
 // ABRIR E FECHAR CARRINHO
-// ======================================================
+// ============================================================
 
 function openCart() {
 
@@ -682,8 +709,8 @@ function openCart() {
     $("#overlay").classList.add("active");
 
     document.body.classList.add("no-scroll");
-}
 
+}
 
 function closeCart() {
 
@@ -695,12 +722,12 @@ function closeCart() {
     );
 
     closeOverlayIfUnused();
+
 }
 
-
-// ======================================================
+// ============================================================
 // CONTROLE DO FUNDO ESCURO
-// ======================================================
+// ============================================================
 
 function closeOverlayIfUnused() {
 
@@ -715,13 +742,14 @@ function closeOverlayIfUnused() {
         $("#overlay").classList.remove("active");
 
         document.body.classList.remove("no-scroll");
+
     }
+
 }
 
-
-// ======================================================
-// MODAL DE DETALHES DO PRODUTO
-// ======================================================
+// ============================================================
+// ABRIR DETALHES DO PRODUTO
+// ============================================================
 
 function openProductModal(productId) {
 
@@ -732,7 +760,6 @@ function openProductModal(productId) {
     if (!product) return;
 
     $("#modalContent").innerHTML = `
-
         <div class="modal-product">
 
             <div class="modal-product-image">
@@ -767,7 +794,11 @@ function openProductModal(productId) {
 
                 ${
                     product.oldPrice
-                        ? `<span class="old-price">${money(product.oldPrice)}</span>`
+                        ? `
+                            <span class="old-price">
+                                ${money(product.oldPrice)}
+                            </span>
+                        `
                         : ""
                 }
 
@@ -777,7 +808,8 @@ function openProductModal(productId) {
 
                 <button
                     class="btn btn-primary"
-                    id="modalAddButton">
+                    id="modalAddButton"
+                >
                     Adicionar ao carrinho
                 </button>
 
@@ -786,18 +818,18 @@ function openProductModal(productId) {
         </div>
     `;
 
+    $("#modalAddButton").addEventListener(
+        "click",
+        () => {
 
-    // Adicionar ao carrinho pelo modal
+            addToCart(product.id);
 
-    $("#modalAddButton").addEventListener("click", () => {
+            closeProductModal();
 
-        addToCart(product.id);
+            openCart();
 
-        closeProductModal();
-
-        openCart();
-    });
-
+        }
+    );
 
     $("#productModal").classList.add("active");
 
@@ -809,12 +841,12 @@ function openProductModal(productId) {
     $("#overlay").classList.add("active");
 
     document.body.classList.add("no-scroll");
+
 }
 
-
-// ======================================================
-// FECHAR MODAL DO PRODUTO
-// ======================================================
+// ============================================================
+// FECHAR DETALHES DO PRODUTO
+// ============================================================
 
 function closeProductModal() {
 
@@ -826,12 +858,12 @@ function closeProductModal() {
     );
 
     closeOverlayIfUnused();
+
 }
 
-
-// ======================================================
+// ============================================================
 // NOTIFICAÇÕES
-// ======================================================
+// ============================================================
 
 function showToast(message) {
 
@@ -844,53 +876,16 @@ function showToast(message) {
     clearTimeout(showToast.timer);
 
     showToast.timer = setTimeout(() => {
+
         toast.classList.remove("show");
+
     }, 2800);
+
 }
 
-
-// ======================================================
-// BUSCA DE PRODUTOS
-// ======================================================
-
-$("#searchForm").addEventListener("submit", event => {
-
-    event.preventDefault();
-
-    renderAllProducts();
-
-    document
-        .getElementById("produtos")
-        .scrollIntoView({
-            behavior: "smooth"
-        });
-});
-
-
-$("#searchInput").addEventListener(
-    "input",
-    renderAllProducts
-);
-
-
-// ======================================================
-// EVENTOS DOS FILTROS
-// ======================================================
-
-$("#categoryFilter").addEventListener(
-    "change",
-    renderAllProducts
-);
-
-$("#sortFilter").addEventListener(
-    "change",
-    renderAllProducts
-);
-
-
-// ======================================================
-// NAVEGAÇÃO POR CATEGORIAS
-// ======================================================
+// ============================================================
+// NAVEGAR PARA OS PRODUTOS COM FILTRO
+// ============================================================
 
 function scrollToProducts(category = "all") {
 
@@ -903,10 +898,52 @@ function scrollToProducts(category = "all") {
         .scrollIntoView({
             behavior: "smooth"
         });
+
 }
 
+// ============================================================
+// EVENTOS DA PESQUISA
+// ============================================================
 
-// Botões das categorias
+$("#searchForm").addEventListener(
+    "submit",
+    event => {
+
+        event.preventDefault();
+
+        renderAllProducts();
+
+        document
+            .getElementById("produtos")
+            .scrollIntoView({
+                behavior: "smooth"
+            });
+
+    }
+);
+
+$("#searchInput").addEventListener(
+    "input",
+    renderAllProducts
+);
+
+// ============================================================
+// EVENTOS DOS FILTROS
+// ============================================================
+
+$("#categoryFilter").addEventListener(
+    "change",
+    renderAllProducts
+);
+
+$("#sortFilter").addEventListener(
+    "change",
+    renderAllProducts
+);
+
+// ============================================================
+// CLIQUES NAS CATEGORIAS
+// ============================================================
 
 $$("[data-category]").forEach(button => {
 
@@ -917,9 +954,6 @@ $$("[data-category]").forEach(button => {
     });
 
 });
-
-
-// Links das categorias do menu
 
 $$("[data-category-link]").forEach(link => {
 
@@ -935,10 +969,9 @@ $$("[data-category-link]").forEach(link => {
 
 });
 
-
-// ======================================================
-// EVENTOS DO CARRINHO E MODAIS
-// ======================================================
+// ============================================================
+// EVENTOS DO CARRINHO E DO MODAL
+// ============================================================
 
 $("#cartButton").addEventListener(
     "click",
@@ -955,9 +988,6 @@ $("#closeProductModal").addEventListener(
     closeProductModal
 );
 
-
-// Fechar ao clicar no fundo escuro
-
 $("#overlay").addEventListener("click", () => {
 
     closeCart();
@@ -966,9 +996,7 @@ $("#overlay").addEventListener("click", () => {
 
 });
 
-
-// Fechar com a tecla ESC
-
+// Fechar janelas com a tecla Escape
 document.addEventListener("keydown", event => {
 
     if (event.key === "Escape") {
@@ -981,111 +1009,121 @@ document.addEventListener("keydown", event => {
 
 });
 
-
-// ======================================================
+// ============================================================
 // FINALIZAÇÃO DO PEDIDO
-// ======================================================
+// ============================================================
 
-$("#checkoutButton").addEventListener("click", () => {
+$("#checkoutButton").addEventListener(
+    "click",
+    () => {
 
-    if (!cart.length) {
+        if (!cart.length) {
 
-        showToast("Seu carrinho está vazio.");
+            showToast("Seu carrinho está vazio.");
 
-        return;
+            return;
+
+        }
+
+        showToast(
+            "Checkout preparado. O pagamento será conectado na próxima etapa."
+        );
+
     }
+);
 
-    showToast(
-        "Checkout preparado. O pagamento será conectado na próxima etapa."
-    );
+// ============================================================
+// LIMPAR PESQUISA E FILTROS
+// ============================================================
 
-});
+$("#clearFilters").addEventListener(
+    "click",
+    () => {
 
+        $("#searchInput").value = "";
 
-// ======================================================
-// LIMPAR FILTROS
-// ======================================================
+        $("#categoryFilter").value = "all";
 
-$("#clearFilters").addEventListener("click", () => {
+        $("#sortFilter").value = "featured";
 
-    $("#searchInput").value = "";
+        renderAllProducts();
 
-    $("#categoryFilter").value = "all";
+    }
+);
 
-    $("#sortFilter").value = "featured";
+// ============================================================
+// MINHA CONTA
+// ============================================================
 
-    renderAllProducts();
+$("#accountButton").addEventListener(
+    "click",
+    () => {
 
-});
+        showToast(
+            "A área de conta será conectada na próxima etapa."
+        );
 
+    }
+);
 
-// ======================================================
-// BOTÃO MINHA CONTA
-// ======================================================
-
-$("#accountButton").addEventListener("click", () => {
-
-    showToast(
-        "A área de conta será conectada na próxima etapa."
-    );
-
-});
-
-
-// ======================================================
+// ============================================================
 // NEWSLETTER
-// ======================================================
+// ============================================================
 
-$("#newsletterForm").addEventListener("submit", event => {
+$("#newsletterForm").addEventListener(
+    "submit",
+    event => {
 
-    event.preventDefault();
+        event.preventDefault();
 
-    const email = $("#newsletterEmail")
-        .value
-        .trim();
+        const email = $("#newsletterEmail")
+            .value
+            .trim();
 
-    if (!email) return;
+        if (!email) return;
 
-    $("#newsletterForm").reset();
+        $("#newsletterForm").reset();
 
-    showToast(
-        "Cadastro realizado. Obrigado por acompanhar a Tech Brasil!"
-    );
+        showToast(
+            "Cadastro realizado. Obrigado por acompanhar a Tech Brasil!"
+        );
 
-});
+    }
+);
 
-
-// ======================================================
+// ============================================================
 // MENU MOBILE
-// ======================================================
+// ============================================================
 
-$("#mobileMenuButton").addEventListener("click", () => {
+$("#mobileMenuButton").addEventListener(
+    "click",
+    () => {
 
-    const nav = $("#categoryNav");
+        const nav = $("#categoryNav");
 
-    const button = $("#mobileMenuButton");
+        const button = $("#mobileMenuButton");
 
-    const isOpen = nav.classList.toggle("mobile-open");
+        const isOpen =
+            nav.classList.toggle("mobile-open");
 
-    button.setAttribute(
-        "aria-expanded",
-        String(isOpen)
-    );
+        button.setAttribute(
+            "aria-expanded",
+            String(isOpen)
+        );
 
-});
+    }
+);
 
-
-// ======================================================
+// ============================================================
 // ANO AUTOMÁTICO NO RODAPÉ
-// ======================================================
+// ============================================================
 
 $("#currentYear").textContent =
     new Date().getFullYear();
 
-
-// ======================================================
-// INICIALIZAÇÃO DA LOJA
-// ======================================================
+// ============================================================
+// INICIALIZAÇÃO
+// ============================================================
 
 renderFeatured();
 
