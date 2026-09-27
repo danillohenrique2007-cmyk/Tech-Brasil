@@ -42,7 +42,7 @@
         </div>
     </div>
 
-    <!-- Firebase Script de Login Atualizado -->
+    <!-- Firebase Script de Login com Redirecionamento Inteligente -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
         import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
@@ -59,6 +59,9 @@
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
 
+        // ⚠️ COLOQUE O SEU E-MAIL DE ADMINISTRADOR AQUI ABAIXO:
+        const EMAIL_ADMIN = "danillohenrique2007@gmail.com"; 
+
         document.getElementById('loginForm').addEventListener('submit', async (e) => {
             e.preventDefault();
             const email = document.getElementById('loginEmail').value.trim();
@@ -69,11 +72,14 @@
             btn.disabled = true;
 
             try {
-                // Realiza o login direto no Firebase Auth sem travas de admin
                 await signInWithEmailAndPassword(auth, email, password);
                 
-                // Sucesso: Redireciona o cliente para a loja
-                window.location.href = "index.html";
+                // Se o e-mail logado for o seu, vai para o painel admin. Senão, vai para a loja.
+                if (email.toLowerCase() === EMAIL_ADMIN.toLowerCase()) {
+                    window.location.href = "admin.html";
+                } else {
+                    window.location.href = "index.html";
+                }
 
             } catch (error) {
                 console.error("Erro no login:", error);
