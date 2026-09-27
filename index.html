@@ -100,30 +100,25 @@
             </form>
 
             <div class="header-actions">
-                <!-- Seção de Ações com os 3 ícones solicitados -->
-                <div style="display: flex; align-items: center; gap: 1.2rem;">
-                  <!-- Início -->
-                  <a href="index.html" style="color: var(--text-main, #fff); text-decoration: none; display: flex; align-items: center; gap: 6px; font-size: 0.9rem; transition: color 0.3s;" onmouseover="this.style.color='#00ff66'" onmouseout="this.style.color='var(--text-main, #fff)'">
-                    <i class="fa-solid fa-house" style="color: #00ff66;"></i> Início
-                  </a>
+    <!-- Área de Autenticação Fixa no HTML -->
+    <div id="userAuthArea" style="display: flex; align-items: center; gap: 1.2rem;">
+      <a href="index.html" style="color: #fff; text-decoration: none; display: flex; align-items: center; gap: 6px; font-size: 0.9rem;">
+        <i class="fa-solid fa-house" style="color: #00ff66;"></i> Início
+      </a>
+      <a href="login.html" style="color: #fff; text-decoration: none; display: flex; align-items: center; gap: 6px; font-size: 0.9rem;">
+        <i class="fa-solid fa-right-to-bracket" style="color: #00ff66;"></i> Entrar
+      </a>
+      <a href="cadastro.html" style="color: #fff; text-decoration: none; display: flex; align-items: center; gap: 6px; font-size: 0.9rem;">
+        <i class="fa-solid fa-user-plus" style="color: #00ff66;"></i> Criar conta
+      </a>
+    </div>
 
-                  <!-- Entrar -->
-                  <a href="login.html" style="color: var(--text-main, #fff); text-decoration: none; display: flex; align-items: center; gap: 6px; font-size: 0.9rem; transition: color 0.3s;" onmouseover="this.style.color='#00ff66'" onmouseout="this.style.color='var(--text-main, #fff)'">
-                    <i class="fa-solid fa-right-to-bracket" style="color: #00ff66;"></i> Entrar
-                  </a>
-
-                  <!-- Criar Conta -->
-                  <a href="cadastro.html" style="color: var(--text-main, #fff); text-decoration: none; display: flex; align-items: center; gap: 6px; font-size: 0.9rem; transition: color 0.3s;" onmouseover="this.style.color='#00ff66'" onmouseout="this.style.color='var(--text-main, #fff)'">
-                    <i class="fa-solid fa-user-plus" style="color: #00ff66;"></i> Criar conta
-                  </a>
-                </div>
-
-                <button class="cart-button" id="cartButton" type="button" aria-label="Abrir carrinho">
-                    <span class="cart-icon">🛒</span>
-                    <span class="cart-label">Carrinho</span>
-                    <b id="cartCount">0</b>
-                </button>
-            </div>
+    <button class="cart-button" id="cartButton" type="button" aria-label="Abrir carrinho">
+        <span class="cart-icon">🛒</span>
+        <span class="cart-label">Carrinho</span>
+        <b id="cartCount">0</b>
+    </button>
+</div>
         </div>
     </div>
 
