@@ -3,938 +3,927 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <meta
-        name="description"
-        content="Tech Brasil - peças de computador, PCs Gamer, placas de vídeo, processadores, memórias e periféricos."
-    >
-
-    <title>Tech Brasil | Tecnologia e Gaming</title>
-
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-
-    <link
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Orbitron:wght@500;600;700;800&display=swap"
-        rel="stylesheet"
-    >
-
-    <link
-        rel="stylesheet"
-        href="estilo.css"
-    >
+    <title>Tech Brasil | Eletrônicos & Tecnologia</title>
+    <!-- Tailwind CSS CDN for modern, responsive layout -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        techDark: '#0b0f0e',
+                        techCard: '#131b18',
+                        techGreen: '#00ff66',
+                        techGreenHover: '#00cc52',
+                        techGray: '#8892b0'
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- FontAwesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            background-color: #0b0f0e;
+            color: #e2e8f0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0b0f0e;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #1a2e26;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #00ff66;
+        }
+    </style>
 </head>
+<body class="min-h-screen flex flex-col selection:bg-techGreen selection:text-black">
 
-<body>
+    <!-- Top Bar -->
+    <div class="bg-[#070a09] border-b border-[#1a2e26] text-xs text-techGray py-2 px-4">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <div class="flex items-center gap-4">
+                <span><i class="fas fa-truck text-techGreen mr-1"></i> Frete grátis para todo o Brasil acima de R$ 250</span>
+                <span class="hidden md:inline"><i class="fas fa-shield-alt text-techGreen mr-1"></i> Garantia Oficial de 1 Ano</span>
+            </div>
+            <div class="flex items-center gap-4">
+                <span>Atendimento: (11) 99999-9999</span>
+                <button id="accountBtn" class="hover:text-techGreen transition"><i class="fas fa-user mr-1"></i> Minha Conta</button>
+            </div>
+        </div>
+    </div>
 
-    <!-- =========================================================
-         CABEÇALHO
-    ========================================================== -->
-
-    <header class="site-header">
-
-        <div class="header-container">
-
-            <a href="#" class="logo" aria-label="Tech Brasil - Página inicial">
-
-                <span class="logo-icon">
-                    TB
-                </span>
-
-                <span class="logo-text">
-                    TECH<span>BRASIL</span>
-                </span>
-
+    <!-- Main Navigation Header -->
+    <header class="sticky top-0 z-40 bg-[#0b0f0e]/95 backdrop-blur border-b border-[#1a2e26]">
+        <div class="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between gap-4">
+            <!-- Logo -->
+            <a href="#" class="flex items-center gap-2 group">
+                <div class="w-10 h-10 rounded-xl bg-techGreen/10 border border-techGreen/30 flex items-center justify-center text-techGreen font-bold text-xl group-hover:bg-techGreen group-hover:text-black transition duration-300">
+                    <i class="fas fa-microchip"></i>
+                </div>
+                <div class="leading-none">
+                    <span class="text-xl font-black tracking-wider text-white">TECH <span class="text-techGreen">BRASIL</span></span>
+                    <span class="block text-[10px] text-techGray tracking-widest uppercase">Inovação & Tecnologia</span>
+                </div>
             </a>
 
-            <!-- Busca -->
-
-            <form
-                class="search-form"
-                id="searchForm"
-                role="search"
-            >
-
-                <input
-                    type="search"
-                    id="searchInput"
-                    placeholder="Buscar produtos..."
-                    autocomplete="off"
-                >
-
-                <button
-                    type="submit"
-                    aria-label="Pesquisar"
-                >
-                    <svg
-                        viewBox="0 0 24 24"
-                        aria-hidden="true"
-                    >
-                        <circle
-                            cx="11"
-                            cy="11"
-                            r="7"
-                        ></circle>
-
-                        <path
-                            d="M20 20l-4-4"
-                        ></path>
-                    </svg>
+            <!-- Search Bar -->
+            <div class="hidden md:flex flex-1 max-w-xl relative">
+                <input type="text" id="searchInput" placeholder="O que você está procurando? (Ex: Placa de Vídeo, Smartphone...)" class="w-full bg-[#131b18] border border-[#1a2e26] focus:border-techGreen text-white rounded-lg pl-4 pr-10 py-2.5 text-sm outline-none transition">
+                <button id="searchBtn" class="absolute right-3 top-1/2 -translate-y-1/2 text-techGray hover:text-techGreen transition">
+                    <i class="fas fa-search"></i>
                 </button>
-
-            </form>
-
-            <!-- Ações -->
-
-            <div class="header-actions">
-
-                <button
-                    class="account-button"
-                    id="accountButton"
-                    type="button"
-                >
-
-                    <span class="action-icon">
-                        <svg
-                            viewBox="0 0 24 24"
-                            aria-hidden="true"
-                        >
-                            <circle
-                                cx="12"
-                                cy="8"
-                                r="4"
-                            ></circle>
-
-                            <path
-                                d="M4 21c0-4.4 3.6-7 8-7s8 2.6 8 7"
-                            ></path>
-                        </svg>
-                    </span>
-
-                    <span>
-                        <small>Olá, visitante</small>
-                        <strong>Minha conta</strong>
-                    </span>
-
-                </button>
-
-                <button
-                    class="cart-button"
-                    id="cartButton"
-                    type="button"
-                    aria-label="Abrir carrinho"
-                >
-
-                    <span class="action-icon">
-
-                        <svg
-                            viewBox="0 0 24 24"
-                            aria-hidden="true"
-                        >
-                            <path
-                                d="M3 4h2l2.4 11.2a2 2 0 0 0 2 1.6h7.9a2 2 0 0 0 1.9-1.4L21 8H7"
-                            ></path>
-
-                            <circle
-                                cx="10"
-                                cy="20"
-                                r="1.5"
-                            ></circle>
-
-                            <circle
-                                cx="18"
-                                cy="20"
-                                r="1.5"
-                            ></circle>
-                        </svg>
-
-                    </span>
-
-                    <span class="cart-label">
-                        Carrinho
-                    </span>
-
-                    <span
-                        class="cart-count"
-                        id="cartCount"
-                    >
-                        0
-                    </span>
-
-                </button>
-
-                <button
-                    class="mobile-menu-button"
-                    id="mobileMenuButton"
-                    type="button"
-                    aria-label="Abrir menu"
-                    aria-expanded="false"
-                >
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                </button>
-
             </div>
 
+            <!-- Actions -->
+            <div class="flex items-center gap-3">
+                <button id="cartToggleBtn" class="relative bg-[#131b18] hover:bg-[#1a2e26] border border-[#1a2e26] p-2.5 rounded-xl text-white transition flex items-center gap-2">
+                    <i class="fas fa-shopping-cart text-techGreen"></i>
+                    <span class="hidden sm:inline text-xs font-semibold">Carrinho</span>
+                    <span id="cartBadge" class="absolute -top-1.5 -right-1.5 bg-techGreen text-black font-bold text-[10px] w-5 h-5 rounded-full flex items-center justify-center shadow-lg">0</span>
+                </button>
+                <button id="mobileMenuBtn" class="md:hidden text-white p-2 focus:outline-none">
+                    <i class="fas fa-bars text-xl"></i>
+                </button>
+            </div>
         </div>
-
-        <!-- Navegação -->
-
-        <nav
-            class="category-nav"
-            id="categoryNav"
-        >
-
-            <div class="category-container">
-
-                <button
-                    type="button"
-                    class="category-link active"
-                    data-category="all"
-                >
-                    Todos
+        <!-- Mobile Search Bar -->
+        <div class="md:hidden px-4 pb-3">
+            <div class="relative">
+                <input type="text" id="mobileSearchInput" placeholder="Buscar produtos..." class="w-full bg-[#131b18] border border-[#1a2e26] focus:border-techGreen text-white rounded-lg pl-4 pr-10 py-2 text-sm outline-none">
+                <button id="mobileSearchBtn" class="absolute right-3 top-1/2 -translate-y-1/2 text-techGray hover:text-techGreen">
+                    <i class="fas fa-search"></i>
                 </button>
-
-                <button
-                    type="button"
-                    class="category-link"
-                    data-category="pc"
-                >
-                    PCs Montados
-                </button>
-
-                <button
-                    type="button"
-                    class="category-link"
-                    data-category="gpu"
-                >
-                    Placas de Vídeo
-                </button>
-
-                <button
-                    type="button"
-                    class="category-link"
-                    data-category="cpu"
-                >
-                    Processadores
-                </button>
-
-                <button
-                    type="button"
-                    class="category-link"
-                    data-category="motherboard"
-                >
-                    Placas-Mãe
-                </button>
-
-                <button
-                    type="button"
-                    class="category-link"
-                    data-category="ram"
-                >
-                    Memórias RAM
-                </button>
-
-                <button
-                    type="button"
-                    class="category-link"
-                    data-category="storage"
-                >
-                    Armazenamento
-                </button>
-
-                <button
-                    type="button"
-                    class="category-link"
-                    data-category="peripherals"
-                >
-                    Periféricos
-                </button>
-
-                <button
-                    type="button"
-                    class="category-link"
-                    data-category="accessories"
-                >
-                    Acessórios
-                </button>
-
             </div>
-
-        </nav>
-
+        </div>
     </header>
 
+    <!-- Navigation Categories Bar -->
+    <nav class="bg-[#131b18] border-b border-[#1a2e26] hidden md:block">
+        <div class="max-w-7xl mx-auto px-4 flex items-center space-x-8 text-sm py-2.5">
+            <button data-category="all" class="category-nav-btn text-techGreen font-semibold hover:text-techGreen transition flex items-center gap-2">
+                <i class="fas fa-th-large"></i> Todos os Produtos
+            </button>
+            <button data-category="hardware" class="category-nav-btn text-techGray hover:text-techGreen transition flex items-center gap-2">
+                <i class="fas fa-server"></i> Hardware
+            </button>
+            <button data-category="smartphones" class="category-nav-btn text-techGray hover:text-techGreen transition flex items-center gap-2">
+                <i class="fas fa-mobile-alt"></i> Smartphones
+            </button>
+            <button data-category="perifericos" class="category-nav-btn text-techGray hover:text-techGreen transition flex items-center gap-2">
+                <i class="fas fa-keyboard"></i> Periféricos
+            </button>
+            <button data-category="monitores" class="category-nav-btn text-techGray hover:text-techGreen transition flex items-center gap-2">
+                <i class="fas fa-desktop"></i> Monitores
+            </button>
+        </div>
+    </nav>
 
-    <!-- =========================================================
-         CONTEÚDO PRINCIPAL
-    ========================================================== -->
-
-    <main>
-
-        <!-- HERO -->
-
-        <section class="hero">
-
-            <div class="hero-container">
-
-                <div class="hero-content">
-
-                    <span class="hero-kicker">
-                        TECH BRASIL
-                    </span>
-
-                    <h1>
-                        Potência para o seu
-                        <span>setup.</span>
-                    </h1>
-
-                    <p>
-                        Componentes, PCs Gamer e periféricos para você
-                        montar uma máquina preparada para qualquer desafio.
-                    </p>
-
-                    <div class="hero-buttons">
-
-                        <a
-                            href="#produtos"
-                            class="btn btn-primary"
-                        >
-                            Explorar produtos
-                        </a>
-
-                        <button
-                            type="button"
-                            class="btn btn-secondary"
-                            data-category="pc"
-                        >
-                            PCs Gamer
-                        </button>
-
-                    </div>
-
-                    <div class="hero-stats">
-
-                        <div class="hero-stat">
-                            <strong>12+</strong>
-                            <span>Produtos</span>
-                        </div>
-
-                        <div class="hero-stat">
-                            <strong>100%</strong>
-                            <span>Tecnologia</span>
-                        </div>
-
-                        <div class="hero-stat">
-                            <strong>24h</strong>
-                            <span>Suporte</span>
-                        </div>
-
-                    </div>
-
-                </div>
-
-
-                <!-- Visual do Hero -->
-
-                <div class="hero-visual">
-
-                    <div class="hero-glow"></div>
-
-                    <div class="tech-card">
-
-                        <div class="tech-card-top">
-
-                            <span class="status-dot"></span>
-
-                            <span>
-                                TECH SYSTEM
-                            </span>
-
-                            <span class="tech-card-code">
-                                TB-2026
-                            </span>
-
-                        </div>
-
-                        <div class="pc-visual">
-
-                            <div class="pc-case">
-
-                                <div class="pc-glass">
-
-                                    <div class="pc-fan fan-one"></div>
-                                    <div class="pc-fan fan-two"></div>
-                                    <div class="pc-fan fan-three"></div>
-
-                                    <div class="pc-gpu">
-                                        <span>TB</span>
-                                    </div>
-
-                                </div>
-
-                                <div class="pc-front">
-                                    <span></span>
-                                    <span></span>
-                                    <span></span>
-                                </div>
-
-                            </div>
-
-                        </div>
-
-                        <div class="tech-card-bottom">
-
-                            <div>
-                                <small>PERFORMANCE</small>
-                                <strong>ULTRA</strong>
-                            </div>
-
-                            <div>
-                                <small>STATUS</small>
-                                <strong class="green-text">ONLINE</strong>
-                            </div>
-
-                        </div>
-
-                    </div>
-
-                </div>
-
+    <!-- Mobile Drawer Menu -->
+    <div id="mobileMenu" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden flex-col justify-end">
+        <div class="bg-[#131b18] w-full max-h-[85vh] rounded-t-2xl p-6 border-t border-[#1a2e26] overflow-y-auto">
+            <div class="flex justify-between items-center mb-6">
+                <span class="text-lg font-bold text-white flex items-center gap-2"><i class="fas fa-bars text-techGreen"></i> Menu Tech Brasil</span>
+                <button id="closeMobileMenu" class="text-techGray hover:text-white text-xl"><i class="fas fa-times"></i></button>
             </div>
-
-        </section>
-
-
-        <!-- =====================================================
-             PRODUTOS EM DESTAQUE
-        ====================================================== -->
-
-        <section class="section featured-section">
-
-            <div class="section-container">
-
-                <div class="section-heading">
-
-                    <div>
-                        <span class="section-kicker">
-                            DESTAQUES
-                        </span>
-
-                        <h2>
-                            Produtos em destaque
-                        </h2>
-                    </div>
-
-                    <a
-                        href="#produtos"
-                        class="view-all-link"
-                    >
-                        Ver todos
-                        <span>→</span>
-                    </a>
-
-                </div>
-
-                <div
-                    class="product-grid"
-                    id="featuredProducts"
-                >
-                </div>
-
+            <div class="flex flex-col space-y-4 text-sm font-medium">
+                <button data-category="all" class="mobile-cat-btn text-left py-2 px-3 rounded-lg bg-[#0b0f0e] text-techGreen"><i class="fas fa-th-large mr-2"></i> Todos os Produtos</button>
+                <button data-category="hardware" class="mobile-cat-btn text-left py-2 px-3 rounded-lg hover:bg-[#0b0f0e] text-techGray hover:text-white"><i class="fas fa-server mr-2"></i> Hardware</button>
+                <button data-category="smartphones" class="mobile-cat-btn text-left py-2 px-3 rounded-lg hover:bg-[#0b0f0e] text-techGray hover:text-white"><i class="fas fa-mobile-alt mr-2"></i> Smartphones</button>
+                <button data-category="perifericos" class="mobile-cat-btn text-left py-2 px-3 rounded-lg hover:bg-[#0b0f0e] text-techGray hover:text-white"><i class="fas fa-keyboard mr-2"></i> Periféricos</button>
+                <button data-category="monitores" class="mobile-cat-btn text-left py-2 px-3 rounded-lg hover:bg-[#0b0f0e] text-techGray hover:text-white"><i class="fas fa-desktop mr-2"></i> Monitores</button>
             </div>
+        </div>
+    </div>
 
-        </section>
-
-
-        <!-- =====================================================
-             TODOS OS PRODUTOS
-        ====================================================== -->
-
-        <section
-            class="section products-section"
-            id="produtos"
-        >
-
-            <div class="section-container">
-
-                <div class="section-heading products-heading">
-
-                    <div>
-
-                        <span class="section-kicker">
-                            CATÁLOGO
-                        </span>
-
-                        <h2>
-                            Todos os produtos
-                        </h2>
-
-                        <p>
-                            Encontre os componentes ideais para o seu setup.
-                        </p>
-
-                    </div>
-
-                    <div class="product-filters">
-
-                        <select
-                            id="categoryFilter"
-                            aria-label="Filtrar por categoria"
-                        >
-
-                            <option value="all">
-                                Todas as categorias
-                            </option>
-
-                            <option value="pc">
-                                PCs Montados
-                            </option>
-
-                            <option value="gpu">
-                                Placas de Vídeo
-                            </option>
-
-                            <option value="cpu">
-                                Processadores
-                            </option>
-
-                            <option value="motherboard">
-                                Placas-Mãe
-                            </option>
-
-                            <option value="ram">
-                                Memórias RAM
-                            </option>
-
-                            <option value="storage">
-                                Armazenamento
-                            </option>
-
-                            <option value="peripherals">
-                                Periféricos
-                            </option>
-
-                            <option value="accessories">
-                                Acessórios
-                            </option>
-
-                        </select>
-
-
-                        <select
-                            id="sortFilter"
-                            aria-label="Ordenar produtos"
-                        >
-
-                            <option value="default">
-                                Mais relevantes
-                            </option>
-
-                            <option value="price-low">
-                                Menor preço
-                            </option>
-
-                            <option value="price-high">
-                                Maior preço
-                            </option>
-
-                            <option value="name">
-                                Nome
-                            </option>
-
-                        </select>
-
-                        <button
-                            type="button"
-                            class="clear-filter"
-                            id="clearFilters"
-                        >
-                            Limpar
-                        </button>
-
-                    </div>
-
-                </div>
-
-
-                <div
-                    class="product-grid"
-                    id="allProducts"
-                >
-                </div>
-
-
-                <div
-                    class="empty-state"
-                    id="emptyState"
-                    hidden
-                >
-
-                    <div class="empty-icon">
-                        !
-                    </div>
-
-                    <h3>
-                        Nenhum produto encontrado
-                    </h3>
-
-                    <p>
-                        Tente alterar os filtros ou realizar uma nova busca.
-                    </p>
-
-                    <button
-                        type="button"
-                        class="btn btn-primary"
-                        data-clear-filters
-                    >
-                        Limpar filtros
+    <!-- Hero Banner / Carousel Section -->
+    <section class="max-w-7xl mx-auto px-4 mt-6">
+        <div class="relative rounded-2xl overflow-hidden bg-gradient-to-r from-[#131b18] to-[#0b0f0e] border border-[#1a2e26] p-8 md:p-12 flex flex-col md:flex-row items-center justify-between">
+            <div class="max-w-xl z-10 mb-6 md:mb-0">
+                <span class="bg-techGreen/10 text-techGreen text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider border border-techGreen/30">Super Promoção Gamer</span>
+                <h1 class="text-3xl md:text-5xl font-extrabold text-white mt-3 leading-tight">POTÊNCIA MÁXIMA PARA SEU <span class="text-techGreen">SETUP</span></h1>
+                <p class="text-techGray mt-3 text-sm md:text-base">As melhores peças, placas de vídeo e acessórios com frete rápido e suporte especializado. Aproveite os descontos desta semana!</p>
+                <div class="mt-6 flex flex-wrap gap-4">
+                    <button onclick="scrollToCatalog()" class="bg-techGreen text-black font-bold px-6 py-3 rounded-xl hover:bg-techGreenHover transition shadow-lg shadow-techGreen/20">
+                        Ver Catálogo Agora
                     </button>
-
+                    <button onclick="filterByCategory('hardware')" class="bg-[#1a2e26] hover:bg-[#223d33] text-white font-semibold px-6 py-3 rounded-xl transition border border-[#2a4d3f]">
+                        Ver Hardware
+                    </button>
                 </div>
-
             </div>
-
-        </section>
-
-
-        <!-- =====================================================
-             NEWSLETTER
-        ====================================================== -->
-
-        <section class="newsletter-section">
-
-            <div class="section-container">
-
-                <div class="newsletter">
-
-                    <div class="newsletter-content">
-
-                        <span class="section-kicker">
-                            TECH NEWS
-                        </span>
-
-                        <h2>
-                            Fique por dentro das novidades.
-                        </h2>
-
-                        <p>
-                            Receba informações sobre novos produtos,
-                            ofertas e novidades da Tech Brasil.
-                        </p>
-
-                    </div>
-
-                    <form
-                        class="newsletter-form"
-                        id="newsletterForm"
-                    >
-
-                        <input
-                            type="email"
-                            id="newsletterEmail"
-                            placeholder="Seu melhor e-mail"
-                            required
-                        >
-
-                        <button
-                            type="submit"
-                            class="btn btn-primary"
-                        >
-                            Cadastrar
-                        </button>
-
-                    </form>
-
-                </div>
-
+            <div class="relative w-full md:w-96 h-64 bg-techDark/50 rounded-xl border border-[#1a2e26] flex items-center justify-center p-6 text-center">
+                <div class="absolute inset-0 bg-radial from-techGreen/10 to-transparent rounded-xl pointer-events-none"></div>
+                <i class="fas fa-laptop-code text-7xl text-techGreen animate-pulse"></i>
             </div>
+        </div>
+    </section>
 
-        </section>
-
-    </main>
-
-
-    <!-- =========================================================
-         CARRINHO
-    ========================================================== -->
-
-    <aside
-        class="cart-drawer"
-        id="cartDrawer"
-        aria-hidden="true"
-    >
-
-        <div class="cart-header">
-
+    <!-- Featured Products Section -->
+    <section class="max-w-7xl mx-auto px-4 mt-12">
+        <div class="flex justify-between items-center mb-6">
             <div>
-                <span class="section-kicker">
-                    SEU PEDIDO
-                </span>
-
-                <h2>
-                    Meu carrinho
+                <h2 class="text-xl md:text-2xl font-bold text-white flex items-center gap-2">
+                    <i class="fas fa-bolt text-techGreen"></i> Produtos em Destaque
                 </h2>
+                <p class="text-xs text-techGray mt-1">Os mais procurados pelos entusiastas de tecnologia</p>
             </div>
+        </div>
+        <div id="featuredGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            <!-- Rendered by JS -->
+        </div>
+    </section>
 
-            <button
-                type="button"
-                class="close-button"
-                id="closeCart"
-                aria-label="Fechar carrinho"
-            >
-                ×
+    <!-- Main Catalog & Filtering Section -->
+    <section id="catalogSection" class="max-w-7xl mx-auto px-4 mt-16 mb-20 flex-1 w-full">
+        <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-8 pb-4 border-b border-[#1a2e26]">
+            <div>
+                <h2 id="catalogTitle" class="text-2xl font-extrabold text-white">Catálogo Completo</h2>
+                <p id="catalogSubtitle" class="text-xs text-techGray mt-1">Explore todos os nossos 12 produtos disponíveis</p>
+            </div>
+            <div class="flex flex-wrap items-center gap-3 w-full md:w-auto">
+                <select id="sortSelect" class="bg-[#131b18] border border-[#1a2e26] text-white text-xs rounded-xl px-4 py-2.5 outline-none focus:border-techGreen transition cursor-pointer">
+                    <option value="default">Ordenar por: Relevância</option>
+                    <option value="price-asc">Menor Preço</option>
+                    <option value="price-desc">Maior Preço</option>
+                    <option value="name-asc">Nome (A-Z)</option>
+                </select>
+                <button id="clearFiltersBtn" class="hidden text-xs bg-[#1a2e26] hover:bg-[#253f35] text-techGreen px-4 py-2.5 rounded-xl transition border border-[#2a4d3f]">
+                    <i class="fas fa-redo mr-1"></i> Limpar Filtros
+                </button>
+            </div>
+        </div>
+
+        <!-- Products Grid -->
+        <div id="productGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            <!-- Rendered by JS -->
+        </div>
+
+        <!-- Empty State -->
+        <div id="emptyState" class="hidden text-center py-20 bg-[#131b18] rounded-2xl border border-[#1a2e26] mt-6">
+            <i class="fas fa-search text-5xl text-techGray mb-4"></i>
+            <h3 class="text-lg font-bold text-white">Nenhum produto encontrado</h3>
+            <p class="text-xs text-techGray mt-1 mb-6">Tente buscar por outro termo ou limpar os filtros aplicados.</p>
+            <button onclick="resetFilters()" class="bg-techGreen text-black text-xs font-bold px-5 py-2.5 rounded-xl hover:bg-techGreenHover transition">
+                Ver Todos os Produtos
             </button>
-
         </div>
+    </section>
 
-
-        <div
-            class="cart-content"
-            id="cartItems"
-        >
+    <!-- Newsletter Section -->
+    <section class="bg-[#131b18] border-t border-b border-[#1a2e26] py-12 px-4 mt-auto">
+        <div class="max-w-4xl mx-auto text-center">
+            <span class="text-techGreen font-bold text-xs uppercase tracking-widest bg-techGreen/10 px-3 py-1 rounded-full border border-techGreen/20">Fique por dentro</span>
+            <h3 class="text-2xl md:text-3xl font-extrabold text-white mt-3">Receba Ofertas Exclusivas da Tech Brasil</h3>
+            <p class="text-techGray text-sm mt-2">Cadastre seu e-mail para receber cupons de desconto e lançamentos em primeira mão.</p>
+            <form id="newsletterForm" class="mt-6 flex flex-col sm:flex-row gap-3 max-w-md mx-auto">
+                <input type="email" id="newsletterEmail" placeholder="Seu melhor e-mail..." required class="flex-1 bg-[#0b0f0e] border border-[#1a2e26] focus:border-techGreen text-white text-sm px-4 py-3 rounded-xl outline-none transition">
+                <button type="submit" class="bg-techGreen hover:bg-techGreenHover text-black font-bold text-sm px-6 py-3 rounded-xl transition shadow-lg shadow-techGreen/10">
+                    Inscrever-se
+                </button>
+            </form>
+            <p id="newsletterSuccess" class="text-techGreen text-xs mt-3 hidden"><i class="fas fa-check-circle mr-1"></i> Inscrição realizada com sucesso! Verifique sua caixa de entrada.</p>
         </div>
+    </section>
 
-
-        <div
-            class="cart-empty"
-            id="cartEmpty"
-        >
-
-            <div class="cart-empty-icon">
-                +
+    <!-- Footer -->
+    <footer class="bg-[#070a09] border-t border-[#1a2e26] py-10 px-4 text-xs text-techGray">
+        <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-8">
+            <div>
+                <div class="flex items-center gap-2 mb-4">
+                    <div class="w-8 h-8 rounded-lg bg-techGreen/10 border border-techGreen/30 flex items-center justify-center text-techGreen font-bold text-sm">
+                        <i class="fas fa-microchip"></i>
+                    </div>
+                    <span class="text-lg font-black tracking-wider text-white">TECH <span class="text-techGreen">BRASIL</span></span>
+                </div>
+                <p class="leading-relaxed">Sua loja definitiva de componentes de alta performance, hardware, smartphones e periféricos gamer com entrega garantida.</p>
+                <div class="flex gap-3 mt-4 text-base">
+                    <a href="#" class="w-8 h-8 rounded-lg bg-[#131b18] hover:bg-techGreen hover:text-black flex items-center justify-center transition"><i class="fab fa-instagram"></i></a>
+                    <a href="#" class="w-8 h-8 rounded-lg bg-[#131b18] hover:bg-techGreen hover:text-black flex items-center justify-center transition"><i class="fab fa-youtube"></i></a>
+                    <a href="#" class="w-8 h-8 rounded-lg bg-[#131b18] hover:bg-techGreen hover:text-black flex items-center justify-center transition"><i class="fab fa-discord"></i></a>
+                </div>
             </div>
-
-            <h3>
-                Seu carrinho está vazio
-            </h3>
-
-            <p>
-                Adicione produtos para começar sua compra.
-            </p>
-
-            <button
-                type="button"
-                class="btn btn-primary"
-                id="continueShopping"
-            >
-                Continuar comprando
-            </button>
-
+            <div>
+                <h4 class="text-white font-bold mb-3 uppercase tracking-wider text-xs">Categorias</h4>
+                <ul class="space-y-2">
+                    <li><button onclick="filterByCategory('hardware')" class="hover:text-techGreen transition">Hardware Gamer</button></li>
+                    <li><button onclick="filterByCategory('smartphones')" class="hover:text-techGreen transition">Smartphones</button></li>
+                    <li><button onclick="filterByCategory('perifericos')" class="hover:text-techGreen transition">Periféricos</button></li>
+                    <li><button onclick="filterByCategory('monitores')" class="hover:text-techGreen transition">Monitores 144Hz+</button></li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="text-white font-bold mb-3 uppercase tracking-wider text-xs">Atendimento & Ajuda</h4>
+                <ul class="space-y-2">
+                    <li><a href="#" class="hover:text-techGreen transition">Rastrear Meu Pedido</a></li>
+                    <li><a href="#" class="hover:text-techGreen transition">Política de Trocas e Devoluções</a></li>
+                    <li><a href="#" class="hover:text-techGreen transition">Garantia Tech Brasil</a></li>
+                    <li><a href="#" class="hover:text-techGreen transition">Fale Conosco via WhatsApp</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="text-white font-bold mb-3 uppercase tracking-wider text-xs">Formas de Pagamento</h4>
+                <p class="mb-3">Aceitamos PIX com desconto, boleto bancário e cartões de crédito em até 12x.</p>
+                <div class="flex flex-wrap gap-2 text-xl text-white">
+                    <i class="fab fa-cc-visa" title="Visa"></i>
+                    <i class="fab fa-cc-mastercard" title="Mastercard"></i>
+                    <i class="fab fa-cc-pix" title="PIX"></i>
+                    <i class="fas fa-barcode" title="Boleto"></i>
+                </div>
+            </div>
         </div>
-
-
-        <div class="cart-footer">
-
-            <div class="cart-total-row">
-
-                <span>
-                    Total
-                </span>
-
-                <strong id="cartTotal">
-                    R$ 0,00
-                </strong>
-
-            </div>
-
-            <button
-                type="button"
-                class="btn btn-primary checkout-button"
-                id="checkoutButton"
-            >
-                Finalizar pedido
-            </button>
-
-            <small>
-                Pagamento demonstrativo. Nenhuma cobrança real será realizada.
-            </small>
-
+        <div class="max-w-7xl mx-auto border-t border-[#1a2e26] mt-8 pt-6 text-center text-[11px]">
+            &copy; 2026 Tech Brasil Eletrônicos Ltda. Todos os direitos reservados. Desenvolvido para alta performance.
         </div>
-
-    </aside>
-
-
-    <!-- =========================================================
-         MODAL DE PRODUTO
-    ========================================================== -->
-
-    <div
-        class="product-modal"
-        id="productModal"
-        aria-hidden="true"
-    >
-
-        <div class="modal-box">
-
-            <button
-                type="button"
-                class="close-button modal-close"
-                id="closeProductModal"
-                aria-label="Fechar"
-            >
-                ×
-            </button>
-
-            <div
-                id="modalContent"
-                class="modal-content"
-            >
-            </div>
-
-        </div>
-
-    </div>
-
-
-    <!-- OVERLAY -->
-
-    <div
-        class="overlay"
-        id="overlay"
-    ></div>
-
-
-    <!-- TOAST -->
-
-    <div
-        class="toast"
-        id="toast"
-        role="status"
-        aria-live="polite"
-    >
-        <span class="toast-icon">✓</span>
-
-        <span id="toastMessage">
-            Produto adicionado ao carrinho.
-        </span>
-    </div>
-
-
-    <!-- =========================================================
-         RODAPÉ
-    ========================================================== -->
-
-    <footer class="site-footer">
-
-        <div class="footer-container">
-
-            <div class="footer-brand">
-
-                <a href="#" class="logo">
-
-                    <span class="logo-icon">
-                        TB
-                    </span>
-
-                    <span class="logo-text">
-                        TECH<span>BRASIL</span>
-                    </span>
-
-                </a>
-
-                <p>
-                    Tecnologia para quem leva performance a sério.
-                </p>
-
-            </div>
-
-
-            <div class="footer-column">
-
-                <h3>
-                    Loja
-                </h3>
-
-                <a href="#produtos">
-                    Todos os produtos
-                </a>
-
-                <a href="#produtos">
-                    PCs Gamer
-                </a>
-
-                <a href="#produtos">
-                    Placas de vídeo
-                </a>
-
-                <a href="#produtos">
-                    Processadores
-                </a>
-
-            </div>
-
-
-            <div class="footer-column">
-
-                <h3>
-                    Atendimento
-                </h3>
-
-                <a href="#">
-                    Central de ajuda
-                </a>
-
-                <a href="#">
-                    Entrega
-                </a>
-
-                <a href="#">
-                    Trocas e devoluções
-                </a>
-
-                <a href="#">
-                    Contato
-                </a>
-
-            </div>
-
-
-            <div class="footer-column">
-
-                <h3>
-                    Tech Brasil
-                </h3>
-
-                <a href="#">
-                    Sobre nós
-                </a>
-
-                <a href="#">
-                    Privacidade
-                </a>
-
-                <a href="#">
-                    Termos de uso
-                </a>
-
-            </div>
-
-        </div>
-
-
-        <div class="footer-bottom">
-
-            <div class="footer-bottom-container">
-
-                <span>
-                    © <span id="currentYear"></span> Tech Brasil. Todos os direitos reservados.
-                </span>
-
-                <span class="footer-status">
-                    <i></i>
-                    Sistema online
-                </span>
-
-            </div>
-
-        </div>
-
     </footer>
 
+    <!-- Shopping Cart Sidebar Drawer -->
+    <div id="cartSidebar" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden justify-end">
+        <div class="bg-[#131b18] w-full max-w-md h-full flex flex-col border-l border-[#1a2e26] shadow-2xl">
+            <!-- Cart Header -->
+            <div class="p-4 border-b border-[#1a2e26] flex justify-between items-center bg-[#0b0f0e]">
+                <h3 class="font-bold text-white text-base flex items-center gap-2">
+                    <i class="fas fa-shopping-cart text-techGreen"></i> Seu Carrinho <span id="cartItemCount" class="text-xs text-techGray font-normal">(0 itens)</span>
+                </h3>
+                <button id="closeCartBtn" class="text-techGray hover:text-white p-2"><i class="fas fa-times text-lg"></i></button>
+            </div>
+            <!-- Cart Items List -->
+            <div id="cartItemsContainer" class="flex-1 overflow-y-auto p-4 space-y-4 divide-y divide-[#1a2e26]">
+                <!-- Rendered by JS -->
+            </div>
+            <!-- Cart Footer -->
+            <div id="cartFooter" class="p-4 border-t border-[#1a2e26] bg-[#0b0f0e]">
+                <div class="flex justify-between items-center mb-2 text-sm">
+                    <span class="text-techGray">Subtotal:</span>
+                    <span id="cartSubtotal" class="font-bold text-white">R$ 0,00</span>
+                </div>
+                <div class="flex justify-between items-center mb-4 text-base font-extrabold">
+                    <span class="text-white">Total à vista (PIX):</span>
+                    <span id="cartTotal" class="text-techGreen">R$ 0,00</span>
+                </div>
+                <button id="checkoutBtn" class="w-full bg-techGreen hover:bg-techGreenHover text-black font-extrabold py-3.5 rounded-xl transition shadow-lg shadow-techGreen/20 flex items-center justify-center gap-2">
+                    <i class="fas fa-lock"></i> Finalizar Compra
+                </button>
+            </div>
+        </div>
+    </div>
 
-    <script src="script.js"></script>
+    <!-- Product Details Modal -->
+    <div id="productModal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden items-center justify-center p-4">
+        <div class="bg-[#131b18] w-full max-w-2xl rounded-2xl border border-[#1a2e26] overflow-hidden shadow-2xl relative flex flex-col max-h-[90vh]">
+            <button id="closeModalBtn" class="absolute top-4 right-4 z-10 w-9 h-9 rounded-full bg-[#0b0f0e] border border-[#1a2e26] text-techGray hover:text-white flex items-center justify-center transition">
+                <i class="fas fa-times"></i>
+            </button>
+            <div id="modalContent" class="overflow-y-auto p-6 md:p-8">
+                <!-- Rendered by JS -->
+            </div>
+        </div>
+    </div>
 
+    <!-- Account Modal / Notice -->
+    <div id="accountModal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden items-center justify-center p-4">
+        <div class="bg-[#131b18] w-full max-w-md rounded-2xl border border-[#1a2e26] p-6 text-center relative">
+            <button onclick="toggleAccountModal(false)" class="absolute top-4 right-4 text-techGray hover:text-white"><i class="fas fa-times"></i></button>
+            <div class="w-14 h-14 bg-techGreen/10 border border-techGreen/30 rounded-full flex items-center justify-center text-techGreen text-2xl mx-auto mb-4">
+                <i class="fas fa-user-circle"></i>
+            </div>
+            <h3 class="text-xl font-bold text-white mb-2">Área do Cliente</h3>
+            <p class="text-xs text-techGray mb-6">Faça login para acompanhar seus pedidos, salvar favoritos e gerenciar endereços.</p>
+            <input type="email" placeholder="Seu e-mail cadastrado" class="w-full bg-[#0b0f0e] border border-[#1a2e26] focus:border-techGreen text-white text-sm px-4 py-3 rounded-xl outline-none mb-3">
+            <input type="password" placeholder="Sua senha" class="w-full bg-[#0b0f0e] border border-[#1a2e26] focus:border-techGreen text-white text-sm px-4 py-3 rounded-xl outline-none mb-6">
+            <button onclick="alert('Funcionalidade de login simulada com sucesso!'); toggleAccountModal(false);" class="w-full bg-techGreen text-black font-bold py-3 rounded-xl hover:bg-techGreenHover transition">
+                Entrar na Conta
+            </button>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="fixed bottom-6 right-6 z-50 bg-[#131b18] border border-techGreen text-white px-5 py-3 rounded-xl shadow-2xl transform translate-y-24 opacity-0 transition-all duration-300 flex items-center gap-3">
+        <i class="fas fa-check-circle text-techGreen text-lg"></i>
+        <div>
+            <h5 id="toastTitle" class="font-bold text-xs">Sucesso!</h5>
+            <p id="toastMessage" class="text-[11px] text-techGray">Produto adicionado ao carrinho.</p>
+        </div>
+    </div>
+
+    <!-- JavaScript Application Logic -->
+    <script>
+        // 12 Products Database
+        const products = [
+            {
+                id: 1,
+                name: "Placa de Vídeo RTX 4070 12GB OC",
+                category: "hardware",
+                price: 4199.90,
+                oldPrice: 4899.90,
+                image: "https://images.unsplash.com/photo-1587202372775-e229f172b9d7?auto=format&fit=crop&w=600&q=80",
+                featured: true,
+                rating: 4.9,
+                description: "Arquitetura Ada Lovelace de última geração com Ray Tracing avançado e DLSS 3. Desempenho supremo para jogos em 1440p e criação de conteúdo profissional."
+            },
+            {
+                id: 2,
+                name: "Processador Intel Core i7-14700K",
+                category: "hardware",
+                price: 2499.00,
+                oldPrice: 2899.00,
+                image: "https://images.unsplash.com/photo-1591799264318-7e6ef8ddb7ea?auto=format&fit=crop&w=600&q=80",
+                featured: true,
+                rating: 4.8,
+                description: "20 núcleos (8 P-cores e 12 E-cores) e clock turbo de até 5.6 GHz. Potência extrema para multitarefas pesadas e games competitivos."
+            },
+            {
+                id: 3,
+                name: "Smartphone Gamer RedDragon 5G 256GB",
+                category: "smartphones",
+                price: 2899.90,
+                oldPrice: 3399.90,
+                image: "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?auto=format&fit=crop&w=600&q=80",
+                featured: true,
+                rating: 4.7,
+                description: "Tela AMOLED de 144Hz, processador Snapdragon de alto desempenho e bateria de 5000mAh com carregamento ultrarrápido de 120W."
+            },
+            {
+                id: 4,
+                name: "Teclado Mecânico RGB Switch Red",
+                category: "perifericos",
+                price: 349.90,
+                oldPrice: 449.90,
+                image: "https://images.unsplash.com/photo-1587829741301-dc798b83add3?auto=format&fit=crop&w=600&q=80",
+                featured: true,
+                rating: 4.9,
+                description: "Teclado mecânico compacto formato 75%, switches mecânicos lineares silenciosos, iluminação RGB customizável por software."
+            },
+            {
+                id: 5,
+                name: "Monitor Gamer Curvo 27\" 165Hz 1ms",
+                category: "monitores",
+                price: 1599.00,
+                oldPrice: 1899.00,
+                image: "https://images.unsplash.com/photo-1527443224154-c4a3942d3acf?auto=format&fit=crop&w=600&q=80",
+                featured: false,
+                rating: 4.8,
+                description: "Resolução Full HD, curvatura imersiva 1500R, tecnologia FreeSync e tempo de resposta de 1ms para máxima fluidez nos seus jogos."
+            },
+            {
+                id: 6,
+                name: "Mouse Gamer Sem Fio 25K DPI",
+                category: "perifericos",
+                price: 429.90,
+                oldPrice: 529.90,
+                image: "https://images.unsplash.com/photo-1615663245857-ac93bb7c39e7?auto=format&fit=crop&w=600&q=80",
+                featured: false,
+                rating: 4.9,
+                description: "Sensor óptico de alta precisão sem atrasos, design ergonômico ultraleve com apenas 63 gramas e bateria de longa duração."
+            },
+            {
+                id: 7,
+                name: "Placa Mãe Z790 Gaming WiFi DDR5",
+                category: "hardware",
+                price: 1899.00,
+                oldPrice: 2199.00,
+                image: "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=600&q=80",
+                featured: false,
+                rating: 4.7,
+                description: "Suporte a memórias DDR5 até 7600MHz (OC), Wi-Fi 6E integrado, PCIe 5.0 e dissipadores térmicos robustos."
+            },
+            {
+                id: 8,
+                name: "Headset Gamer 7.1 Surround RGB",
+                category: "perifericos",
+                price: 299.90,
+                oldPrice: 399.90,
+                image: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=600&q=80",
+                featured: false,
+                rating: 4.6,
+                description: "Áudio posicional 7.1 imersivo, drivers de 50mm, microfone com cancelamento de ruído e almofadas auriculares ultra macias."
+            },
+            {
+                id: 9,
+                name: "Smartphone Pro Max 512GB 5G",
+                category: "smartphones",
+                price: 6499.00,
+                oldPrice: 7199.00,
+                image: "https://images.unsplash.com/photo-1592750475338-74b7b21085ab?auto=format&fit=crop&w=600&q=80",
+                featured: false,
+                rating: 4.9,
+                description: "Sistema de câmeras profissional triplo com zoom óptico de 5x, chip de altíssimo desempenho e corpo em titânio reforçado."
+            },
+            {
+                id: 10,
+                name: "Monitor Gamer 32\" 4K UHD 144Hz",
+                category: "monitores",
+                price: 3899.00,
+                oldPrice: 4399.00,
+                image: "https://images.unsplash.com/photo-1547394765-185e1e68f34e?auto=format&fit=crop&w=600&q=80",
+                featured: false,
+                rating: 4.8,
+                description: "Painel IPS de alta fidelidade de cores, compatibilidade HDR600 e taxa de atualização de 144Hz para jogadores exigentes."
+            },
+            {
+                id: 11,
+                name: "Memória RAM 32GB (2x16) 6000MHz DDR5",
+                category: "hardware",
+                price: 899.90,
+                oldPrice: 1099.90,
+                image: "https://images.unsplash.com/photo-1562976540-1e02c5101a09?auto=format&fit=crop&w=600&q=80",
+                featured: false,
+                rating: 4.9,
+                description: "Kit dual channel de alta performance com perfil XMP 3.0 e EXPO, dissipador em alumínio escovado com LED RGB."
+            },
+            {
+                id: 12,
+                name: "Cadeira Gamer Ergonômica Pro",
+                category: "perifericos",
+                price: 1299.90,
+                oldPrice: 1599.90,
+                image: "https://images.unsplash.com/photo-1598550476439-6847785fcea6?auto=format&fit=crop&w=600&q=80",
+                featured: false,
+                rating: 4.7,
+                description: "Revestimento em couro sintético premium respirável, almofadas ortopédicas para lombar e pescoço, reclinável até 180 graus."
+            }
+        ];
+
+        // Application State
+        let cart = JSON.parse(localStorage.getItem('techbrasil_cart')) || [];
+        let currentCategory = 'all';
+        let currentSearchQuery = '';
+        let currentSort = 'default';
+
+        // Format Currency Helper
+        function formatPrice(value) {
+            return value.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+        }
+
+        // DOM Ready Initialization
+        document.addEventListener('DOMContentLoaded', () => {
+            renderFeaturedProducts();
+            renderCatalog();
+            updateCartUI();
+            setupEventListeners();
+        });
+
+        // Event Listeners Setup
+        function setupEventListeners() {
+            // Search inputs
+            const searchInput = document.getElementById('searchInput');
+            const searchBtn = document.getElementById('searchBtn');
+            const mobileSearchInput = document.getElementById('mobileSearchInput');
+            const mobileSearchBtn = document.getElementById('mobileSearchBtn');
+
+            searchBtn.addEventListener('click', () => handleSearch(searchInput.value));
+            searchInput.addEventListener('keyup', (e) => {
+                if (e.key === 'Enter') handleSearch(searchInput.value);
+            });
+
+            mobileSearchBtn.addEventListener('click', () => handleSearch(mobileSearchInput.value));
+            mobileSearchInput.addEventListener('keyup', (e) => {
+                if (e.key === 'Enter') handleSearch(mobileSearchInput.value);
+            });
+
+            // Category navigation buttons
+            document.querySelectorAll('.category-nav-btn, .mobile-cat-btn').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    const category = e.currentTarget.getAttribute('data-category');
+                    filterByCategory(category);
+                    closeMobileMenuDrawer();
+                });
+            });
+
+            // Sort selector
+            document.getElementById('sortSelect').addEventListener('change', (e) => {
+                currentSort = e.target.value;
+                renderCatalog();
+            });
+
+            // Clear filters button
+            document.getElementById('clearFiltersBtn').addEventListener('click', resetFilters);
+
+            // Cart Drawer Toggles
+            document.getElementById('cartToggleBtn').addEventListener('click', toggleCartSidebar);
+            document.getElementById('closeCartBtn').addEventListener('click', toggleCartSidebar);
+
+            // Mobile Menu Toggles
+            document.getElementById('mobileMenuBtn').addEventListener('click', openMobileMenuDrawer);
+            document.getElementById('closeMobileMenu').addEventListener('click', closeMobileMenuDrawer);
+
+            // Modal Toggles
+            document.getElementById('closeModalBtn').addEventListener('click', closeProductModal);
+            document.getElementById('productModal').addEventListener('click', (e) => {
+                if (e.target.id === 'productModal') closeProductModal();
+            });
+
+            // Account Modal
+            document.getElementById('accountBtn').addEventListener('click', () => toggleAccountModal(true));
+
+            // Checkout simulation
+            document.getElementById('checkoutBtn').addEventListener('click', handleCheckout);
+
+            // Newsletter form
+            document.getElementById('newsletterForm').addEventListener('submit', (e) => {
+                e.preventDefault();
+                const emailInput = document.getElementById('newsletterEmail');
+                if(emailInput.value.trim() !== '') {
+                    document.getElementById('newsletterSuccess').classList.remove('hidden');
+                    emailInput.value = '';
+                    setTimeout(() => {
+                        document.getElementById('newsletterSuccess').classList.add('hidden');
+                    }, 5000);
+                }
+            });
+        }
+
+        // Render Featured Products
+        function renderFeaturedProducts() {
+            const container = document.getElementById('featuredGrid');
+            const featured = products.filter(p => p.featured);
+            
+            container.innerHTML = featured.map(product => createProductCardHTML(product)).join('');
+            attachCardEvents();
+        }
+
+        // Render Catalog with Filters & Sort
+        function renderCatalog() {
+            const container = document.getElementById('productGrid');
+            const emptyState = document.getElementById('emptyState');
+            const clearBtn = document.getElementById('clearFiltersBtn');
+            const catalogTitle = document.getElementById('catalogTitle');
+            const catalogSubtitle = document.getElementById('catalogSubtitle');
+
+            // Filter logic
+            let filtered = products.filter(p => {
+                const matchesCategory = currentCategory === 'all' || p.category === currentCategory;
+                const matchesSearch = currentSearchQuery === '' || 
+                    p.name.toLowerCase().includes(currentSearchQuery.toLowerCase()) ||
+                    p.description.toLowerCase().includes(currentSearchQuery.toLowerCase());
+                return matchesCategory && matchesSearch;
+            });
+
+            // Sort logic
+            if (currentSort === 'price-asc') {
+                filtered.sort((a, b) => a.price - b.price);
+            } else if (currentSort === 'price-desc') {
+                filtered.sort((a, b) => b.price - a.price);
+            } else if (currentSort === 'name-asc') {
+                filtered.sort((a, b) => a.name.localeCompare(b.name));
+            }
+
+            // Update Titles & Clear Button visibility
+            if (currentCategory !== 'all' || currentSearchQuery !== '') {
+                clearBtn.classList.remove('hidden');
+                catalogTitle.textContent = currentSearchQuery ? `Busca: "${currentSearchQuery}"` : `Categoria: ${currentCategory.toUpperCase()}`;
+                catalogSubtitle.textContent = `${filtered.length} produto(s) encontrado(s)`;
+            } else {
+                clearBtn.classList.add('hidden');
+                catalogTitle.textContent = "Catálogo Completo";
+                catalogSubtitle.textContent = `Explore todos os nossos ${products.length} produtos disponíveis`;
+            }
+
+            if (filtered.length === 0) {
+                container.innerHTML = '';
+                emptyState.classList.remove('hidden');
+            } else {
+                emptyState.classList.add('hidden');
+                container.innerHTML = filtered.map(product => createProductCardHTML(product)).join('');
+                attachCardEvents();
+            }
+        }
+
+        // Create HTML for a Product Card
+        function createProductCardHTML(product) {
+            const discount = Math.round(((product.oldPrice - product.price) / product.oldPrice) * 100);
+            return `
+                <div class="bg-[#131b18] border border-[#1a2e26] hover:border-techGreen/50 rounded-2xl overflow-hidden flex flex-col justify-between transition duration-300 group shadow-lg">
+                    <div>
+                        <div class="relative bg-[#0b0f0e] h-48 overflow-hidden cursor-pointer" onclick="openProductModal(${product.id})">
+                            <span class="absolute top-3 left-3 z-10 bg-techGreen text-black font-bold text-[10px] px-2.5 py-1 rounded-md">-${discount}%</span>
+                            <img src="${product.image}" alt="${product.name}" class="w-full h-full object-cover group-hover:scale-105 transition duration-500 opacity-90 group-hover:opacity-100">
+                            <div class="absolute inset-0 bg-black/20 group-hover:bg-transparent transition"></div>
+                        </div>
+                        <div class="p-4">
+                            <div class="flex items-center justify-between text-xs text-techGray mb-1">
+                                <span class="uppercase tracking-wider text-[10px] bg-[#0b0f0e] px-2 py-0.5 rounded border border-[#1a2e26]">${product.category}</span>
+                                <span class="text-amber-400 font-semibold"><i class="fas fa-star mr-1"></i>${product.rating}</span>
+                            </div>
+                            <h3 onclick="openProductModal(${product.id})" class="font-bold text-white text-sm line-clamp-2 hover:text-techGreen cursor-pointer transition mb-2 h-10">
+                                ${product.name}
+                            </h3>
+                            <div class="mt-2">
+                                <span class="text-xs text-techGray line-through">${formatPrice(product.oldPrice)}</span>
+                                <div class="text-lg font-black text-techGreen">${formatPrice(product.price)}</div>
+                                <span class="text-[10px] text-techGray">Em até 12x no cartão</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="p-4 pt-0">
+                        <button onclick="addToCart(${product.id})" class="w-full bg-[#1a2e26] hover:bg-techGreen text-white hover:text-black font-bold text-xs py-2.5 rounded-xl transition duration-300 flex items-center justify-center gap-2 border border-[#2a4d3f] hover:border-techGreen">
+                            <i class="fas fa-cart-plus"></i> Adicionar ao Carrinho
+                        </button>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Attach Card Events (Helper if needed)
+        function attachCardEvents() {}
+
+        // Filter Actions
+        function filterByCategory(category) {
+            currentCategory = category;
+            currentSearchQuery = '';
+            document.getElementById('searchInput').value = '';
+            document.getElementById('mobileSearchInput').value = '';
+            
+            // Update active state in nav
+            document.querySelectorAll('.category-nav-btn').forEach(btn => {
+                if(btn.getAttribute('data-category') === category) {
+                    btn.classList.add('text-techGreen', 'font-semibold');
+                    btn.classList.remove('text-techGray');
+                } else {
+                    btn.classList.remove('text-techGreen', 'font-semibold');
+                    btn.classList.add('text-techGray');
+                }
+            });
+
+            renderCatalog();
+            scrollToCatalog();
+        }
+
+        function handleSearch(query) {
+            currentSearchQuery = query.trim();
+            renderCatalog();
+            if(currentSearchQuery !== '') {
+                scrollToCatalog();
+            }
+        }
+
+        function resetFilters() {
+            currentCategory = 'all';
+            currentSearchQuery = '';
+            currentSort = 'default';
+            document.getElementById('searchInput').value = '';
+            document.getElementById('mobileSearchInput').value = '';
+            document.getElementById('sortSelect').value = 'default';
+            
+            document.querySelectorAll('.category-nav-btn').forEach(btn => {
+                if(btn.getAttribute('data-category') === 'all') {
+                    btn.classList.add('text-techGreen', 'font-semibold');
+                    btn.classList.remove('text-techGray');
+                } else {
+                    btn.classList.remove('text-techGreen', 'font-semibold');
+                    btn.classList.add('text-techGray');
+                }
+            });
+
+            renderCatalog();
+        }
+
+        function scrollToCatalog() {
+            document.getElementById('catalogSection').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Cart Management Functions
+        function addToCart(productId) {
+            const product = products.find(p => p.id === productId);
+            if (!product) return;
+
+            const existingItem = cart.find(item => item.id === productId);
+            if (existingItem) {
+                existingItem.quantity += 1;
+            } else {
+                cart.push({ ...product, quantity: 1 });
+            }
+
+            saveCart();
+            updateCartUI();
+            showToast("Produto Adicionado!", `${product.name} foi adicionado ao seu carrinho.`);
+        }
+
+        function removeFromCart(productId) {
+            cart = cart.filter(item => item.id !== productId);
+            saveCart();
+            updateCartUI();
+        }
+
+        function updateQuantity(productId, delta) {
+            const item = cart.find(item => item.id === productId);
+            if (item) {
+                item.quantity += delta;
+                if (item.quantity <= 0) {
+                    removeFromCart(productId);
+                } else {
+                    saveCart();
+                    updateCartUI();
+                }
+            }
+        }
+
+        function saveCart() {
+            localStorage.setItem('techbrasil_cart', JSON.stringify(cart));
+        }
+
+        function updateCartUI() {
+            const badge = document.getElementById('cartBadge');
+            const itemCountSpan = document.getElementById('cartItemCount');
+            const container = document.getElementById('cartItemsContainer');
+            const subtotalEl = document.getElementById('cartSubtotal');
+            const totalEl = document.getElementById('cartTotal');
+
+            const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+            badge.textContent = totalItems;
+            itemCountSpan.textContent = `(${totalItems} ${totalItems === 1 ? 'item' : 'itens'})`;
+
+            if (cart.length === 0) {
+                container.innerHTML = `
+                    <div class="text-center py-16 text-techGray">
+                        <i class="fas fa-shopping-cart text-4xl mb-3"></i>
+                        <p class="text-sm">Seu carrinho está vazio.</p>
+                        <p class="text-xs mt-1">Explore o catálogo e adicione produtos.</p>
+                    </div>
+                `;
+                subtotalEl.textContent = formatPrice(0);
+                totalEl.textContent = formatPrice(0);
+                return;
+            }
+
+            container.innerHTML = cart.map(item => `
+                py-4 flex items-center gap-3">
+                    <img src="${item.image}" alt="${item.name}" class="w-16 h-16 object-cover rounded-xl bg-[#0b0f0e] border border-[#1a2e26]">
+                    <div class="flex-1">
+                        <h4 class="text-white text-xs font-bold line-clamp-1">${item.name}</h4>
+                        <div class="text-techGreen text-xs font-bold mt-1">${formatPrice(item.price)}</div>
+                        <div class="flex items-center gap-3 mt-2">
+                            <div class="flex items-center border border-[#1a2e26] rounded-lg bg-[#0b0f0e]">
+                                <button onclick="updateQuantity(${item.id}, -1)" class="px-2 py-0.5 text-techGray hover:text-white">-</button>
+                                <span class="px-2 text-xs font-bold text-white">${item.quantity}</span>
+                                <button onclick="updateQuantity(${item.id}, 1)" class="px-2 py-0.5 text-techGray hover:text-white">+</button>
+                            </div>
+                            <button onclick="removeFromCart(${item.id})" class="text-red-400 hover:text-red-300 text-xs"><i class="fas fa-trash-alt"></i></button>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+
+            const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            // 5% discount for PIX simulation
+            const totalPix = subtotal * 0.95;
+
+            subtotalEl.textContent = formatPrice(subtotal);
+            totalEl.textContent = formatPrice(totalPix) + " (com 5% de desconto no PIX)";
+        }
+
+        // Product Modal Functions
+        function openProductModal(productId) {
+            const product = products.find(p => p.id === productId);
+            if (!product) return;
+
+            const modal = document.getElementById('productModal');
+            const content = document.getElementById('modalContent');
+            const discount = Math.round(((product.oldPrice - product.price) / product.oldPrice) * 100);
+
+            content.innerHTML = `
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 items-center">
+                    <div class="bg-[#0b0f0e] rounded-xl overflow-hidden border border-[#1a2e26] h-72 flex items-center justify-center relative">
+                        <span class="absolute top-3 left-3 bg-techGreen text-black font-bold text-xs px-3 py-1 rounded-md">-${discount}% OFF</span>
+                        <img src="${product.image}" alt="${product.name}" class="w-full h-full object-cover">
+                    </div>
+                    <div>
+                        <span class="text-[10px] uppercase font-bold bg-[#0b0f0e] text-techGreen px-2.5 py-1 rounded border border-[#1a2e26]">${product.category}</span>
+                        <h2 class="text-xl font-extrabold text-white mt-2">${product.name}</h2>
+                        <div class="flex items-center gap-2 mt-1 text-amber-400 text-sm">
+                            <i class="fas fa-star"></i>
+                            <span class="font-bold">${product.rating}</span>
+                            <span class="text-techGray text-xs">(Avaliações verificadas)</span>
+                        </div>
+                        <p class="text-techGray text-xs mt-4 leading-relaxed">${product.description}</p>
+                        <div class="mt-6 pt-4 border-t border-[#1a2e26]">
+                            <span class="text-xs text-techGray line-through">${formatPrice(product.oldPrice)}</span>
+                            <div class="text-2xl font-black text-techGreen">${formatPrice(product.price)}</div>
+                            <span class="text-[11px] text-techGray">Em até 12x de ${formatPrice(product.price / 12)} sem juros</span>
+                        </div>
+                        <button onclick="addToCart(${product.id}); closeProductModal();" class="w-full mt-6 bg-techGreen hover:bg-techGreenHover text-black font-bold py-3 rounded-xl transition shadow-lg shadow-techGreen/20 flex items-center justify-center gap-2">
+                            <i class="fas fa-cart-plus"></i> Comprar Agora
+                        </button>
+                    </div>
+                </div>
+            `;
+
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+        }
+
+        function closeProductModal() {
+            const modal = document.getElementById('productModal');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+        }
+
+        // Cart Sidebar & Mobile Menu Toggles
+        function toggleCartSidebar() {
+            const sidebar = document.getElementById('cartSidebar');
+            if (sidebar.classList.contains('hidden')) {
+                sidebar.classList.remove('hidden');
+                sidebar.classList.add('flex');
+            } else {
+                sidebar.classList.add('hidden');
+                sidebar.classList.remove('flex');
+            }
+        }
+
+        function openMobileMenuDrawer() {
+            const menu = document.getElementById('mobileMenu');
+            menu.classList.remove('hidden');
+            menu.classList.add('flex');
+        }
+
+        function closeMobileMenuDrawer() {
+            const menu = document.getElementById('mobileMenu');
+            menu.classList.add('hidden');
+            menu.classList.remove('flex');
+        }
+
+        function toggleAccountModal(show) {
+            const modal = document.getElementById('accountModal');
+            if(show) {
+                modal.classList.remove('hidden');
+                modal.classList.add('flex');
+            } else {
+                modal.classList.add('hidden');
+                modal.classList.remove('flex');
+            }
+        }
+
+        function handleCheckout() {
+            if(cart.length === 0) {
+                alert('Seu carrinho está vazio!');
+                return;
+            }
+            alert('Redirecionando para o ambiente seguro de pagamento da Tech Brasil...');
+            cart = [];
+            saveCart();
+            updateCartUI();
+            toggleCartSidebar();
+        }
+
+        // Toast Notification Function
+        function showToast(title, message) {
+            const toast = document.getElementById('toast');
+            document.getElementById('toastTitle').textContent = title;
+            document.getElementById('toastMessage').textContent = message;
+
+            toast.classList.remove('translate-y-24', 'opacity-0');
+            setTimeout(() => {
+                toast.classList.add('translate-y-24', 'opacity-0');
+            }, 3500);
+        }
+    </script>
 </body>
 </html>
