@@ -168,29 +168,6 @@
             color: var(--danger);
         }
 
-        /* Tela de Login */
-        #login-container {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            flex: 1;
-            padding: 2rem;
-        }
-
-        .login-card {
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            width: 100%;
-            max-width: 400px;
-            padding: 2.5rem;
-        }
-
-        .login-card h2 {
-            margin-bottom: 1.5rem;
-            font-size: 1.5rem;
-        }
-
         /* Modal */
         .modal {
             position: fixed;
@@ -276,32 +253,10 @@
 
     <header>
         <a href="index.html" class="logo"><i class="fa-solid fa-bolt" style="color: var(--primary);"></i> Tech<span>Brasil</span> - Admin</a>
-        <div style="display: flex; gap: 1rem; align-items: center;">
-            <a href="index.html" class="btn-secondary" style="font-size: 0.9rem; padding: 0.5rem 1rem;"><i class="fa-solid fa-store"></i> Ver Loja</a>
-            <button id="btnLogout" class="btn-secondary" style="font-size: 0.9rem; padding: 0.5rem 1rem; display: none; border-color: var(--danger); color: var(--danger);"><i class="fa-solid fa-right-from-bracket"></i> Sair</button>
-        </div>
+        <a href="index.html" class="btn-secondary" style="font-size: 0.9rem; padding: 0.5rem 1rem;"><i class="fa-solid fa-store"></i> Ver Loja</a>
     </header>
 
-    <!-- TELA DE LOGIN (Aparece se não estiver logado como admin) -->
-    <div id="login-container">
-        <div class="login-card">
-            <h2>Acesso Restrito</h2>
-            <form id="loginForm">
-                <div class="form-group">
-                    <label>E-mail de Administrador</label>
-                    <input type="email" id="loginEmail" class="form-control" required placeholder="seu-email@admin.com">
-                </div>
-                <div class="form-group">
-                    <label>Senha</label>
-                    <input type="password" id="loginPassword" class="form-control" required placeholder="••••••••">
-                </div>
-                <button type="submit" class="btn-primary" style="width: 100%; justify-content: center; margin-top: 1rem;" id="btnLoginSubmit">Entrar no Painel</button>
-            </form>
-        </div>
-    </div>
-
-    <!-- PAINEL ADMINISTRATIVO (Oculto até autenticar) -->
-    <main id="adminContent" style="display: none;">
+    <main>
         <div class="admin-header">
             <div class="admin-title">
                 <h1>Gerenciar Produtos</h1>
@@ -323,7 +278,7 @@
                 </thead>
                 <tbody id="adminTableBody">
                     <tr>
-                        <td colspan="5" style="text-align: center; color: var(--text-muted); padding: 3rem;">Carregando produtos...</td>
+                        <td colspan="5" style="text-align: center; color: var(--text-muted); padding: 3rem;">Conectando ao Firebase...</td>
                     </tr>
                 </tbody>
             </table>
@@ -379,7 +334,6 @@
     <!-- Firebase SDKs -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-        import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
         import { getFirestore, collection, getDocs, addDoc, updateDoc, deleteDoc, doc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
         const firebaseConfig = {
@@ -393,61 +347,9 @@
         };
 
         const app = initializeApp(firebaseConfig);
-        const auth = getAuth(app);
         const db = getFirestore(app);
 
-        // ⚠️ COLOQUE O SEU E-MAIL EXATO DE ADMINISTRADOR AQUI ABAIXO:
-        const EMAIL_ADMIN = "seu-email-aqui@gmail.com";
-
         let productsList = [];
-
-        // Controle de Sessão e Autenticação
-        onAuthStateChanged(auth, (user) => {
-            if (user && user.email === EMAIL_ADMIN) {
-                document.getElementById('login-container').style.display = 'none';
-                document.getElementById('adminContent').style.display = 'block';
-                document.getElementById('btnLogout').style.display = 'inline-flex';
-                loadProducts();
-            } else {
-                if (user) {
-                    // Se estiver logado com outro e-mail, desloga automaticamente
-                    signOut(auth);
-                }
-                document.getElementById('login-container').style.display = 'flex';
-                document.getElementById('adminContent').style.display = 'none';
-                document.getElementById('btnLogout').style.display = 'none';
-            }
-        });
-
-        // Ação de Login
-        document.getElementById('loginForm').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const email = document.getElementById('loginEmail').value.trim();
-            const password = document.getElementById('loginPassword').value;
-            const btnLogin = document.getElementById('btnLoginSubmit');
-
-            if (email !== EMAIL_ADMIN) {
-                alert("Acesso negado: Este e-mail não é o administrador do sistema.");
-                return;
-            }
-
-            btnLogin.innerText = "Entrando...";
-            btnLogin.disabled = true;
-
-            try {
-                await signInWithEmailAndPassword(auth, email, password);
-            } catch (error) {
-                console.error("Erro no login:", error);
-                alert("Erro ao fazer login. Verifique seu e-mail e senha.");
-                btnLogin.innerText = "Entrar no Painel";
-                btnLogin.disabled = false;
-            }
-        });
-
-        // Ação de Logout
-        document.getElementById('btnLogout').addEventListener('click', async () => {
-            await signOut(auth);
-        });
 
         async function loadProducts() {
             const tbody = document.getElementById('adminTableBody');
@@ -562,6 +464,9 @@
                 }
             }
         };
+
+        // Carrega os produtos assim que a página abre
+        loadProducts();
     </script>
 </body>
 </html>
