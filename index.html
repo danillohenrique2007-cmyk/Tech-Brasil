@@ -36,7 +36,7 @@
   const userAuthArea = document.getElementById('userAuthArea');
   const container = document.getElementById('produtos-container');
 
-  // 1. MONITOR DE AUTENTICAÇÃO (Gerencia o "Olá, nome" e o botão de Sair/Entrar)
+  // 1. MONITOR DE AUTENTICAÇÃO (Gerencia o "Olá, nome" e os botões de acesso)
   onAuthStateChanged(auth, (user) => {
     if (user) {
       const nomeUsuario = user.email ? user.email.split('@')[0] : 'Cliente';
@@ -59,10 +59,10 @@
         <a href="index.html" style="color: #fff; text-decoration: none; display: flex; align-items: center; gap: 6px; font-size: 0.9rem;">
           <i class="fa-solid fa-house" style="color: #00ff66;"></i> Início
         </a>
-        <a href="login.html" onclick="window.location.href='login.html'; return false;" style="color: #fff; text-decoration: none; display: flex; align-items: center; gap: 6px; font-size: 0.9rem;">
+        <a href="login.html" onclick="window.location.href='login.html'; return false;" style="color: #fff; text-decoration: none; display: flex; align-items: center; gap: 6px; font-size: 0.9rem; cursor: pointer;">
           <i class="fa-solid fa-right-to-bracket" style="color: #00ff66;"></i> Entrar
         </a>
-        <a href="cadastro.html" onclick="window.location.href='cadastro.html'; return false;" style="color: #fff; text-decoration: none; display: flex; align-items: center; gap: 6px; font-size: 0.9rem;">
+        <a href="cadastro.html" onclick="window.location.href='cadastro.html'; return false;" style="color: #fff; text-decoration: none; display: flex; align-items: center; gap: 6px; font-size: 0.9rem; cursor: pointer;">
           <i class="fa-solid fa-user-plus" style="color: #00ff66;"></i> Criar conta
         </a>
       `;
