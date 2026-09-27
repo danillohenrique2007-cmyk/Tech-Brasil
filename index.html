@@ -84,7 +84,7 @@
 
       // 2. CARREGAMENTO DOS PRODUTOS DO FIREBASE EM TEMPO REAL
       if (container) {
-        onSnapshot(collection(db, "produtos"), (snapshot) => {
+        onSnapshot(collection(db, "products"), (snapshot) => {
           container.innerHTML = "";
           if (featuredContainer) featuredContainer.innerHTML = "";
           
