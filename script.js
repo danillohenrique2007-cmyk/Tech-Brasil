@@ -1,172 +1,37 @@
 // ============================================================
-// TECH BRASIL — SCRIPT PRINCIPAL
-// Catálogo, pesquisa, filtros, carrinho e detalhes dos produtos
+// TECH BRASIL — SCRIPT PRINCIPAL (Completo e Integrado ao Firebase)
 // ============================================================
 
-const products = [
-    {
-        id: 1,
-        name: "Placa de Vídeo RTX 4070 12GB",
-        category: "gpu",
-        badge: "Mais vendido",
-        price: 3299.90,
-        oldPrice: 3699.90,
-        rating: 4.9,
-        reviews: 126,
-        art: "RTX 4070",
-        description: "Placa de vídeo de alto desempenho para jogos em alta resolução, criação de conteúdo e aplicações gráficas."
-    },
-    {
-        id: 2,
-        name: "Processador AMD Ryzen 5 5600",
-        category: "cpu",
-        badge: "Oferta",
-        price: 749.90,
-        oldPrice: 899.90,
-        rating: 4.8,
-        reviews: 94,
-        art: "RYZEN 5",
-        description: "Processador de 6 núcleos e 12 threads para gaming, estudos, trabalho e uso diário."
-    },
-    {
-        id: 3,
-        name: "Placa-Mãe B550 Gaming",
-        category: "motherboard",
-        badge: "Destaque",
-        price: 1099.90,
-        oldPrice: null,
-        rating: 4.8,
-        reviews: 76,
-        art: "B550",
-        description: "Placa-mãe AM4 com recursos para gaming e upgrades, oferecendo conectividade e estabilidade."
-    },
-    {
-        id: 4,
-        name: "Memória RAM 16GB DDR4 3200MHz",
-        category: "ram",
-        badge: "Oferta",
-        price: 399.90,
-        oldPrice: 459.90,
-        rating: 4.9,
-        reviews: 143,
-        art: "16GB",
-        description: "Memória de 16GB para melhorar multitarefa, jogos e produtividade."
-    },
-    {
-        id: 5,
-        name: "SSD NVMe M.2 1TB",
-        category: "storage",
-        badge: "Mais vendido",
-        price: 449.90,
-        oldPrice: 599.90,
-        rating: 4.9,
-        reviews: 187,
-        art: "1TB",
-        description: "Armazenamento NVMe de alta velocidade para sistema operacional, jogos e arquivos."
-    },
-    {
-        id: 6,
-        name: "PC Gamer Tech Brasil Ryzen 5",
-        category: "pc",
-        badge: "Lançamento",
-        price: 3899.90,
-        oldPrice: 4299.90,
-        rating: 4.8,
-        reviews: 52,
-        art: "PC GAMER",
-        description: "Computador montado para gaming e produtividade, com componentes selecionados para equilíbrio de desempenho."
-    },
-    {
-        id: 7,
-        name: "Fonte 650W 80 Plus Bronze",
-        category: "accessories",
-        badge: "Destaque",
-        price: 389.90,
-        oldPrice: null,
-        rating: 4.7,
-        reviews: 88,
-        art: "650W",
-        description: "Fonte de alimentação de 650W para configurações de médio e alto desempenho."
-    },
-    {
-        id: 8,
-        name: "Headset Gamer Surround 7.1",
-        category: "peripherals",
-        badge: "Oferta",
-        price: 249.90,
-        oldPrice: 299.90,
-        rating: 4.7,
-        reviews: 61,
-        art: "7.1",
-        description: "Headset confortável com áudio imersivo para jogos, chamadas e entretenimento."
-    },
-    {
-        id: 9,
-        name: "Placa de Vídeo RX 7600 8GB",
-        category: "gpu",
-        badge: "Oferta",
-        price: 1999.90,
-        oldPrice: 2299.90,
-        rating: 4.8,
-        reviews: 73,
-        art: "RX 7600",
-        description: "GPU para gaming em Full HD com ótimo equilíbrio entre desempenho e recursos gráficos."
-    },
-    {
-        id: 10,
-        name: "Processador Intel Core i5",
-        category: "cpu",
-        badge: "Destaque",
-        price: 1199.90,
-        oldPrice: null,
-        rating: 4.8,
-        reviews: 57,
-        art: "CORE i5",
-        description: "Processador Intel para computadores de alto desempenho em jogos e produtividade."
-    },
-    {
-        id: 11,
-        name: "Memória RAM 32GB DDR5",
-        category: "ram",
-        badge: "Novo",
-        price: 799.90,
-        oldPrice: 899.90,
-        rating: 4.9,
-        reviews: 41,
-        art: "32GB",
-        description: "Kit de memória DDR5 de 32GB para máquinas modernas e aplicações exigentes."
-    },
-    {
-        id: 12,
-        name: "SSD NVMe M.2 2TB",
-        category: "storage",
-        badge: "Oferta",
-        price: 799.90,
-        oldPrice: 949.90,
-        rating: 4.9,
-        reviews: 92,
-        art: "2TB",
-        description: "2TB de armazenamento rápido para uma biblioteca maior de jogos e arquivos."
-    }
-];
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+import { getAuth } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+import { getFirestore, collection, onSnapshot } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
-// ============================================================
-// ESTADO DO SITE
-// ============================================================
+const firebaseConfig = {
+    apiKey: "AIzaSyBsY-JGdy2D6eq2gCfKB_OAj3F1MlfS6Ks",
+    authDomain: "tech-brasil-1b89c.firebaseapp.com",
+    projectId: "tech-brasil-1b89c",
+    storageBucket: "tech-brasil-1b89c.firebasestorage.app",
+    messagingSenderId: "420995386502",
+    appId: "1:420995386502:web:cf0989265d9f4260c95507"
+};
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
+
+// Lista dinâmica vinda do Firebase
+let products = [];
+let currentProducts = [];
 
 let cart = JSON.parse(
     localStorage.getItem("techBrasilCart") || "[]"
 );
 
-let currentProducts = [...products];
-
 // ============================================================
 // ELEMENTOS AUXILIARES
 // ============================================================
 
-const $ = (selector) => document.querySelector(selector);
-
-const $$ = (selector) => [
+const $ = (selector) => document.querySelector(selector);  const $$ = (selector) => [
     ...document.querySelectorAll(selector)
 ];
 
@@ -175,7 +40,7 @@ const $$ = (selector) => [
 // ============================================================
 
 const money = (value) =>
-    value.toLocaleString("pt-BR", {
+    Number(value || 0).toLocaleString("pt-BR", {
         style: "currency",
         currency: "BRL"
     });
@@ -200,7 +65,7 @@ const categoryNames = {
 // ============================================================
 
 function escapeHTML(value) {
-    return String(value).replace(/[&<>"']/g, char => ({
+    return String(value || "").replace(/[&<>"']/g, char => ({
         "&": "&amp;",
         "<": "&lt;",
         ">": "&gt;",
@@ -210,21 +75,30 @@ function escapeHTML(value) {
 }
 
 // ============================================================
-// CLASSES VISUAIS DOS PRODUTOS
+// CARREGAMENTO DOS PRODUTOS DO FIREBASE EM TEMPO REAL
 // ============================================================
 
-function artClass(category) {
-    return {
-        gpu: "art-gpu",
-        cpu: "art-cpu",
-        motherboard: "art-board",
-        ram: "art-ram",
-        storage: "art-ssd",
-        pc: "art-pc",
-        peripherals: "art-peripheral",
-        accessories: "art-accessory"
-    }[category] || "";
-}
+onSnapshot(collection(db, "products"), (snapshot) => {
+    products = [];
+    snapshot.forEach((docSnap) => {
+        const p = docSnap.data();
+        products.push({
+            id: docSnap.id, // ID único do Firestore
+            name: p.name || p.nome || p.titulo || "Produto",
+            category: p.category || p.categoria || "accessories",
+            badge: p.badge || "Destaque",
+            price: Number(p.price || p.preco || 0),
+            oldPrice: p.oldPrice ? Number(p.oldPrice) : null,
+            image: p.image || p.imagem || "",
+            description: p.description || p.descricao || "Sem descrição disponível."
+        });
+    });
+
+    currentProducts = [...products];
+    renderFeatured();
+    renderAllProducts();
+    updateCartUI();
+});
 
 // ============================================================
 // CRIAÇÃO DOS CARDS DE PRODUTOS
@@ -232,71 +106,46 @@ function artClass(category) {
 
 function productCard(product) {
     return `
-        <article class="product-card">
+        <article class="product-card" data-id="${product.id}">
 
-            <div class="product-image">
+            <div class="product-image" style="background-image: url('${escapeHTML(product.image)}'); background-size: cover; background-position: center; height: 180px; border-radius: 8px 8px 0 0; background-color: #1f302a;">
 
                 <span class="product-badge">
                     ${escapeHTML(product.badge)}
                 </span>
 
-                <div class="product-art ${artClass(product.category)}">
-                    ${escapeHTML(product.art)}
-                </div>
-
             </div>
 
-            <div class="product-info">
+            <div class="product-info" style="padding: 1rem;">
 
-                <span class="product-category">
-                    ${escapeHTML(categoryNames[product.category])}
+                <span class="product-category" style="font-size: 0.8rem; color: #9aa8a2;">
+                    ${escapeHTML(categoryNames[product.category] || "Acessórios")}
                 </span>
 
-                <h3 class="product-name">
+                <h3 class="product-name" style="font-size: 1rem; margin: 0.4rem 0; color: #fff;">
                     ${escapeHTML(product.name)}
                 </h3>
 
-                <div class="rating">
-                    ★★★★★
-                    <span>(${product.reviews})</span>
-                </div>
-
-                <div class="product-price">
-
-                    ${
-                        product.oldPrice
-                            ? `
-                                <span class="old-price">
-                                    ${money(product.oldPrice)}
-                                </span>
-                            `
-                            : `
-                                <span class="old-price">&nbsp;</span>
-                            `
-                    }
-
-                    <strong class="price">
+                <div class="product-price" style="margin-bottom: 1rem;">
+                    <strong class="price" style="color: #00ff66; font-size: 1.1rem;">
                         ${money(product.price)}
                     </strong>
-
-                    <span class="installments">
-                        ou em até 10x no cartão
-                    </span>
-
                 </div>
 
-                <div class="product-actions">
+                <div class="product-actions" style="display: flex; gap: 8px;">
 
                     <button
-                        class="add-cart"
+                        class="add-cart btn btn-primary"
                         data-add="${product.id}"
+                        style="flex: 1; padding: 0.5rem; cursor: pointer;"
                     >
-                        Adicionar ao carrinho
+                        Comprar
                     </button>
 
                     <button
-                        class="quick-view"
+                        class="quick-view btn btn-secondary"
                         data-view="${product.id}"
+                        style="padding: 0.5rem 0.8rem; cursor: pointer;"
                         aria-label="Ver detalhes"
                     >
                         ↗
@@ -332,21 +181,12 @@ function renderProducts(list, targetId) {
 
 function bindProductButtons() {
 
-    $$("[data-add]").forEach(button => {
+    $$("[data-add]").forEach(button => {          button.addEventListener("click", () => {              addToCart(button.dataset.add);          });      });      $$
+("[data-view]").forEach(button => {
 
         button.addEventListener("click", () => {
 
-            addToCart(Number(button.dataset.add));
-
-        });
-
-    });
-
-    $$("[data-view]").forEach(button => {
-
-        button.addEventListener("click", () => {
-
-            openProductModal(Number(button.dataset.view));
+            openProductModal(button.dataset.view);
 
         });
 
@@ -373,24 +213,22 @@ function renderFeatured() {
 
 function renderAllProducts() {
 
-    const searchTerm = $("#searchInput")
-        .value
-        .trim()
-        .toLowerCase();
+    const searchInput = $("#searchInput");
+    const categoryFilter = $("#categoryFilter");
+    const sortFilter = $("#sortFilter");
 
-    const category = $("#categoryFilter").value;
+    if (!searchInput || !categoryFilter || !sortFilter) return;
 
-    const sort = $("#sortFilter").value;
+    const searchTerm = searchInput.value.trim().toLowerCase();
+    const category = categoryFilter.value;
+    const sort = sortFilter.value;
 
     let list = products.filter(product => {
 
         const matchesSearch =
             !searchTerm ||
             product.name.toLowerCase().includes(searchTerm) ||
-            categoryNames[product.category]
-                .toLowerCase()
-                .includes(searchTerm) ||
-            product.art.toLowerCase().includes(searchTerm);
+            (categoryNames[product.category] && categoryNames[product.category].toLowerCase().includes(searchTerm));
 
         const matchesCategory =
             category === "all" ||
@@ -401,37 +239,35 @@ function renderAllProducts() {
     });
 
     if (sort === "price-low") {
-
         list.sort((a, b) => a.price - b.price);
-
     }
 
     if (sort === "price-high") {
-
         list.sort((a, b) => b.price - a.price);
-
     }
 
     if (sort === "name") {
-
         list.sort((a, b) =>
             a.name.localeCompare(b.name, "pt-BR")
         );
-
     }
 
     currentProducts = list;
 
     renderProducts(list, "allProducts");
 
-    $("#emptyState").hidden = list.length !== 0;
+    const emptyState = $("#emptyState");
+    if (emptyState) emptyState.hidden = list.length !== 0;
 
-    $("#productResultText").textContent =
-        `${list.length} ${
-            list.length === 1
-                ? "produto encontrado"
-                : "produtos encontrados"
-        }.`;
+    const resultText = $("#productResultText");
+    if (resultText) {
+        resultText.textContent =
+            `${list.length} ${
+                list.length === 1
+                    ? "produto encontrado"
+                    : "produtos encontrados"
+            }.`;
+    }
 
 }
 
@@ -538,7 +374,6 @@ function saveCart() {
 function cartTotals() {
 
     let quantity = 0;
-
     let total = 0;
 
     cart.forEach(item => {
@@ -570,25 +405,27 @@ function updateCartUI() {
 
     const { quantity, total } = cartTotals();
 
-    $("#cartCount").textContent = quantity;
+    const cartCount = $("#cartCount");
+    const cartTotal = $("#cartTotal");
 
-    $("#cartTotal").textContent = money(total);
+    if (cartCount) cartCount.textContent = quantity;
+    if (cartTotal) cartTotal.textContent = money(total);
 
     const container = $("#cartItems");
-
     const empty = $("#cartEmpty");
+
+    if (!container) return;
 
     if (!cart.length) {
 
         container.innerHTML = "";
-
-        empty.style.display = "grid";
+        if (empty) empty.style.display = "grid";
 
         return;
 
     }
 
-    empty.style.display = "none";
+    if (empty) empty.style.display = "none";
 
     container.innerHTML = cart.map(item => {
 
@@ -599,36 +436,36 @@ function updateCartUI() {
         if (!product) return "";
 
         return `
-            <div class="cart-item">
+            <div class="cart-item" style="display: flex; gap: 10px; align-items: center; margin-bottom: 1rem; border-bottom: 1px solid #1f302a; padding-bottom: 1rem;">
 
-                <div class="cart-item-art">
-                    ${escapeHTML(product.art)}
-                </div>
+                <div style="width: 50px; height: 50px; background-image: url('${product.image}'); background-size: cover; border-radius: 6px; background-color: #1f302a;"></div>
 
-                <div>
+                <div style="flex: 1;">
 
-                    <strong>
+                    <strong style="color: #fff; font-size: 0.9rem;">
                         ${escapeHTML(product.name)}
                     </strong>
 
-                    <small>
+                    <small style="display: block; color: #00ff66;">
                         ${money(product.price)} cada
                     </small>
 
-                    <div class="qty-controls">
+                    <div class="qty-controls" style="display: flex; gap: 8px; align-items: center; margin-top: 5px;">
 
                         <button
                             data-minus="${product.id}"
                             aria-label="Diminuir quantidade"
+                            style="background: #1f302a; color: #fff; border: none; padding: 2px 8px; cursor: pointer; border-radius: 4px;"
                         >
                             −
                         </button>
 
-                        <span>${item.quantity}</span>
+                        <span style="color: #fff;">${item.quantity}</span>
 
                         <button
                             data-plus="${product.id}"
                             aria-label="Aumentar quantidade"
+                            style="background: #1f302a; color: #fff; border: none; padding: 2px 8px; cursor: pointer; border-radius: 4px;"
                         >
                             +
                         </button>
@@ -636,6 +473,7 @@ function updateCartUI() {
                         <button
                             class="remove-item"
                             data-remove="${product.id}"
+                            style="background: transparent; color: #ff4d4d; border: none; cursor: pointer; font-size: 0.8rem; margin-left: auto;"
                         >
                             Remover
                         </button>
@@ -644,7 +482,7 @@ function updateCartUI() {
 
                 </div>
 
-                <strong>
+                <strong style="color: #fff;">
                     ${money(product.price * item.quantity)}
                 </strong>
 
@@ -658,7 +496,7 @@ function updateCartUI() {
         button.addEventListener("click", () => {
 
             changeQuantity(
-                Number(button.dataset.minus),
+                button.dataset.minus,
                 -1
             );
 
@@ -666,25 +504,13 @@ function updateCartUI() {
 
     });
 
-    $$("[data-plus]").forEach(button => {
-
-        button.addEventListener("click", () => {
-
-            changeQuantity(
-                Number(button.dataset.plus),
-                1
-            );
-
-        });
-
-    });
-
-    $$("[data-remove]").forEach(button => {
+    $$("[data-plus]").forEach(button => {          button.addEventListener("click", () => {              changeQuantity(                 button.dataset.plus,                 1             );          });      });      $$
+("[data-remove]").forEach(button => {
 
         button.addEventListener("click", () => {
 
             removeFromCart(
-                Number(button.dataset.remove)
+                button.dataset.remove
             );
 
         });
@@ -699,14 +525,15 @@ function updateCartUI() {
 
 function openCart() {
 
-    $("#cartDrawer").classList.add("active");
+    const cartDrawer = $("#cartDrawer");
+    const overlay = $("#overlay");
 
-    $("#cartDrawer").setAttribute(
-        "aria-hidden",
-        "false"
-    );
+    if (cartDrawer) {
+        cartDrawer.classList.add("active");
+        cartDrawer.setAttribute("aria-hidden", "false");
+    }
 
-    $("#overlay").classList.add("active");
+    if (overlay) overlay.classList.add("active");
 
     document.body.classList.add("no-scroll");
 
@@ -714,12 +541,12 @@ function openCart() {
 
 function closeCart() {
 
-    $("#cartDrawer").classList.remove("active");
+    const cartDrawer = $("#cartDrawer");
 
-    $("#cartDrawer").setAttribute(
-        "aria-hidden",
-        "true"
-    );
+    if (cartDrawer) {
+        cartDrawer.classList.remove("active");
+        cartDrawer.setAttribute("aria-hidden", "true");
+    }
 
     closeOverlayIfUnused();
 
@@ -731,15 +558,16 @@ function closeCart() {
 
 function closeOverlayIfUnused() {
 
-    const modalOpen =
-        $("#productModal").classList.contains("active");
+    const productModal = $("#productModal");
+    const cartDrawer = $("#cartDrawer");
+    const overlay = $("#overlay");
 
-    const cartOpen =
-        $("#cartDrawer").classList.contains("active");
+    const modalOpen = productModal && productModal.classList.contains("active");
+    const cartOpen = cartDrawer && cartDrawer.classList.contains("active");
 
-    if (!modalOpen && !cartOpen) {
+    if (!modalOpen && !cartOpen && overlay) {
 
-        $("#overlay").classList.remove("active");
+        overlay.classList.remove("active");
 
         document.body.classList.remove("no-scroll");
 
@@ -748,7 +576,7 @@ function closeOverlayIfUnused() {
 }
 
 // ============================================================
-// ABRIR DETALHES DO PRODUTO
+// ABRIR DETALHES DO PRODUTO (MODAL)
 // ============================================================
 
 function openProductModal(productId) {
@@ -759,86 +587,66 @@ function openProductModal(productId) {
 
     if (!product) return;
 
-    $("#modalContent").innerHTML = `
-        <div class="modal-product">
+    const modalContent = $("#modalContent");
+    if (modalContent) {
+        modalContent.innerHTML = `
+            <div class="modal-product">
 
-            <div class="modal-product-image">
+                <div class="modal-product-image" style="background-image: url('${product.image}'); background-size: cover; height: 220px; border-radius: 8px; background-color: #1f302a;"></div>
 
-                <div class="product-art ${artClass(product.category)}">
-                    ${escapeHTML(product.art)}
-                </div>
+                <div class="modal-product-info" style="margin-top: 1rem;">
 
-            </div>
-
-            <div class="modal-product-info">
-
-                <span class="section-kicker">
-                    ${escapeHTML(categoryNames[product.category])}
-                </span>
-
-                <h2>
-                    ${escapeHTML(product.name)}
-                </h2>
-
-                <div class="rating">
-                    ★★★★★
-                    <span>
-                        ${product.rating}/5
-                        (${product.reviews} avaliações)
+                    <span class="section-kicker">
+                        ${escapeHTML(categoryNames[product.category] || "Acessórios")}
                     </span>
+
+                    <h2 style="color: #fff; margin: 0.5rem 0;">
+                        ${escapeHTML(product.name)}
+                    </h2>
+
+                    <p style="color: #9aa8a2; margin-bottom: 1rem;">
+                        ${escapeHTML(product.description)}
+                    </p>
+
+                    <div class="modal-price" style="color: #00ff66; font-size: 1.4rem; font-weight: bold; margin-bottom: 1rem;">
+                        ${money(product.price)}
+                    </div>
+
+                    <button
+                        class="btn btn-primary"
+                        id="modalAddButton"
+                        style="width: 100%; padding: 0.75rem; cursor: pointer;"
+                    >
+                        Adicionar ao carrinho
+                    </button>
+
                 </div>
-
-                <p>
-                    ${escapeHTML(product.description)}
-                </p>
-
-                ${
-                    product.oldPrice
-                        ? `
-                            <span class="old-price">
-                                ${money(product.oldPrice)}
-                            </span>
-                        `
-                        : ""
-                }
-
-                <div class="modal-price">
-                    ${money(product.price)}
-                </div>
-
-                <button
-                    class="btn btn-primary"
-                    id="modalAddButton"
-                >
-                    Adicionar ao carrinho
-                </button>
 
             </div>
+        `;
+    }
 
-        </div>
-    `;
+    const modalAddButton = $("#modalAddButton");
+    if (modalAddButton) {
+        modalAddButton.addEventListener(
+            "click",
+            () => {
+                addToCart(product.id);
+                closeProductModal();
+                openCart();
+            }
+        );
+    }
 
-    $("#modalAddButton").addEventListener(
-        "click",
-        () => {
+    const productModal = $("#productModal");
+    const overlay = $("#overlay");
 
-            addToCart(product.id);
+    if (productModal) {
+        productModal.classList.add("active");
+        productModal.setAttribute("aria-hidden", "false");
+    }
 
-            closeProductModal();
-
-            openCart();
-
-        }
-    );
-
-    $("#productModal").classList.add("active");
-
-    $("#productModal").setAttribute(
-        "aria-hidden",
-        "false"
-    );
-
-    $("#overlay").classList.add("active");
+    if (overlay) overlay.classList.add("active");
 
     document.body.classList.add("no-scroll");
 
@@ -850,24 +658,26 @@ function openProductModal(productId) {
 
 function closeProductModal() {
 
-    $("#productModal").classList.remove("active");
+    const productModal = $("#productModal");
 
-    $("#productModal").setAttribute(
-        "aria-hidden",
-        "true"
-    );
+    if (productModal) {
+        productModal.classList.remove("active");
+        productModal.setAttribute("aria-hidden", "true");
+    }
 
     closeOverlayIfUnused();
 
 }
 
 // ============================================================
-// NOTIFICAÇÕES
+// NOTIFICAÇÕES (TOAST)
 // ============================================================
 
 function showToast(message) {
 
     const toast = $("#toast");
+
+    if (!toast) return;
 
     toast.textContent = message;
 
@@ -889,73 +699,50 @@ function showToast(message) {
 
 function scrollToProducts(category = "all") {
 
-    $("#categoryFilter").value = category;
+    const categoryFilter = $("#categoryFilter");
+    const produtosSection = document.getElementById("produtos");
+
+    if (categoryFilter) categoryFilter.value = category;
 
     renderAllProducts();
 
-    document
-        .getElementById("produtos")
-        .scrollIntoView({
+    if (produtosSection) {
+        produtosSection.scrollIntoView({
             behavior: "smooth"
         });
+    }
 
 }
 
 // ============================================================
-// EVENTOS DA PESQUISA
+// EVENTOS DA PESQUISA E FILTROS
 // ============================================================
 
-$("#searchForm").addEventListener(
-    "submit",
-    event => {
-
+const searchForm = $("#searchForm");
+if (searchForm) {
+    searchForm.addEventListener("submit", event => {
         event.preventDefault();
-
         renderAllProducts();
+        const produtosSection = document.getElementById("produtos");
+        if (produtosSection) produtosSection.scrollIntoView({ behavior: "smooth" });
+    });
+}
 
-        document
-            .getElementById("produtos")
-            .scrollIntoView({
-                behavior: "smooth"
-            });
+const searchInput = $("#searchInput");
+if (searchInput) searchInput.addEventListener("input", renderAllProducts);
 
-    }
-);
+const categoryFilter = $("#categoryFilter");
+if (categoryFilter) categoryFilter.addEventListener("change", renderAllProducts);
 
-$("#searchInput").addEventListener(
-    "input",
-    renderAllProducts
-);
-
-// ============================================================
-// EVENTOS DOS FILTROS
-// ============================================================
-
-$("#categoryFilter").addEventListener(
-    "change",
-    renderAllProducts
-);
-
-$("#sortFilter").addEventListener(
-    "change",
-    renderAllProducts
-);
+const sortFilter = $("#sortFilter");
+if (sortFilter) sortFilter.addEventListener("change", renderAllProducts);
 
 // ============================================================
 // CLIQUES NAS CATEGORIAS
 // ============================================================
 
-$$("[data-category]").forEach(button => {
-
-    button.addEventListener("click", () => {
-
-        scrollToProducts(button.dataset.category);
-
-    });
-
-});
-
-$$("[data-category-link]").forEach(link => {
+$$("[data-category]").forEach(button => {      button.addEventListener("click", () => {          scrollToProducts(button.dataset.category);      });  });  $$
+("[data-category-link]").forEach(link => {
 
     link.addEventListener("click", event => {
 
@@ -970,33 +757,26 @@ $$("[data-category-link]").forEach(link => {
 });
 
 // ============================================================
-// EVENTOS DO CARRINHO E DO MODAL
+// EVENTOS DO CARRINHO E MODAIS
 // ============================================================
 
-$("#cartButton").addEventListener(
-    "click",
-    openCart
-);
+const cartButton = $("#cartButton");
+if (cartButton) cartButton.addEventListener("click", openCart);
 
-$("#closeCart").addEventListener(
-    "click",
-    closeCart
-);
+const closeCartBtn = $("#closeCart");
+if (closeCartBtn) closeCartBtn.addEventListener("click", closeCart);
 
-$("#closeProductModal").addEventListener(
-    "click",
-    closeProductModal
-);
+const closeProductModalBtn = $("#closeProductModal");
+if (closeProductModalBtn) closeProductModalBtn.addEventListener("click", closeProductModal);
 
-$("#overlay").addEventListener("click", () => {
+const overlay = $("#overlay");
+if (overlay) {
+    overlay.addEventListener("click", () => {
+        closeCart();
+        closeProductModal();
+    });
+}
 
-    closeCart();
-
-    closeProductModal();
-
-});
-
-// Fechar janelas com a tecla Escape
 document.addEventListener("keydown", event => {
 
     if (event.key === "Escape") {
@@ -1013,120 +793,106 @@ document.addEventListener("keydown", event => {
 // FINALIZAÇÃO DO PEDIDO
 // ============================================================
 
-$("#checkoutButton").addEventListener(
-    "click",
-    () => {
+const checkoutButton = $("#checkoutButton");
+if (checkoutButton) {
+    checkoutButton.addEventListener(
+        "click",
+        () => {
 
-        if (!cart.length) {
+            if (!cart.length) {
 
-            showToast("Seu carrinho está vazio.");
+                showToast("Seu carrinho está vazio.");
 
-            return;
+                return;
+
+            }
+
+            // Redireciona para o checkout
+            window.location.href = "checkout.html";
 
         }
-
-        showToast(
-            "Checkout preparado. O pagamento será conectado na próxima etapa."
-        );
-
-    }
-);
+    );
+}
 
 // ============================================================
 // LIMPAR PESQUISA E FILTROS
 // ============================================================
 
-$("#clearFilters").addEventListener(
-    "click",
-    () => {
+const clearFiltersBtn = $("#clearFilters");
+if (clearFiltersBtn) {
+    clearFiltersBtn.addEventListener(
+        "click",
+        () => {
 
-        $("#searchInput").value = "";
+            if ($("#searchInput")) $("#searchInput").value = "";
+            if ($("#categoryFilter")) $("#categoryFilter").value = "all";
+            if ($("#sortFilter")) $("#sortFilter").value = "featured";
 
-        $("#categoryFilter").value = "all";
+            renderAllProducts();
 
-        $("#sortFilter").value = "featured";
-
-        renderAllProducts();
-
-    }
-);
-
-// ============================================================
-// MINHA CONTA
-// ============================================================
-
-$("#accountButton").addEventListener(
-    "click",
-    () => {
-
-        showToast(
-            "A área de conta será conectada na próxima etapa."
-        );
-
-    }
-);
+        }
+    );
+}
 
 // ============================================================
 // NEWSLETTER
 // ============================================================
 
-$("#newsletterForm").addEventListener(
-    "submit",
-    event => {
+const newsletterForm = $("#newsletterForm");
+if (newsletterForm) {
+    newsletterForm.addEventListener(
+        "submit",
+        event => {
 
-        event.preventDefault();
+            event.preventDefault();
 
-        const email = $("#newsletterEmail")
-            .value
-            .trim();
+            const emailInput = $("#newsletterEmail");
+            if (!emailInput) return;
 
-        if (!email) return;
+            const email = emailInput.value.trim();
 
-        $("#newsletterForm").reset();
+            if (!email) return;
 
-        showToast(
-            "Cadastro realizado. Obrigado por acompanhar a Tech Brasil!"
-        );
+            newsletterForm.reset();
 
-    }
-);
+            showToast(
+                "Cadastro realizado. Obrigado por acompanhar a Tech Brasil!"
+            );
+
+        }
+    );
+}
 
 // ============================================================
 // MENU MOBILE
 // ============================================================
 
-$("#mobileMenuButton").addEventListener(
-    "click",
-    () => {
+const mobileMenuButton = $("#mobileMenuButton");
+if (mobileMenuButton) {
+    mobileMenuButton.addEventListener(
+        "click",
+        () => {
 
-        const nav = $("#categoryNav");
+            const nav = $("#categoryNav");
+            if (!nav) return;
 
-        const button = $("#mobileMenuButton");
+            const isOpen =
+                nav.classList.toggle("mobile-open");
 
-        const isOpen =
-            nav.classList.toggle("mobile-open");
+            mobileMenuButton.setAttribute(
+                "aria-expanded",
+                String(isOpen)
+            );
 
-        button.setAttribute(
-            "aria-expanded",
-            String(isOpen)
-        );
-
-    }
-);
+        }
+    );
+}
 
 // ============================================================
 // ANO AUTOMÁTICO NO RODAPÉ
 // ============================================================
 
-$("#currentYear").textContent =
-    new Date().getFullYear();
-
-// ============================================================
-// INICIALIZAÇÃO
-// ============================================================
-
-renderFeatured();
-
-renderAllProducts();
-
-updateCartUI();
+const currentYearEl = $("#currentYear");
+if (currentYearEl) {
+    currentYearEl.textContent = new Date().getFullYear();
+}
