@@ -43,90 +43,46 @@
     </div>
 
     <!-- Firebase Script de Login -->
-   <script type="module">
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-  import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
-  import { getFirestore, collection, onSnapshot } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+  <!-- Firebase Script de Login Corrigido -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
 
-  // Suas credenciais do Firebase
-  const firebaseConfig = {
-    apiKey: "AIzaSyBsY-JGdy2D6eq2gCfKB_OAj3F1MlfS6Ks",
-    authDomain: "tech-brasil-1b89c.firebaseapp.com",
-    projectId: "tech-brasil-1b89c",
-    storageBucket: "tech-brasil-1b89c.firebasestorage.app",
-    messagingSenderId: "420995386502",
-    appId: "1:420995386502:web:cf0989265d9f4260c95507"
-  };
+        const firebaseConfig = {
+            apiKey: "AIzaSyBsY-JGdy2D6eq2gCfKB_OAj3F1MlfS6Ks",
+            authDomain: "tech-brasil-1b89c.firebaseapp.com",
+            projectId: "tech-brasil-1b89c",
+            storageBucket: "tech-brasil-1b89c.firebasestorage.app",
+            messagingSenderId: "420995386502",
+            appId: "1:420995386502:web:cf0989265d9f4260c95507"
+        };
 
-  // Inicializar Firebase
-  const app = initializeApp(firebaseConfig);
-  const auth = getAuth(app);
-  const db = getFirestore(app);
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
 
-  const userAuthArea = document.getElementById('userAuthArea');
-  const container = document.getElementById('produtos-container');
+        // Ação de envio do formulário de login
+        document.getElementById('loginForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const email = document.getElementById('loginEmail').value.trim();
+            const password = document.getElementById('loginPassword').value;
+            const btn = document.getElementById('btnLogin');
 
-  // 1. MONITOR DE AUTENTICAÇÃO (Gerencia o "Olá, nome" e os botões)
-  onAuthStateChanged(auth, (user) => {
-    if (user) {
-      const nomeUsuario = user.email ? user.email.split('@')[0] : 'Cliente';
-      
-      userAuthArea.innerHTML = `
-        <div style="color: #fff; font-size: 0.9rem; display: flex; align-items: center; gap: 8px;">
-          <i class="fa-solid fa-user-check" style="color: #00ff66;"></i>
-          <span>Olá, <strong style="color: #00ff66; text-transform: capitalize;">${nomeUsuario}</strong></span>
-          <button id="btnLogout" style="background: transparent; border: 1px solid #1f302a; color: #ff4d4d; padding: 4px 8px; border-radius: 6px; cursor: pointer; font-size: 0.8rem; margin-left: 8px;">Sair</button>
-        </div>
-      `;
+            btn.innerText = "A entrar...";
+            btn.disabled = true;
 
-      document.getElementById('btnLogout').addEventListener('click', async () => {
-        await signOut(auth);
-        window.location.reload();
-      });
-
-    } else {
-      userAuthArea.innerHTML = `
-        <a href="index.html" style="color: #fff; text-decoration: none; display: flex; align-items: center; gap: 6px; font-size: 0.9rem;">
-          <i class="fa-solid fa-house" style="color: #00ff66;"></i> Início
-        </a>
-        <a href="login.html" style="color: #fff; text-decoration: none; display: flex; align-items: center; gap: 6px; font-size: 0.9rem;">
-          <i class="fa-solid fa-right-to-bracket" style="color: #00ff66;"></i> Entrar
-        </a>
-        <a href="cadastro.html" style="color: #fff; text-decoration: none; display: flex; align-items: center; gap: 6px; font-size: 0.9rem;">
-          <i class="fa-solid fa-user-plus" style="color: #00ff66;"></i> Criar conta
-        </a>
-      `;
-    }
-  });
-
-  // 2. CARREGAMENTO DOS PRODUTOS DO BANCO EM TEMPO REAL
-  if (container) {
-    onSnapshot(collection(db, "produtos"), (snapshot) => {
-      container.innerHTML = ""; 
-      
-      if (snapshot.empty) {
-        container.innerHTML = "<p>Nenhum produto cadastrado no momento.</p>";
-        return;
-      }
-
-      snapshot.forEach((docSnap) => {
-        const produto = docSnap.data();
-        const id = docSnap.id;
-
-        const card = document.createElement('div');
-        card.className = 'product-card';
-        card.innerHTML = `
-          <div class="product-image" style="background-image: url('${produto.imagem}'); background-size: cover; background-position: center;"></div>
-          <div class="product-info">
-            <h3 class="product-title">${produto.nome}</h3>
-            <p class="product-price">R$ ${Number(produto.preco).toFixed(2)}</p>
-            <button onclick="adicionarAoCarrinho('${id}')">Comprar</button>
-          </div>
-        `;
-        container.appendChild(card);
-      });
-    });
-  }
-</script>
+            try {
+                // Faz o login real no Firebase Authentication
+                await signInWithEmailAndPassword(auth, email, password);
+                
+                // Redireciona para a página principal da loja com o utilizador logado
+                window.location.href = "index.html"; 
+                
+            } catch (error) {
+                alert("Erro ao entrar: Verifique seu e-mail e senha.");
+                btn.innerText = "Entrar";
+                btn.disabled = false;
+            }
+        });
+    </script>
 </body>
 </html>
