@@ -3,533 +3,111 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tech Brasil - Loja de Eletrônicos e Tecnologia</title>
-    <!-- FontAwesome -->
+    <title>Tech Brasil | Eletrônicos & Tecnologia</title>
+    <!-- Tailwind CSS CDN para layout moderno e responsivo -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            DEFAULT: '#00ff66',
+                            dark: '#00cc52',
+                            card: '#131b18',
+                            darker: '#0b0f0e'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- FontAwesome para ícones -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        :root {
-            --primary: #00ff66;
-            --primary-dark: #00cc52;
-            --bg-dark: #070908;
-            --bg-card: #111714;
-            --bg-card-hover: #16201b;
-            --text-main: #ffffff;
-            --text-muted: #8b9bb4;
-            --border: #1f3028;
-            --danger: #ff3344;
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Inter', sans-serif;
-            scroll-behavior: smooth;
-        }
-
-        body {
-            background-color: var(--bg-dark);
-            color: var(--text-main);
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-        }
-
-        header {
-            background: rgba(17, 23, 20, 0.95);
-            backdrop-filter: blur(10px);
-            border-bottom: 1px solid var(--border);
-            padding: 1rem 5%;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            position: sticky;
-            top: 0;
-            z-index: 100;
-        }
-
-        .logo {
-            font-size: 1.4rem;
-            font-weight: 800;
-            color: var(--text-main);
-            text-decoration: none;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            letter-spacing: -0.5px;
-        }
-
-        .logo span {
-            color: var(--primary);
-        }
-
-        .header-actions {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-        }
-
-        .btn-cart {
-            background: rgba(0, 255, 102, 0.1);
-            border: 1px solid var(--primary);
-            color: var(--primary);
-            padding: 0.6rem 1.2rem;
-            border-radius: 8px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 0.6rem;
-            font-weight: 600;
-            transition: all 0.3s ease;
-        }
-
-        .btn-cart:hover {
-            background: var(--primary);
-            color: #000;
-            box-shadow: 0 0 15px rgba(0, 255, 102, 0.3);
-        }
-
-        .cart-badge {
-            background: var(--primary);
-            color: #000;
-            font-size: 0.75rem;
-            font-weight: 800;
-            padding: 0.1rem 0.5rem;
-            border-radius: 20px;
-        }
-
-        .btn-admin-link {
-            background: transparent;
-            border: 1px solid var(--border);
-            color: var(--text-muted);
-            padding: 0.6rem 1rem;
-            border-radius: 8px;
-            text-decoration: none;
-            font-size: 0.9rem;
-            font-weight: 500;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            transition: all 0.3s;
-        }
-
-        .btn-admin-link:hover {
-            border-color: var(--text-main);
-            color: var(--text-main);
-        }
-
-        .hero {
-            background: radial-gradient(circle at center, #12221b 0%, var(--bg-dark) 70%);
-            border-bottom: 1px solid var(--border);
-            padding: 5rem 2rem;
-            text-align: center;
-        }
-
-        .hero h1 {
-            font-size: 3rem;
-            font-weight: 800;
-            margin-bottom: 1rem;
-            letter-spacing: -1px;
-        }
-
-        .hero h1 span {
-            color: var(--primary);
-            text-shadow: 0 0 20px rgba(0, 255, 102, 0.2);
-        }
-
-        .hero p {
-            color: var(--text-muted);
-            max-width: 600px;
-            margin: 0 auto;
-            font-size: 1.1rem;
-        }
-
-        main {
-            flex: 1;
-            max-width: 1300px;
-            margin: 0 auto;
-            padding: 3rem 2rem;
-            width: 100%;
-        }
-
-        .controls-container {
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            border-radius: 14px;
-            padding: 1.5rem;
-            margin-bottom: 2.5rem;
-            display: flex;
-            flex-direction: column;
-            gap: 1.5rem;
-        }
-
-        .search-box {
-            display: flex;
-            background: var(--bg-dark);
-            border: 1px solid var(--border);
-            border-radius: 10px;
-            overflow: hidden;
-            width: 100%;
-            transition: border-color 0.3s;
-        }
-
-        .search-box:focus-within {
-            border-color: var(--primary);
-        }
-
-        .search-box input {
-            background: transparent;
-            border: none;
-            padding: 0.9rem 1.2rem;
-            color: var(--text-main);
-            width: 100%;
-            outline: none;
-            font-size: 1rem;
-        }
-
-        .search-box button {
-            background: transparent;
-            border: none;
-            color: var(--text-muted);
-            padding: 0 1.2rem;
-            cursor: pointer;
-        }
-
-        .category-filters {
-            display: flex;
-            gap: 0.6rem;
-            flex-wrap: wrap;
-        }
-
-        .filter-btn {
-            background: var(--bg-dark);
-            border: 1px solid var(--border);
-            color: var(--text-muted);
-            padding: 0.6rem 1.2rem;
-            border-radius: 8px;
-            cursor: pointer;
-            font-weight: 500;
-            font-size: 0.9rem;
-            transition: all 0.3s;
-        }
-
-        .filter-btn.active, .filter-btn:hover {
-            border-color: var(--primary);
-            color: var(--primary);
-            background: rgba(0, 255, 102, 0.05);
-        }
-
-        .section-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 1.5rem;
-        }
-
-        .section-title {
-            font-size: 1.4rem;
-            font-weight: 700;
-            display: flex;
-            align-items: center;
-            gap: 0.7rem;
-        }
-
-        .products-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 1.8rem;
-            margin-bottom: 3rem;
-        }
-
-        .product-card {
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            border-radius: 14px;
-            overflow: hidden;
-            display: flex;
-            flex-direction: column;
-            transition: all 0.3s ease;
-        }
-
-        .product-card:hover {
-            transform: translateY(-6px);
-            border-color: var(--primary);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-            background: var(--bg-card-hover);
-        }
-
-        .product-img-container {
-            width: 100%;
-            height: 220px;
-            background: #050706;
-            position: relative;
-            overflow: hidden;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .product-img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: transform 0.4s ease;
-        }
-
-        .product-card:hover .product-img {
-            transform: scale(1.08);
-        }
-
-        .product-info {
-            padding: 1.5rem;
-            display: flex;
-            flex-direction: column;
-            flex: 1;
-        }
-
-        .product-category {
-            font-size: 0.75rem;
-            color: var(--primary);
-            text-transform: uppercase;
-            letter-spacing: 1.2px;
-            font-weight: 700;
-            margin-bottom: 0.4rem;
-        }
-
-        .product-name {
-            font-size: 1.05rem;
-            font-weight: 600;
-            margin-bottom: 0.8rem;
-            line-height: 1.4;
-        }
-
-        .product-price {
-            font-size: 1.35rem;
-            font-weight: 800;
-            color: var(--text-main);
-            margin-top: auto;
-            margin-bottom: 1.2rem;
-        }
-
-        .btn-add-cart {
-            background: var(--primary);
-            color: #000;
-            border: none;
-            padding: 0.8rem;
-            border-radius: 8px;
-            font-weight: 700;
-            cursor: pointer;
-            width: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 0.5rem;
-            transition: all 0.3s;
-        }
-
-        .btn-add-cart:hover {
-            background: var(--primary-dark);
-            box-shadow: 0 0 15px rgba(0, 255, 102, 0.4);
-        }
-
-        .cart-sidebar {
-            position: fixed;
-            top: 0;
-            right: -420px;
-            width: 100%;
-            max-width: 420px;
-            height: 100vh;
-            background: var(--bg-card);
-            border-left: 1px solid var(--border);
-            z-index: 1000;
-            box-shadow: -10px 0 30px rgba(0,0,0,0.7);
-            transition: right 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-            display: flex;
-            flex-direction: column;
-        }
-
-        .cart-sidebar.active {
-            right: 0;
-        }
-
-        .cart-header {
-            padding: 1.5rem;
-            border-bottom: 1px solid var(--border);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .cart-items {
-            flex: 1;
-            overflow-y: auto;
-            padding: 1.5rem;
-            display: flex;
-            flex-direction: column;
-            gap: 1rem;
-        }
-
-        .cart-item {
-            display: flex;
-            gap: 1rem;
-            background: var(--bg-dark);
-            padding: 1rem;
-            border-radius: 10px;
-            border: 1px solid var(--border);
-            align-items: center;
-        }
-
-        .cart-item img {
-            width: 65px;
-            height: 65px;
-            object-fit: cover;
-            border-radius: 8px;
-        }
-
-        .cart-item-details {
-            flex: 1;
-        }
-
-        .cart-item-title {
-            font-size: 0.95rem;
-            font-weight: 600;
-            margin-bottom: 0.3rem;
-        }
-
-        .cart-item-price {
-            color: var(--primary);
-            font-size: 0.95rem;
-            font-weight: 700;
-        }
-
-        .cart-footer {
-            padding: 1.5rem;
-            border-top: 1px solid var(--border);
-            background: var(--bg-dark);
-        }
-
-        .cart-total {
-            display: flex;
-            justify-content: space-between;
-            font-size: 1.2rem;
-            font-weight: 700;
-            margin-bottom: 1.2rem;
-        }
-
-        .btn-checkout {
-            background: var(--primary);
-            color: #000;
-            border: none;
-            width: 100%;
-            padding: 1rem;
-            border-radius: 10px;
-            font-weight: 800;
-            font-size: 1rem;
-            cursor: pointer;
-            transition: background 0.3s;
-        }
-
-        .btn-checkout:hover {
-            background: var(--primary-dark);
-        }
-
-        .overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100vh;
-            background: rgba(0,0,0,0.7);
-            backdrop-filter: blur(3px);
-            z-index: 900;
-            display: none;
-        }
-
-        .overlay.active {
-            display: block;
-        }
-
-        footer {
-            background: var(--bg-card);
-            border-top: 1px solid var(--border);
-            text-align: center;
-            padding: 2.5rem;
-            color: var(--text-muted);
-            font-size: 0.9rem;
-        }
-
-        @media (max-width: 768px) {
-            .hero h1 { font-size: 2.2rem; }
-            header { padding: 1rem; }
-        }
+        body { font-family: 'Poppins', sans-serif; }
     </style>
 </head>
-<body>
+<body class="bg-[#0b0f0e] text-gray-100 min-h-screen flex flex-col">
 
-    <header>
-        <a href="index.html" class="logo"><i class="fa-solid fa-bolt" style="color: var(--primary);"></i> Tech<span>Brasil</span></a>
-        <div class="header-actions">
-            <a href="admin.html" class="btn-admin-link"><i class="fa-solid fa-gear"></i> Admin</a>
-            <button class="btn-cart" id="btnOpenCart">
+    <!-- Cabeçalho -->
+    <header class="bg-[#131b18] border-b border-[#1f302a] sticky top-0 z-50 px-6 py-4 flex justify-between items-center">
+        <a href="index.html" class="text-xl font-bold flex items-center gap-2">
+            <i class="fa-solid fa-bolt text-[#00ff66]"></i> Tech<span class="text-[#00ff66]">Brasil</span>
+        </a>
+        <div class="flex items-center gap-4">
+            <a href="admin.html" class="bg-[#00ff66]/10 border border-[#00ff66] text-[#00ff66] px-4 py-2 rounded-lg text-sm font-medium hover:bg-[#00ff66]/20 transition flex items-center gap-2">
+                <i class="fa-solid fa-gear"></i> Painel Admin
+            </a>
+            <button id="btnOpenCart" class="border border-[#1f302a] px-4 py-2 rounded-lg flex items-center gap-2 hover:border-[#00ff66] hover:text-[#00ff66] transition relative">
                 <i class="fa-solid fa-cart-shopping"></i> Carrinho
-                <span class="cart-badge" id="cartCount">0</span>
+                <span id="cartCount" class="bg-[#00ff66] text-black text-xs font-bold px-2 py-0.5 rounded-full">0</span>
             </button>
         </div>
     </header>
 
-    <section class="hero">
-        <h1>Tecnologia de Ponta na <span>Tech Brasil</span></h1>
-        <p>Encontre os melhores hardwares, periféricos e acessórios gamer com os melhores preços do mercado.</p>
+    <!-- Hero Section -->
+    <section class="bg-gradient-to-b from-[#131b18] to-[#0b0f0e] border-b border-[#1f302a] py-16 px-6 text-center">
+        <h1 class="text-3xl md:text-5xl font-bold mb-4">Tecnologia de Ponta na <span class="text-[#00ff66]">Tech Brasil</span></h1>
+        <p class="text-gray-400 max-w-xl mx-auto">Encontre os melhores hardwares, periféricos e acessórios gamer com os melhores preços do mercado.</p>
     </section>
 
-    <main>
-        <div class="controls-container">
-            <div class="search-box">
-                <input type="text" id="searchInput" placeholder="O que você está procurando hoje? (Ex: Placa de vídeo, Teclado...)">
-                <button><i class="fa-solid fa-magnifying-glass"></i></button>
+    <!-- Conteúdo Principal -->
+    <main class="flex-1 max-w-7xl w-full mx-auto p-6">
+        
+        <!-- Barra de Pesquisa e Filtros -->
+        <div class="flex flex-col md:flex-row justify-between items-center gap-4 mb-8">
+            <div class="relative w-full md:w-96">
+                <input type="text" id="searchInput" placeholder="Buscar produtos..." class="w-full bg-[#131b18] border border-[#1f302a] rounded-lg px-4 py-2.5 text-white placeholder-gray-500 focus:outline-none focus:border-[#00ff66]">
+                <i class="fa-solid fa-magnifying-glass absolute right-4 top-3.5 text-gray-500"></i>
             </div>
-            <div class="category-filters">
-                <button class="filter-btn active" data-category="all">Todos os Produtos</button>
-                <button class="filter-btn" data-category="perifericos">Periféricos</button>
-                <button class="filter-btn" data-category="hardware">Hardware</button>
-                <button class="filter-btn" data-category="audio">Áudio</button>
-                <button class="filter-btn" data-category="acessorios">Acessórios</button>
+            <div class="flex flex-wrap gap-2 w-full md:w-auto">
+                <button class="filter-btn active bg-[#131b18] border border-[#00ff66] text-[#00ff66] px-4 py-2 rounded-lg text-sm transition" data-category="all">Todos</button>
+                <button class="filter-btn bg-[#131b18] border border-[#1f302a] text-gray-400 px-4 py-2 rounded-lg text-sm hover:border-[#00ff66] hover:text-[#00ff66] transition" data-category="perifericos">Periféricos</button>
+                <button class="filter-btn bg-[#131b18] border border-[#1f302a] text-gray-400 px-4 py-2 rounded-lg text-sm hover:border-[#00ff66] hover:text-[#00ff66] transition" data-category="hardware">Hardware</button>
+                <button class="filter-btn bg-[#131b18] border border-[#1f302a] text-gray-400 px-4 py-2 rounded-lg text-sm hover:border-[#00ff66] hover:text-[#00ff66] transition" data-category="audio">Áudio</button>
+                <button class="filter-btn bg-[#131b18] border border-[#1f302a] text-gray-400 px-4 py-2 rounded-lg text-sm hover:border-[#00ff66] hover:text-[#00ff66] transition" data-category="acessorios">Acessórios</button>
             </div>
         </div>
 
-        <div class="section-header">
-            <h2 class="section-title"><i class="fa-solid fa-store" style="color: var(--primary);"></i> Catálogo de Produtos</h2>
-        </div>
+        <h2 class="text-xl font-bold mb-6 flex items-center gap-2">
+            <i class="fa-solid fa-store text-[#00ff66]"></i> Catálogo de Produtos
+        </h2>
 
-        <div class="products-grid" id="productsGrid">
-            <div style="grid-column: 1/-1; text-align: center; color: var(--text-muted); padding: 4rem;">Carregando produtos do banco de dados...</div>
+        <!-- Grid de Produtos -->
+        <div id="productsGrid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+            <div class="col-span-full text-center text-gray-500 py-16">Carregando produtos do Firebase...</div>
         </div>
     </main>
 
-    <div class="overlay" id="cartOverlay"></div>
-    <div class="cart-sidebar" id="cartSidebar">
-        <div class="cart-header">
-            <h3 style="font-weight: 700;">Seu Carrinho</h3>
-            <button id="btnCloseCart" style="background:none; border:none; color:var(--text-main); font-size:1.3rem; cursor:pointer;"><i class="fa-solid fa-xmark"></i></button>
+    <!-- Carrinho Lateral -->
+    <div id="cartOverlay" class="fixed inset-0 bg-black/60 z-50 hidden"></div>
+    <div id="cartSidebar" class="fixed top-0 right-[-400px] w-full max-w-md h-full bg-[#131b18] border-l border-[#1f302a] z-50 transition-all duration-300 flex flex-col">
+        <div class="p-5 border-b border-[#1f302a] flex justify-between items-center">
+            <h3 class="font-bold text-lg">Seu Carrinho</h3>
+            <button id="btnCloseCart" class="text-gray-400 hover:text-white text-xl"><i class="fa-solid fa-xmark"></i></button>
         </div>
-        <div class="cart-items" id="cartItemsContainer">
-            <p style="text-align: center; color: var(--text-muted); margin-top: 2rem;">Seu carrinho está vazio.</p>
+        <div id="cartItemsContainer" class="flex-1 overflow-y-auto p-5 space-y-4">
+            <p class="text-center text-gray-500 mt-10">Seu carrinho está vazio.</p>
         </div>
-        <div class="cart-footer">
-            <div class="cart-total">
+        <div class="p-5 border-t border-[#1f302a] bg-[#0b0f0e]">
+            <div class="flex justify-between font-bold text-lg mb-4">
                 <span>Total:</span>
-                <span id="cartTotalPrice" style="color: var(--primary);">R$ 0,00</span>
+                <span id="cartTotalPrice" class="text-[#00ff66]">R$ 0,00</span>
             </div>
-            <button class="btn-checkout" onclick="checkoutWhatsApp()">Finalizar Pedido no WhatsApp</button>
+            <button onclick="checkoutWhatsApp()" class="w-full bg-[#00ff66] hover:bg-[#00cc52] text-black font-bold py-3 rounded-lg transition">
+                Finalizar no WhatsApp
+            </button>
         </div>
     </div>
 
-    <footer>
+    <!-- Rodapé -->
+    <footer class="bg-[#131b18] border-t border-[#1f302a] text-center py-6 text-gray-500 text-sm">
         <p>&copy; 2026 Tech Brasil. Todos os direitos reservados.</p>
     </footer>
 
+    <!-- Script de Integração do Firebase e Lógica da Loja -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
         import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
@@ -563,7 +141,7 @@
                 renderProducts();
             } catch (error) {
                 console.error("Erro ao buscar produtos:", error);
-                grid.innerHTML = `<div style="grid-column: 1/-1; text-align: center; color: var(--danger); padding: 4rem;">Erro ao carregar produtos do Firebase.</div>`;
+                grid.innerHTML = `<div class="col-span-full text-center text-red-500 py-16">Erro ao carregar produtos do Firebase.</div>`;
             }
         }
 
@@ -578,21 +156,21 @@
             });
 
             if (filtered.length === 0) {
-                grid.innerHTML = `<div style="grid-column: 1/-1; text-align: center; color: var(--text-muted); padding: 4rem;">Nenhum produto encontrado.</div>`;
+                grid.innerHTML = `<div class="col-span-full text-center text-gray-500 py-16">Nenhum produto encontrado.</div>`;
                 return;
             }
 
             grid.innerHTML = filtered.map(p => `
-                <div class="product-card">
-                    <div class="product-img-container">
-                        <img src="${p.image}" alt="${p.name}" class="product-img" onerror="this.src='https://via.placeholder.com/300/111714/8b9bb4?text=Sem+Imagem'">
+                <div class="bg-[#131b18] border border-[#1f302a] rounded-xl overflow-hidden flex flex-col hover:border-[#00ff66] transition group">
+                    <div class="w-full h-48 bg-[#0b0f0e] overflow-hidden relative">
+                        <img src="${p.image}" alt="${p.name}" class="w-full h-full object-cover group-hover:scale-105 transition duration-300" onerror="this.src='https://via.placeholder.com/300'">
                     </div>
-                    <div class="product-info">
-                        <span class="product-category">${p.category}</span>
-                        <h3 class="product-name">${p.name}</h3>
-                        <div class="product-price">R$ ${Number(p.price).toFixed(2).replace('.', ',')}</div>
-                        <button class="btn-add-cart" onclick="window.addToCart('${p.id}')">
-                            <i class="fa-solid fa-cart-plus"></i> Adicionar
+                    <div class="p-4 flex flex-col flex-1">
+                        <span class="text-xs text-gray-400 uppercase tracking-wider mb-1">${p.category}</span>
+                        <h3 class="font-semibold mb-2">${p.name}</h3>
+                        <div class="text-lg font-bold text-[#00ff66] mt-auto mb-4">R$ ${Number(p.price).toFixed(2).replace('.', ',')}</div>
+                        <button onclick="window.addToCart('${p.id}')" class="w-full bg-[#00ff66] hover:bg-[#00cc52] text-black font-semibold py-2 rounded-lg transition">
+                            Adicionar ao Carrinho
                         </button>
                     </div>
                 </div>
@@ -601,8 +179,12 @@
 
         document.querySelectorAll('.filter-btn').forEach(btn => {
             btn.addEventListener('click', (e) => {
-                document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-                e.target.classList.add('active');
+                document.querySelectorAll('.filter-btn').forEach(b => {
+                    b.classList.remove('active', 'border-[#00ff66]', 'text-[#00ff66]');
+                    b.classList.add('border-[#1f302a]', 'text-gray-400');
+                });
+                e.target.classList.add('active', 'border-[#00ff66]', 'text-[#00ff66]');
+                e.target.classList.remove('border-[#1f302a]', 'text-gray-400');
                 currentCategory = e.target.getAttribute('data-category');
                 renderProducts();
             });
@@ -636,7 +218,7 @@
             countBadge.innerText = totalCount;
 
             if (cart.length === 0) {
-                container.innerHTML = `<p style="text-align: center; color: var(--text-muted); margin-top: 2rem;">Seu carrinho está vazio.</p>`;
+                container.innerHTML = `<p class="text-center text-gray-500 mt-10">Seu carrinho está vazio.</p>`;
                 totalPriceEl.innerText = "R$ 0,00";
                 return;
             }
@@ -646,13 +228,13 @@
                 const itemTotal = item.price * item.quantity;
                 totalPrice += itemTotal;
                 return `
-                    <div class="cart-item">
-                        <img src="${item.image}" alt="${item.name}">
-                        <div class="cart-item-details">
-                            <div class="cart-item-title">${item.name}</div>
-                            <div class="cart-item-price">R$ ${Number(item.price).toFixed(2).replace('.', ',')} x ${item.quantity}</div>
+                    <div class="flex gap-3 bg-[#0b0f0e] p-3 rounded-lg border border-[#1f302a] items-center">
+                        <img src="${item.image}" alt="${item.name}" class="w-14 h-14 object-cover rounded">
+                        <div class="flex-1">
+                            <div class="text-sm font-semibold">${item.name}</div>
+                            <div class="text-xs text-[#00ff66] font-medium">R$ ${Number(item.price).toFixed(2).replace('.', ',')} x ${item.quantity}</div>
                         </div>
-                        <button onclick="window.removeFromCart('${item.id}')" style="background:none; border:none; color:var(--danger); cursor:pointer; font-size: 1.1rem;"><i class="fa-solid fa-trash"></i></button>
+                        <button onclick="window.removeFromCart('${item.id}')" class="text-red-500 hover:text-red-400 px-2"><i class="fa-solid fa-trash"></i></button>
                     </div>
                 `;
             }).join('');
@@ -669,13 +251,15 @@
         const cartOverlay = document.getElementById('cartOverlay');
 
         function openCart() {
-            cartSidebar.classList.add('active');
-            cartOverlay.classList.add('active');
+            cartSidebar.classList.remove('right-[-400px]');
+            cartSidebar.classList.add('right-0');
+            cartOverlay.classList.remove('hidden');
         }
 
         function closeCart() {
-            cartSidebar.classList.remove('active');
-            cartOverlay.classList.remove('active');
+            cartSidebar.classList.remove('right-0');
+            cartSidebar.classList.add('right-[-400px]');
+            cartOverlay.classList.add('hidden');
         }
 
         document.getElementById('btnOpenCart').addEventListener('click', openCart);
