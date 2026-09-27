@@ -3,583 +3,469 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tech Brasil | Painel Administrativo</title>
-    <!-- Tailwind CSS CDN -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        techDark: '#0b0f0e',
-                        techCard: '#131b18',
-                        techGreen: '#00ff66',
-                        techGreenHover: '#00cc52',
-                        techGray: '#8892b0'
-                    }
-                }
-            }
-        }
-    </script>
-    <!-- FontAwesome for icons -->
+    <title>Painel Admin - Tech Brasil</title>
+    <!-- FontAwesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
     <style>
+        :root {
+            --primary: #00ff66;
+            --primary-dark: #00cc52;
+            --bg-dark: #0b0f0e;
+            --bg-card: #131b18;
+            --text-main: #f0f4f1;
+            --text-muted: #9aa8a2;
+            --border: #1f302a;
+            --danger: #ff3344;
+            --warning: #ffaa00;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
         body {
-            background-color: #0b0f0e;
-            color: #e2e8f0;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
         }
-        /* Custom scrollbar */
-        ::-webkit-scrollbar {
-            width: 8px;
+
+        header {
+            background: var(--bg-card);
+            border-bottom: 1px solid var(--border);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
-        ::-webkit-scrollbar-track {
-            background: #0b0f0e;
+
+        .logo {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--text-main);
+            text-decoration: none;
         }
-        ::-webkit-scrollbar-thumb {
-            background: #1a2e26;
-            border-radius: 4px;
+
+        .logo span {
+            color: var(--primary);
         }
-        ::-webkit-scrollbar-thumb:hover {
-            background: #00ff66;
+
+        main {
+            flex: 1;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+            width: 100%;
+        }
+
+        .admin-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .admin-title h1 {
+            font-size: 1.8rem;
+            margin-bottom: 0.3rem;
+        }
+
+        .admin-title p {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: #000;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: background 0.3s;
+            text-decoration: none;
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-dark);
+        }
+
+        .products-table-container {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+        }
+
+        th, td {
+            padding: 1rem 1.5rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        th {
+            background: #080d0b;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        td {
+            font-size: 0.95rem;
+        }
+
+        .table-img {
+            width: 45px;
+            height: 45px;
+            object-fit: cover;
+            border-radius: 6px;
+        }
+
+        .actions-cell {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .btn-icon {
+            background: transparent;
+            border: 1px solid var(--border);
+            color: var(--text-main);
+            width: 35px;
+            height: 35px;
+            border-radius: 6px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+        }
+
+        .btn-icon.edit:hover {
+            border-color: var(--warning);
+            color: var(--warning);
+        }
+
+        .btn-icon.delete:hover {
+            border-color: var(--danger);
+            color: var(--danger);
+        }
+
+        /* Modal */
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background: rgba(0,0,0,0.7);
+            z-index: 1000;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            padding: 1rem;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            width: 100%;
+            max-width: 500px;
+            padding: 2rem;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.2rem;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-bottom: 0.4rem;
+        }
+
+        .form-control {
+            width: 100%;
+            background: #080d0b;
+            border: 1px solid var(--border);
+            padding: 0.75rem;
+            border-radius: 8px;
+            color: var(--text-main);
+            outline: none;
+        }
+
+        .form-control:focus {
+            border-color: var(--primary);
+        }
+
+        .modal-footer {
+            display: flex;
+            justify-content: flex-end;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .btn-secondary {
+            background: transparent;
+            border: 1px solid var(--border);
+            color: var(--text-main);
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
         }
     </style>
 </head>
-<body class="min-h-screen flex flex-col selection:bg-techGreen selection:text-black">
+<body>
 
-    <header class="bg-[#070a09] border-b border-[#1a2e26] sticky top-0 z-40">
-        <div class="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between">
-            <div class="flex items-center gap-3">
-                <div class="w-10 h-10 rounded-xl bg-techGreen/10 border border-techGreen/30 flex items-center justify-center text-techGreen font-bold text-xl">
-                    <i class="fas fa-tools"></i>
-                </div>
-                <div>
-                    <span class="text-xl font-black tracking-wider text-white">TECH <span class="text-techGreen">BRASIL</span></span>
-                    <span class="block text-[10px] text-techGray tracking-widest uppercase">Painel Administrativo</span>
-                </div>
-            </div>
-            <div class="flex items-center gap-3">
-                <a href="index.html" target="_blank" class="bg-[#131b18] hover:bg-[#1a2e26] border border-[#1a2e26] text-white text-xs font-semibold px-4 py-2.5 rounded-xl transition flex items-center gap-2">
-                    <i class="fas fa-external-link-alt text-techGreen"></i> Ver Loja
-                </a>
-                <button onclick="resetToDefaultProducts()" class="bg-red-500/10 hover:bg-red-500/20 text-red-400 border border-red-500/30 text-xs font-semibold px-4 py-2.5 rounded-xl transition flex items-center gap-2">
-                    <i class="fas fa-undo"></i> Restaurar Padrão
-                </button>
-            </div>
-        </div>
+    <header>
+        <a href="index.html" class="logo"><i class="fa-solid fa-bolt" style="color: var(--primary);"></i> Tech<span>Brasil</span> - Admin</a>
+        <a href="index.html" class="btn-secondary" style="font-size: 0.9rem; padding: 0.5rem 1rem;"><i class="fa-solid fa-store"></i> Ver Loja</a>
     </header>
 
-    <main class="max-w-7xl mx-auto px-4 py-8 flex-1 w-full">
-        <!-- Dashboard Metrics Row -->
-        <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-8">
-            <div class="bg-[#131b18] border border-[#1a2e26] rounded-2xl p-6 flex items-center gap-4">
-                <div class="w-12 h-12 rounded-xl bg-techGreen/10 border border-techGreen/30 flex items-center justify-center text-techGreen text-xl">
-                    <i class="fas fa-box"></i>
-                </div>
-                <div>
-                    <p class="text-xs text-techGray">Total de Produtos</p>
-                    <h3 id="statTotalProducts" class="text-2xl font-black text-white mt-1">0</h3>
-                </div>
+    <main>
+        <div class="admin-header">
+            <div class="admin-title">
+                <h1>Gerenciar Produtos</h1>
+                <p>Adicione, edite ou remova produtos em tempo real na nuvem (Firebase).</p>
             </div>
-            <div class="bg-[#131b18] border border-[#1a2e26] rounded-2xl p-6 flex items-center gap-4">
-                <div class="w-12 h-12 rounded-xl bg-amber-500/10 border border-amber-500/30 flex items-center justify-center text-amber-400 text-xl">
-                    <i class="fas fa-bolt"></i>
-                </div>
-                <div>
-                    <p class="text-xs text-techGray">Produtos em Destaque</p>
-                    <h3 id="statFeaturedProducts" class="text-2xl font-black text-white mt-1">0</h3>
-                </div>
-            </div>
-            <div class="bg-[#131b18] border border-[#1a2e26] rounded-2xl p-6 flex items-center gap-4">
-                <div class="w-12 h-12 rounded-xl bg-cyan-500/10 border border-cyan-500/30 flex items-center justify-center text-cyan-400 text-xl">
-                    <i class="fas fa-tags"></i>
-                </div>
-                <div>
-                    <p class="text-xs text-techGray">Categorias Ativas</p>
-                    <h3 id="statCategories" class="text-2xl font-black text-white mt-1">4</h3>
-                </div>
-            </div>
+            <button class="btn-primary" id="btnOpenAddModal"><i class="fa-solid fa-plus"></i> Novo Produto</button>
         </div>
 
-        <!-- Action Bar & Search -->
-        <div class="flex flex-col md:flex-row justify-between items-stretch md:items-center gap-4 mb-6">
-            <div class="flex-1 relative">
-                <input type="text" id="adminSearchInput" placeholder="Buscar produto cadastrado..." class="w-full bg-[#131b18] border border-[#1a2e26] focus:border-techGreen text-white text-sm rounded-xl pl-4 pr-10 py-3 outline-none transition">
-                <span class="absolute right-3 top-1/2 -translate-y-1/2 text-techGray"><i class="fas fa-search"></i></span>
-            </div>
-            <button onclick="openProductModal()" class="bg-techGreen hover:bg-techGreenHover text-black font-bold text-sm px-6 py-3 rounded-xl transition shadow-lg shadow-techGreen/20 flex items-center justify-center gap-2">
-                <i class="fas fa-plus-circle"></i> Novo Produto
-            </button>
-        </div>
-
-        <!-- Products Table Container -->
-        <div class="bg-[#131b18] border border-[#1a2e26] rounded-2xl overflow-hidden shadow-xl">
-            <div class="overflow-x-auto">
-                <table class="w-full text-left border-collapse">
-                    <thead>
-                        <tr class="bg-[#0b0f0e] border-b border-[#1a2e26] text-xs text-techGray uppercase tracking-wider">
-                            <th class="py-4 px-6">Produto</th>
-                            <th class="py-4 px-6">Categoria</th>
-                            <th class="py-4 px-6">Preço (R$)</th>
-                            <th class="py-4 px-6">Avaliação</th>
-                            <th class="py-4 px-6 text-center">Destaque</th>
-                            <th class="py-4 px-6 text-right">Ações</th>
-                        </tr>
-                    </thead>
-                    <tbody id="adminProductTableBody" class="divide-y divide-[#1a2e26] text-sm">
-                        <!-- Populated by JS -->
-                    </tbody>
-                </table>
-            </div>
-            <!-- Empty state -->
-            <div id="adminEmptyState" class="hidden text-center py-16">
-                <i class="fas fa-box-open text-5xl text-techGray mb-3"></i>
-                <h4 class="text-base font-bold text-white">Nenhum produto cadastrado</h4>
-                <p class="text-xs text-techGray mt-1">Clique no botão "Novo Produto" acima para começar.</p>
-            </div>
+        <div class="products-table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Imagem</th>
+                        <th>Nome</th>
+                        <th>Categoria</th>
+                        <th>Preço</th>
+                        <th>Ações</th>
+                    </tr>
+                </thead>
+                <tbody id="adminTableBody">
+                    <tr>
+                        <td colspan="5" style="text-align: center; color: var(--text-muted); padding: 3rem;">Conectando ao Firebase...</td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
     </main>
 
-    <div id="productModal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden items-center justify-center p-4">
-        <div class="bg-[#131b18] w-full max-w-2xl rounded-2xl border border-[#1a2e26] overflow-hidden shadow-2xl relative flex flex-col max-h-[90vh]">
-            <div class="p-6 border-b border-[#1a2e26] flex justify-between items-center bg-[#0b0f0e]">
-                <h3 id="modalTitle" class="text-base font-bold text-white flex items-center gap-2">
-                    <i class="fas fa-box text-techGreen"></i> Adicionar Novo Produto
-                </h3>
-                <button onclick="closeProductModal()" class="text-techGray hover:text-white"><i class="fas fa-times text-lg"></i></button>
+    <!-- Modal Adicionar/Editar -->
+    <div class="modal" id="productModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="modalTitle">Adicionar Produto</h3>
+                <button id="btnCloseModal" style="background:none; border:none; color:var(--text-main); font-size:1.2rem; cursor:pointer;"><i class="fa-solid fa-xmark"></i></button>
             </div>
-            <div class="overflow-y-auto p-6 space-y-4">
-                <form id="productForm" onsubmit="handleProductSubmit(event)">
-                    <input type="hidden" id="productId">
-                    
-                    <div>
-                        <label class="block text-xs font-semibold text-techGray mb-1">Nome do Produto *</label>
-                        <input type="text" id="productName" required placeholder="Ex: Placa de Vídeo RTX 4070" class="w-full bg-[#0b0f0e] border border-[#1a2e26] focus:border-techGreen text-white text-sm rounded-xl px-4 py-3 outline-none transition">
-                    </div>
-
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-4">
-                        <div>
-                            <label class="block text-xs font-semibold text-techGray mb-1">Categoria *</label>
-                            <select id="productCategory" required class="w-full bg-[#0b0f0e] border border-[#1a2e26] focus:border-techGreen text-white text-sm rounded-xl px-4 py-3 outline-none transition cursor-pointer">
-                                <option value="hardware">Hardware</option>
-                                <option value="smartphones">Smartphones</option>
-                                <option value="perifericos">Periféricos</option>
-                                <option value="monitores">Monitores</option>
-                            </select>
-                        </div>
-                        <div>
-                            <label class="block text-xs font-semibold text-techGray mb-1">Preço Atual (R$) *</label>
-                            <input type="number" step="0.01" id="productPrice" required placeholder="0.00" class="w-full bg-[#0b0f0e] border border-[#1a2e26] focus:border-techGreen text-white text-sm rounded-xl px-4 py-3 outline-none transition">
-                        </div>
-                    </div>
-
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-4">
-                        <div>
-                            <label class="block text-xs font-semibold text-techGray mb-1">Preço Antigo / Risco (R$)</label>
-                            <input type="number" step="0.01" id="productOldPrice" placeholder="0.00" class="w-full bg-[#0b0f0e] border border-[#1a2e26] focus:border-techGreen text-white text-sm rounded-xl px-4 py-3 outline-none transition">
-                        </div>
-                        <div>
-                            <label class="block text-xs font-semibold text-techGray mb-1">Avaliação (1.0 a 5.0)</label>
-                            <input type="number" step="0.1" min="1" max="5" id="productRating" value="4.8" class="w-full bg-[#0b0f0e] border border-[#1a2e26] focus:border-techGreen text-white text-sm rounded-xl px-4 py-3 outline-none transition">
-                        </div>
-                    </div>
-
-                    <div class="mt-4">
-                        <label class="block text-xs font-semibold text-techGray mb-1">URL da Imagem *</label>
-                        <input type="url" id="productImage" required placeholder="https://images.unsplash.com/..." class="w-full bg-[#0b0f0e] border border-[#1a2e26] focus:border-techGreen text-white text-sm rounded-xl px-4 py-3 outline-none transition">
-                    </div>
-
-                    <div class="mt-4">
-                        <label class="block text-xs font-semibold text-techGray mb-1">Descrição Completa *</label>
-                        <textarea id="productDescription" required rows="3" placeholder="Detalhes técnicos e especificações..." class="w-full bg-[#0b0f0e] border border-[#1a2e26] focus:border-techGreen text-white text-sm rounded-xl px-4 py-3 outline-none transition"></textarea>
-                    </div>
-
-                    <div class="mt-4 flex items-center gap-3 bg-[#0b0f0e] p-4 rounded-xl border border-[#1a2e26]">
-                        <input type="checkbox" id="productFeatured" class="w-4 h-4 accent-techGreen cursor-pointer">
-                        <label for="productFeatured" class="text-xs font-semibold text-white cursor-pointer">Exibir este produto na seção de Produtos em Destaque da Loja</label>
-                    </div>
-
-                    <div class="mt-6 flex gap-3">
-                        <button type="button" onclick="closeProductModal()" class="flex-1 bg-[#1a2e26] hover:bg-[#223d33] text-white font-bold py-3 rounded-xl transition">
-                            Cancelar
-                        </button>
-                        <button type="submit" class="flex-1 bg-techGreen hover:bg-techGreenHover text-black font-bold py-3 rounded-xl transition shadow-lg shadow-techGreen/20">
-                            Salvar Produto
-                        </button>
-                    </div>
-                </form>
-            </div>
+            <form id="productForm">
+                <input type="hidden" id="productId">
+                <div class="form-group">
+                    <label>Nome do Produto</label>
+                    <input type="text" id="productName" class="form-control" required placeholder="Ex: Teclado Mecânico RGB">
+                </div>
+                <div class="form-group">
+                    <label>Categoria</label>
+                    <select id="productCategory" class="form-control" required>
+                        <option value="perifericos">Periféricos</option>
+                        <option value="hardware">Hardware</option>
+                        <option value="audio">Áudio</option>
+                        <option value="acessorios">Acessórios</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Preço (R$)</label>
+                    <input type="number" step="0.01" id="productPrice" class="form-control" required placeholder="299.90">
+                </div>
+                <div class="form-group">
+                    <label>Link da Imagem (URL)</label>
+                    <input type="url" id="productImage" class="form-control" required placeholder="https://exemplo.com/foto.jpg">
+                </div>
+                <div class="form-group">
+                    <label>Descrição</label>
+                    <textarea id="productDescription" class="form-control" rows="3" placeholder="Detalhes do produto..."></textarea>
+                </div>
+                <div class="form-group" style="display: flex; align-items: center; gap: 0.5rem;">
+                    <input type="checkbox" id="productFeatured" style="width: 18px; height: 18px; accent-color: var(--primary);">
+                    <label for="productFeatured" style="margin: 0; cursor: pointer;">Destacar na página inicial</label>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn-secondary" id="btnCancelModal">Cancelar</button>
+                    <button type="submit" class="btn-primary" id="btnSaveProduct">Salvar Produto</button>
+                </div>
+            </form>
         </div>
     </div>
 
-    <!-- Toast Notification -->
-    <div id="toast" class="fixed bottom-6 right-6 z-50 bg-[#131b18] border border-techGreen text-white px-5 py-3 rounded-xl shadow-2xl transform translate-y-24 opacity-0 transition-all duration-300 flex items-center gap-3">
-        <i class="fas fa-check-circle text-techGreen text-lg"></i>
-        <div>
-            <h5 id="toastTitle" class="font-bold text-xs">Sucesso!</h5>
-            <p id="toastMessage" class="text-[11px] text-techGray">Operação realizada com sucesso.</p>
-        </div>
-    </div>
+    <!-- Firebase SDKs -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getFirestore, collection, getDocs, addDoc, updateDoc, deleteDoc, doc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
-    <!-- Footer -->
-    <footer class="bg-[#070a09] border-t border-[#1a2e26] py-6 px-4 text-center text-xs text-techGray mt-auto">
-        &copy; 2026 Tech Brasil Eletrônicos Ltda. Painel de Controle Administrativo.
-    </footer>
+        const firebaseConfig = {
+            apiKey: "AIzaSyBsY-JGdy2D6eq2gCfKB_OAj3F1MlfS6Ks",
+            authDomain: "tech-brasil-1b89c.firebaseapp.com",
+            projectId: "tech-brasil-1b89c",
+            storageBucket: "tech-brasil-1b89c.firebasestorage.app",
+            messagingSenderId: "420995386502",
+            appId: "1:420995386502:web:cf0989265d9f4260c95507",
+            measurementId: "G-NZWPCEZHZQ"
+        };
 
-    <!-- JavaScript Admin Logic -->
-    <script>
-        // Initial default products database if none exists in localStorage
-        const defaultProducts = [
-            {
-                id: 1,
-                name: "Placa de Vídeo RTX 4070 12GB OC",
-                category: "hardware",
-                price: 4199.90,
-                oldPrice: 4899.90,
-                image: "https://images.unsplash.com/photo-1587202372775-e229f172b9d7?auto=format&fit=crop&w=600&q=80",
-                featured: true,
-                rating: 4.9,
-                description: "Arquitetura Ada Lovelace de última geração com Ray Tracing avançado e DLSS 3. Desempenho supremo para jogos em 1440p e criação de conteúdo profissional."
-            },
-            {
-                id: 2,
-                name: "Processador Intel Core i7-14700K",
-                category: "hardware",
-                price: 2499.00,
-                oldPrice: 2899.00,
-                image: "https://images.unsplash.com/photo-1591799264318-7e6ef8ddb7ea?auto=format&fit=crop&w=600&q=80",
-                featured: true,
-                rating: 4.8,
-                description: "20 núcleos (8 P-cores e 12 E-cores) e clock turbo de até 5.6 GHz. Potência extrema para multitarefas pesadas e games competitivos."
-            },
-            {
-                id: 3,
-                name: "Smartphone Gamer RedDragon 5G 256GB",
-                category: "smartphones",
-                price: 2899.90,
-                oldPrice: 3399.90,
-                image: "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?auto=format&fit=crop&w=600&q=80",
-                featured: true,
-                rating: 4.7,
-                description: "Tela AMOLED de 144Hz, processador Snapdragon de alto desempenho e bateria de 5000mAh com carregamento ultrarrápido de 120W."
-            },
-            {
-                id: 4,
-                name: "Teclado Mecânico RGB Switch Red",
-                category: "perifericos",
-                price: 349.90,
-                oldPrice: 449.90,
-                image: "https://images.unsplash.com/photo-1587829741301-dc798b83add3?auto=format&fit=crop&w=600&q=80",
-                featured: true,
-                rating: 4.9,
-                description: "Teclado mecânico compacto formato 75%, switches mecânicos lineares silenciosos, iluminação RGB customizável por software."
-            },
-            {
-                id: 5,
-                name: "Monitor Gamer Curvo 27\" 165Hz 1ms",
-                category: "monitores",
-                price: 1599.00,
-                oldPrice: 1899.00,
-                image: "https://images.unsplash.com/photo-1527443224154-c4a3942d3acf?auto=format&fit=crop&w=600&q=80",
-                featured: false,
-                rating: 4.8,
-                description: "Resolução Full HD, curvatura imersiva 1500R, tecnologia FreeSync e tempo de resposta de 1ms para máxima fluidez nos seus jogos."
-            },
-            {
-                id: 6,
-                name: "Mouse Gamer Sem Fio 25K DPI",
-                category: "perifericos",
-                price: 429.90,
-                oldPrice: 529.90,
-                image: "https://images.unsplash.com/photo-1615663245857-ac93bb7c39e7?auto=format&fit=crop&w=600&q=80",
-                featured: false,
-                rating: 4.9,
-                description: "Sensor óptico de alta precisão sem atrasos, design ergonômico ultraleve com apenas 63 gramas e bateria de longa duração."
-            },
-            {
-                id: 7,
-                name: "Placa Mãe Z790 Gaming WiFi DDR5",
-                category: "hardware",
-                price: 1899.00,
-                oldPrice: 2199.00,
-                image: "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=600&q=80",
-                featured: false,
-                rating: 4.7,
-                description: "Suporte a memórias DDR5 até 7600MHz (OC), Wi-Fi 6E integrado, PCIe 5.0 e dissipadores térmicos robustos."
-            },
-            {
-                id: 8,
-                name: "Headset Gamer 7.1 Surround RGB",
-                category: "perifericos",
-                price: 299.90,
-                oldPrice: 399.90,
-                image: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=600&q=80",
-                featured: false,
-                rating: 4.6,
-                description: "Áudio posicional 7.1 imersivo, drivers de 50mm, microfone com cancelamento de ruído e almofadas auriculares ultra macias."
-            },
-            {
-                id: 9,
-                name: "Smartphone Pro Max 512GB 5G",
-                category: "smartphones",
-                price: 6499.00,
-                oldPrice: 7199.00,
-                image: "https://images.unsplash.com/photo-1592750475338-74b7b21085ab?auto=format&fit=crop&w=600&q=80",
-                featured: false,
-                rating: 4.9,
-                description: "Sistema de câmeras profissional triplo com zoom óptico de 5x, chip de altíssimo desempenho e corpo em titânio reforçado."
-            },
-            {
-                id: 10,
-                name: "Monitor Gamer 32\" 4K UHD 144Hz",
-                category: "monitores",
-                price: 3899.00,
-                oldPrice: 4399.00,
-                image: "https://images.unsplash.com/photo-1547394765-185e1e68f34e?auto=format&fit=crop&w=600&q=80",
-                featured: false,
-                rating: 4.8,
-                description: "Painel IPS de alta fidelidade de cores, compatibilidade HDR600 e taxa de atualização de 144Hz para jogadores exigentes."
-            },
-            {
-                id: 11,
-                name: "Memória RAM 32GB (2x16) 6000MHz DDR5",
-                category: "hardware",
-                price: 899.90,
-                oldPrice: 1099.90,
-                image: "https://images.unsplash.com/photo-1562976540-1e02c5101a09?auto=format&fit=crop&w=600&q=80",
-                featured: false,
-                rating: 4.9,
-                description: "Kit dual channel de alta performance com perfil XMP 3.0 e EXPO, dissipador em alumínio escovado com LED RGB."
-            },
-            {
-                id: 12,
-                name: "Cadeira Gamer Ergonômica Pro",
-                category: "perifericos",
-                price: 1299.90,
-                oldPrice: 1599.90,
-                image: "https://images.unsplash.com/photo-1598550476439-6847785fcea6?auto=format&fit=crop&w=600&q=80",
-                featured: false,
-                rating: 4.7,
-                description: "Revestimento em couro sintético premium respirável, almofadas ortopédicas para lombar e pescoço, reclinável até 180 graus."
-            }
-        ];
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
 
-        // Retrieve products from localStorage or initialize with defaults
-        function getStoredProducts() {
-            const data = localStorage.getItem('techbrasil_products');
-            if (!data) {
-                localStorage.setItem('techbrasil_products', JSON.stringify(defaultProducts));
-                return defaultProducts;
-            }
+        let productsList = [];
+
+        async function loadProducts() {
+            const tbody = document.getElementById('adminTableBody');
+            tbody.innerHTML = `<tr><td colspan="5" style="text-align: center; color: var(--text-muted); padding: 3rem;">Carregando produtos...</td></tr>`;
+            
             try {
-                return JSON.parse(data);
-            } catch (e) {
-                return defaultProducts;
+                const querySnapshot = await getDocs(collection(db, "products"));
+                productsList = [];
+                querySnapshot.forEach((docSnap) => {
+                    productsList.push({ id: docSnap.id, ...docSnap.data() });
+                });
+
+                renderTable();
+            } catch (error) {
+                console.error("Erro ao carregar:", error);
+                tbody.innerHTML = `<tr><td colspan="5" style="text-align: center; color: var(--danger); padding: 3rem;">Erro ao conectar com o Firebase. Verifique o console.</td></tr>`;
             }
         }
 
-        function saveStoredProducts(products) {
-            localStorage.setItem('techbrasil_products', JSON.stringify(products));
-        }
-
-        // Format Currency Helper
-        function formatPrice(value) {
-            return value.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
-        }
-
-        // DOM Ready Initialization
-        document.addEventListener('DOMContentLoaded', () => {
-            renderAdminTable();
-            updateStats();
-
-            document.getElementById('adminSearchInput').addEventListener('input', (e) => {
-                renderAdminTable(e.target.value);
-            });
-        });
-
-        // Render Admin Products Table
-        function renderAdminTable(searchQuery = '') {
-            const products = getStoredProducts();
-            const tableBody = document.getElementById('adminProductTableBody');
-            const emptyState = document.getElementById('adminEmptyState');
-
-            const filtered = products.filter(p => 
-                p.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                p.category.toLowerCase().includes(searchQuery.toLowerCase())
-            );
-
-            if (filtered.length === 0) {
-                tableBody.innerHTML = '';
-                emptyState.classList.remove('hidden');
+        function renderTable() {
+            const tbody = document.getElementById('adminTableBody');
+            if (productsList.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="5" style="text-align: center; color: var(--text-muted); padding: 3rem;">Nenhum produto cadastrado ainda.</td></tr>`;
                 return;
             }
 
-            emptyState.classList.add('hidden');
-            tableBody.innerHTML = filtered.map(product => `
-                <tr class="hover:bg-[#1a2e26]/30 transition">
-                    <td class="py-4 px-6">
-                        <div class="flex items-center gap-3">
-                            <img src="${product.image}" alt="${product.name}" class="w-12 h-12 object-cover rounded-xl bg-[#0b0f0e] border border-[#1a2e26]" onerror="this.src='https://placehold.co/100x100/131b18/00ff66?text=Tech'">
-                            <div>
-                                <h4 class="font-bold text-white text-sm line-clamp-1">${product.name}</h4>
-                                <span class="text-[11px] text-techGray line-clamp-1">${product.description}</span>
-                            </div>
+            tbody.innerHTML = productsList.map(p => `
+                <tr>
+                    <td><img src="${p.image}" alt="${p.name}" class="table-img" onerror="this.src='https://via.placeholder.com/45'"></td>
+                    <td><strong>${p.name}</strong></td>
+                    <td style="text-transform: capitalize; color: var(--text-muted);">${p.category}</td>
+                    <td style="color: var(--primary); font-weight: 600;">R$ ${Number(p.price).toFixed(2).replace('.', ',')}</td>
+                    <td>
+                        <div class="actions-cell">
+                            <button class="btn-icon edit" onclick="editProduct('${p.id}')" title="Editar"><i class="fa-solid fa-pen"></i></button>
+                            <button class="btn-icon delete" onclick="deleteProduct('${p.id}')" title="Excluir"><i class="fa-solid fa-trash"></i></button>
                         </div>
-                    </td>
-                    <td class="py-4 px-6">
-                        <span class="text-xs uppercase bg-[#0b0f0e] text-techGreen px-2.5 py-1 rounded border border-[#1a2e26]">${product.category}</span>
-                    </td>
-                    <td class="py-4 px-6 font-bold text-techGreen">
-                        ${formatPrice(product.price)}
-                    </td>
-                    <td class="py-4 px-6 text-amber-400 font-semibold">
-                        <i class="fas fa-star mr-1"></i>${product.rating}
-                    </td>
-                    <td class="py-4 px-6 text-center">
-                        ${product.featured ? '<span class="bg-amber-500/10 text-amber-400 border border-amber-500/30 text-[10px] px-2.5 py-1 rounded-full font-bold">Sim</span>' : '<span class="text-techGray text-xs">Não</span>'}
-                    </td>
-                    <td class="py-4 px-6 text-right space-x-2">
-                        <button onclick="editProduct(${product.id})" class="bg-[#1a2e26] hover:bg-techGreen text-techGreen hover:text-black w-9 h-9 rounded-xl transition inline-flex items-center justify-center border border-[#2a4d3f]" title="Editar">
-                            <i class="fas fa-edit"></i>
-                        </button>
-                        <button onclick="deleteProduct(${product.id})" class="bg-red-500/10 hover:bg-red-500 text-red-400 hover:text-white w-9 h-9 rounded-xl transition inline-flex items-center justify-center border border-red-500/30" title="Excluir">
-                            <i class="fas fa-trash-alt"></i>
-                        </button>
                     </td>
                 </tr>
             `).join('');
         }
 
-        // Update Dashboard Stats
-        function updateStats() {
-            const products = getStoredProducts();
-            document.getElementById('statTotalProducts').textContent = products.length;
-            document.getElementById('statFeaturedProducts').textContent = products.filter(p => p.featured).length;
-        }
-
         // Modal Controls
-        function openProductModal(productId = null) {
-            const modal = document.getElementById('productModal');
-            const modalTitle = document.getElementById('modalTitle');
-            const form = document.getElementById('productForm');
-
-            form.reset();
+        const modal = document.getElementById('productModal');
+        document.getElementById('btnOpenAddModal').addEventListener('click', () => {
+            document.getElementById('modalTitle').innerText = 'Adicionar Produto';
+            document.getElementById('productForm').reset();
             document.getElementById('productId').value = '';
+            modal.classList.add('active');
+        });
 
-            if (productId !== null) {
-                modalTitle.innerHTML = '<i class="fas fa-edit text-techGreen"></i> Editar Produto';
-                const products = getStoredProducts();
-                const product = products.find(p => p.id === productId);
-                if (product) {
-                    document.getElementById('productId').value = product.id;
-                    document.getElementById('productName').value = product.name;
-                    document.getElementById('productCategory').value = product.category;
-                    document.getElementById('productPrice').value = product.price;
-                    document.getElementById('productOldPrice').value = product.oldPrice || '';
-                    document.getElementById('productRating').value = product.rating || 4.8;
-                    document.getElementById('productImage').value = product.image;
-                    document.getElementById('productDescription').value = product.description;
-                    document.getElementById('productFeatured').checked = product.featured || false;
-                }
-            } else {
-                modalTitle.innerHTML = '<i class="fas fa-box text-techGreen"></i> Adicionar Novo Produto';
-            }
+        const closeModal = () => modal.classList.remove('active');
+        document.getElementById('btnCloseModal').addEventListener('click', closeModal);
+        document.getElementById('btnCancelModal').addEventListener('click', closeModal);
 
-            modal.classList.remove('hidden');
-            modal.classList.add('flex');
-        }
-
-        function closeProductModal() {
-            const modal = document.getElementById('productModal');
-            modal.classList.add('hidden');
-            modal.classList.remove('flex');
-        }
-
-        // Handle Form Submit (Add or Update)
-        function handleProductSubmit(e) {
+        // Save (Add or Update)
+        document.getElementById('productForm').addEventListener('submit', async (e) => {
             e.preventDefault();
-            const idInput = document.getElementById('productId').value;
-            const name = document.getElementById('productName').value.trim();
-            const category = document.getElementById('productCategory').value;
-            const price = parseFloat(document.getElementById('productPrice').value);
-            const oldPriceInput = document.getElementById('productOldPrice').value;
-            const oldPrice = oldPriceInput ? parseFloat(oldPriceInput) : price * 1.2;
-            const rating = parseFloat(document.getElementById('productRating').value);
-            const image = document.getElementById('productImage').value.trim();
-            const description = document.getElementById('productDescription').value.trim();
-            const featured = document.getElementById('productFeatured').checked;
+            const id = document.getElementById('productId').value;
+            const productData = {
+                name: document.getElementById('productName').value,
+                category: document.getElementById('productCategory').value,
+                price: parseFloat(document.getElementById('productPrice').value),
+                image: document.getElementById('productImage').value,
+                description: document.getElementById('productDescription').value,
+                featured: document.getElementById('productFeatured').checked
+            };
 
-            let products = getStoredProducts();
+            const btnSave = document.getElementById('btnSaveProduct');
+            btnSave.innerText = "Salvando...";
+            btnSave.disabled = true;
 
-            if (idInput) {
-                // Edit existing
-                const id = parseInt(idInput);
-                products = products.map(p => p.id === id ? {
-                    ...p, name, category, price, oldPrice, rating, image, description, featured
-                } : p);
-                showToast("Produto Atualizado!", "As alterações foram salvas com sucesso.");
-            } else {
-                // Add new
-                const newId = products.length > 0 ? Math.max(...products.map(p => p.id)) + 1 : 1;
-                const newProduct = {
-                    id: newId,
-                    name,
-                    category,
-                    price,
-                    oldPrice,
-                    rating,
-                    image,
-                    description,
-                    featured
-                };
-                products.unshift(newProduct);
-                showToast("Produto Adicionado!", "O novo produto foi cadastrado com sucesso.");
+            try {
+                if (id) {
+                    await updateDoc(doc(db, "products", id), productData);
+                } else {
+                    await addDoc(collection(db, "products"), productData);
+                }
+                closeModal();
+                loadProducts();
+            } catch (error) {
+                console.error("Erro ao salvar:", error);
+                alert("Erro ao salvar o produto.");
+            } finally {
+                btnSave.innerText = "Salvar Produto";
+                btnSave.disabled = false;
             }
+        });
 
-            saveStoredProducts(products);
-            closeProductModal();
-            renderAdminTable();
-            updateStats();
-        }
+        window.editProduct = (id) => {
+            const p = productsList.find(item => item.id === id);
+            if (!p) return;
+            document.getElementById('modalTitle').innerText = 'Editar Produto';
+            document.getElementById('productId').value = p.id;
+            document.getElementById('productName').value = p.name;
+            document.getElementById('productCategory').value = p.category;
+            document.getElementById('productPrice').value = p.price;
+            document.getElementById('productImage').value = p.image;
+            document.getElementById('productDescription').value = p.description || '';
+            document.getElementById('productFeatured').checked = p.featured || false;
+            modal.classList.add('active');
+        };
 
-        // Edit Product Helper
-        function editProduct(id) {
-            openProductModal(id);
-        }
-
-        // Delete Product
-        function deleteProduct(id) {
-            if (confirm("Tem certeza de que deseja excluir este produto?")) {
-                let products = getStoredProducts();
-                products = products.filter(p => p.id !== id);
-                saveStoredProducts(products);
-                renderAdminTable();
-                updateStats();
-                showToast("Produto Removido", "O produto foi excluído do catálogo.");
+        window.deleteProduct = async (id) => {
+            if (confirm("Tem certeza que deseja excluir este produto?")) {
+                try {
+                    await deleteDoc(doc(db, "products", id));
+                    loadProducts();
+                } catch (error) {
+                    console.error("Erro ao excluir:", error);
+                    alert("Erro ao excluir o produto.");
+                }
             }
-        }
+        };
 
-        // Reset to Default Products
-        function resetToDefaultProducts() {
-            if (confirm("Tem certeza? Isso restaurará todos os produtos originais da Tech Brasil.")) {
-                localStorage.setItem('techbrasil_products', JSON.stringify(defaultProducts));
-                renderAdminTable();
-                updateStats();
-                showToast("Catálogo Restaurado", "Os produtos padrão foram recarregados.");
-            }
-        }
-
-        // Toast Notification Function
-        function showToast(title, message) {
-            const toast = document.getElementById('toast');
-            document.getElementById('toastTitle').textContent = title;
-            document.getElementById('toastMessage').textContent = message;
-
-            toast.classList.remove('translate-y-24', 'opacity-0');
-            setTimeout(() => {
-                toast.classList.add('translate-y-24', 'opacity-0');
-            }, 3500);
-        }
+        loadProducts();
     </script>
 </body>
 </html>
