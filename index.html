@@ -1,222 +1,196 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-
 <head>
     <meta charset="UTF-8">
-
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0"
-    >
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <meta
         name="description"
-        content="Tech Brasil — tecnologia, computadores, placas de vídeo, processadores, memórias e periféricos."
-    >
-
-    <meta
-        name="theme-color"
-        content="#080808"
+        content="Tech Brasil - peças de computador, PCs Gamer, placas de vídeo, processadores, memórias e periféricos."
     >
 
     <title>Tech Brasil | Tecnologia e Gaming</title>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
     <link
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Montserrat:wght@600;700;800;900&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Orbitron:wght@500;600;700;800&display=swap"
         rel="stylesheet"
     >
 
     <link
         rel="stylesheet"
-        href="style.css"
+        href="estilo.css"
     >
 </head>
 
 <body>
 
-    <!-- =====================================================
-         BARRA SUPERIOR
-    ====================================================== -->
-
-    <div class="topbar">
-
-        <div class="container topbar-inner">
-
-            <span>
-                Tecnologia para seu setup
-            </span>
-
-            <div class="topbar-links">
-
-                <a href="#produtos">
-                    Ofertas
-                </a>
-
-                <a href="#categorias">
-                    Categorias
-                </a>
-
-                <a href="#newsletter">
-                    Novidades
-                </a>
-
-            </div>
-
-        </div>
-
-    </div>
-
-
-    <!-- =====================================================
+    <!-- =========================================================
          CABEÇALHO
-    ====================================================== -->
+    ========================================================== -->
 
-    <header class="main-header">
+    <header class="site-header">
 
-        <div class="container header-inner">
+        <div class="header-container">
 
-            <a
-                href="#inicio"
-                class="brand"
-            >
+            <a href="#" class="logo" aria-label="Tech Brasil - Página inicial">
 
-                <div class="brand-mark">
+                <span class="logo-icon">
+                    TB
+                </span>
 
-                    <span class="brand-t">
-                        T
-                    </span>
-
-                    <span class="brand-b">
-                        B
-                    </span>
-
-                </div>
-
-                <div class="brand-name">
-
-                    <strong>
-                        TECH
-                    </strong>
-
-                    <b>
-                        BRASIL
-                    </b>
-
-                </div>
+                <span class="logo-text">
+                    TECH<span>BRASIL</span>
+                </span>
 
             </a>
 
-
-            <!-- Pesquisa -->
+            <!-- Busca -->
 
             <form
+                class="search-form"
                 id="searchForm"
-                class="search-box"
+                role="search"
             >
 
                 <input
                     type="search"
                     id="searchInput"
-                    placeholder="Buscar placas de vídeo, processadores..."
+                    placeholder="Buscar produtos..."
                     autocomplete="off"
-                    aria-label="Pesquisar produtos"
                 >
 
                 <button
                     type="submit"
                     aria-label="Pesquisar"
                 >
-                    Buscar
+                    <svg
+                        viewBox="0 0 24 24"
+                        aria-hidden="true"
+                    >
+                        <circle
+                            cx="11"
+                            cy="11"
+                            r="7"
+                        ></circle>
+
+                        <path
+                            d="M20 20l-4-4"
+                        ></path>
+                    </svg>
                 </button>
 
             </form>
-
 
             <!-- Ações -->
 
             <div class="header-actions">
 
                 <button
-                    type="button"
-                    class="header-action"
+                    class="account-button"
                     id="accountButton"
+                    type="button"
                 >
 
                     <span class="action-icon">
-                        Conta
+                        <svg
+                            viewBox="0 0 24 24"
+                            aria-hidden="true"
+                        >
+                            <circle
+                                cx="12"
+                                cy="8"
+                                r="4"
+                            ></circle>
+
+                            <path
+                                d="M4 21c0-4.4 3.6-7 8-7s8 2.6 8 7"
+                            ></path>
+                        </svg>
                     </span>
 
-                    <span class="action-text">
-
-                        <small>
-                            Olá
-                        </small>
-
-                        <strong>
-                            Minha conta
-                        </strong>
-
+                    <span>
+                        <small>Olá, visitante</small>
+                        <strong>Minha conta</strong>
                     </span>
 
                 </button>
 
-
                 <button
-                    type="button"
                     class="cart-button"
                     id="cartButton"
+                    type="button"
                     aria-label="Abrir carrinho"
                 >
 
-                    <span class="cart-icon">
-                        Carrinho
+                    <span class="action-icon">
+
+                        <svg
+                            viewBox="0 0 24 24"
+                            aria-hidden="true"
+                        >
+                            <path
+                                d="M3 4h2l2.4 11.2a2 2 0 0 0 2 1.6h7.9a2 2 0 0 0 1.9-1.4L21 8H7"
+                            ></path>
+
+                            <circle
+                                cx="10"
+                                cy="20"
+                                r="1.5"
+                            ></circle>
+
+                            <circle
+                                cx="18"
+                                cy="20"
+                                r="1.5"
+                            ></circle>
+                        </svg>
+
                     </span>
 
                     <span class="cart-label">
                         Carrinho
                     </span>
 
-                    <b id="cartCount">
+                    <span
+                        class="cart-count"
+                        id="cartCount"
+                    >
                         0
-                    </b>
+                    </span>
 
+                </button>
+
+                <button
+                    class="mobile-menu-button"
+                    id="mobileMenuButton"
+                    type="button"
+                    aria-label="Abrir menu"
+                    aria-expanded="false"
+                >
+                    <span></span>
+                    <span></span>
+                    <span></span>
                 </button>
 
             </div>
 
-
-            <!-- Menu mobile -->
-
-            <button
-                type="button"
-                id="mobileMenuButton"
-                class="mobile-menu-button"
-                aria-label="Abrir menu"
-            >
-                Menu
-            </button>
-
         </div>
 
-
-        <!-- =================================================
-             NAVEGAÇÃO
-        ================================================== -->
+        <!-- Navegação -->
 
         <nav
-            id="categoryNav"
             class="category-nav"
+            id="categoryNav"
         >
 
-            <div
-                class="container nav-inner"
-                id="categorias"
-            >
+            <div class="category-container">
 
                 <button
                     type="button"
+                    class="category-link active"
                     data-category="all"
                 >
                     Todos
@@ -224,6 +198,7 @@
 
                 <button
                     type="button"
+                    class="category-link"
                     data-category="pc"
                 >
                     PCs Montados
@@ -231,6 +206,7 @@
 
                 <button
                     type="button"
+                    class="category-link"
                     data-category="gpu"
                 >
                     Placas de Vídeo
@@ -238,6 +214,7 @@
 
                 <button
                     type="button"
+                    class="category-link"
                     data-category="cpu"
                 >
                     Processadores
@@ -245,6 +222,7 @@
 
                 <button
                     type="button"
+                    class="category-link"
                     data-category="motherboard"
                 >
                     Placas-Mãe
@@ -252,6 +230,7 @@
 
                 <button
                     type="button"
+                    class="category-link"
                     data-category="ram"
                 >
                     Memórias RAM
@@ -259,6 +238,7 @@
 
                 <button
                     type="button"
+                    class="category-link"
                     data-category="storage"
                 >
                     Armazenamento
@@ -266,6 +246,7 @@
 
                 <button
                     type="button"
+                    class="category-link"
                     data-category="peripherals"
                 >
                     Periféricos
@@ -273,6 +254,7 @@
 
                 <button
                     type="button"
+                    class="category-link"
                     data-category="accessories"
                 >
                     Acessórios
@@ -285,18 +267,17 @@
     </header>
 
 
-    <!-- =====================================================
-         HERO
-    ====================================================== -->
+    <!-- =========================================================
+         CONTEÚDO PRINCIPAL
+    ========================================================== -->
 
     <main>
 
-        <section
-            class="hero"
-            id="inicio"
-        >
+        <!-- HERO -->
 
-            <div class="hero-grid">
+        <section class="hero">
+
+            <div class="hero-container">
 
                 <div class="hero-content">
 
@@ -305,16 +286,13 @@
                     </span>
 
                     <h1>
-                        Monte o PC dos
-                        <span>
-                            seus sonhos.
-                        </span>
+                        Potência para o seu
+                        <span>setup.</span>
                     </h1>
 
                     <p>
-                        Encontre componentes, computadores,
-                        periféricos e acessórios para transformar
-                        seu setup.
+                        Componentes, PCs Gamer e periféricos para você
+                        montar uma máquina preparada para qualquer desafio.
                     </p>
 
                     <div class="hero-buttons">
@@ -323,49 +301,34 @@
                             href="#produtos"
                             class="btn btn-primary"
                         >
-                            Ver produtos
+                            Explorar produtos
                         </a>
 
                         <button
                             type="button"
-                            class="btn btn-outline"
+                            class="btn btn-secondary"
                             data-category="pc"
                         >
-                            PCs Montados
+                            PCs Gamer
                         </button>
 
                     </div>
 
-                    <div class="hero-features">
+                    <div class="hero-stats">
 
-                        <div>
-                            <strong>
-                                12
-                            </strong>
-
-                            <span>
-                                Produtos
-                            </span>
+                        <div class="hero-stat">
+                            <strong>12+</strong>
+                            <span>Produtos</span>
                         </div>
 
-                        <div>
-                            <strong>
-                                100%
-                            </strong>
-
-                            <span>
-                                Tecnologia
-                            </span>
+                        <div class="hero-stat">
+                            <strong>100%</strong>
+                            <span>Tecnologia</span>
                         </div>
 
-                        <div>
-                            <strong>
-                                BR
-                            </strong>
-
-                            <span>
-                                Tech Brasil
-                            </span>
+                        <div class="hero-stat">
+                            <strong>24h</strong>
+                            <span>Suporte</span>
                         </div>
 
                     </div>
@@ -373,32 +336,68 @@
                 </div>
 
 
+                <!-- Visual do Hero -->
+
                 <div class="hero-visual">
 
-                    <div class="hero-circle"></div>
+                    <div class="hero-glow"></div>
 
-                    <div class="hero-card hero-card-main">
+                    <div class="tech-card">
 
-                        <span>
-                            TECH
-                        </span>
+                        <div class="tech-card-top">
 
-                        <strong>
-                            PC
-                        </strong>
+                            <span class="status-dot"></span>
 
-                        <small>
-                            PERFORMANCE
-                        </small>
+                            <span>
+                                TECH SYSTEM
+                            </span>
 
-                    </div>
+                            <span class="tech-card-code">
+                                TB-2026
+                            </span>
 
-                    <div class="hero-card hero-card-small">
-                        RTX
-                    </div>
+                        </div>
 
-                    <div class="hero-card hero-card-small second">
-                        32GB
+                        <div class="pc-visual">
+
+                            <div class="pc-case">
+
+                                <div class="pc-glass">
+
+                                    <div class="pc-fan fan-one"></div>
+                                    <div class="pc-fan fan-two"></div>
+                                    <div class="pc-fan fan-three"></div>
+
+                                    <div class="pc-gpu">
+                                        <span>TB</span>
+                                    </div>
+
+                                </div>
+
+                                <div class="pc-front">
+                                    <span></span>
+                                    <span></span>
+                                    <span></span>
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                        <div class="tech-card-bottom">
+
+                            <div>
+                                <small>PERFORMANCE</small>
+                                <strong>ULTRA</strong>
+                            </div>
+
+                            <div>
+                                <small>STATUS</small>
+                                <strong class="green-text">ONLINE</strong>
+                            </div>
+
+                        </div>
+
                     </div>
 
                 </div>
@@ -408,60 +407,63 @@
         </section>
 
 
-        <!-- =================================================
+        <!-- =====================================================
              PRODUTOS EM DESTAQUE
-        ================================================== -->
+        ====================================================== -->
 
-        <section class="featured-section">
+        <section class="section featured-section">
 
-            <div class="container">
+            <div class="section-container">
 
                 <div class="section-heading">
 
                     <div>
-
-                        <span>
-                            SELEÇÃO TECH BRASIL
+                        <span class="section-kicker">
+                            DESTAQUES
                         </span>
 
                         <h2>
                             Produtos em destaque
                         </h2>
-
                     </div>
 
-                    <a href="#produtos">
-                        Ver catálogo
+                    <a
+                        href="#produtos"
+                        class="view-all-link"
+                    >
+                        Ver todos
+                        <span>→</span>
                     </a>
 
                 </div>
 
                 <div
-                    id="featuredProducts"
                     class="product-grid"
-                ></div>
+                    id="featuredProducts"
+                >
+                </div>
 
             </div>
 
         </section>
 
 
-        <!-- =================================================
-             CATÁLOGO
-        ================================================== -->
+        <!-- =====================================================
+             TODOS OS PRODUTOS
+        ====================================================== -->
 
         <section
-            class="products-section"
+            class="section products-section"
             id="produtos"
         >
 
-            <div class="container">
+            <div class="section-container">
 
-                <div class="section-heading">
+                <div class="section-heading products-heading">
 
                     <div>
 
-                        <span>
+                        <span class="section-kicker">
                             CATÁLOGO
                         </span>
 
@@ -469,26 +471,18 @@
                             Todos os produtos
                         </h2>
 
-                        <p id="productResultText">
-                            Produtos disponíveis.
+                        <p>
+                            Encontre os componentes ideais para o seu setup.
                         </p>
 
                     </div>
 
-                </div>
+                    <div class="product-filters">
 
-
-                <!-- Filtros -->
-
-                <div class="filters">
-
-                    <div class="filter-group">
-
-                        <label for="categoryFilter">
-                            Categoria
-                        </label>
-
-                        <select id="categoryFilter">
+                        <select
+                            id="categoryFilter"
+                            aria-label="Filtrar por categoria"
+                        >
 
                             <option value="all">
                                 Todas as categorias
@@ -528,19 +522,14 @@
 
                         </select>
 
-                    </div>
 
+                        <select
+                            id="sortFilter"
+                            aria-label="Ordenar produtos"
+                        >
 
-                    <div class="filter-group">
-
-                        <label for="sortFilter">
-                            Ordenar
-                        </label>
-
-                        <select id="sortFilter">
-
-                            <option value="featured">
-                                Destaques
+                            <option value="default">
+                                Mais relevantes
                             </option>
 
                             <option value="price-low">
@@ -557,50 +546,50 @@
 
                         </select>
 
+                        <button
+                            type="button"
+                            class="clear-filter"
+                            id="clearFilters"
+                        >
+                            Limpar
+                        </button>
+
                     </div>
-
-
-                    <button
-                        type="button"
-                        id="clearFilters"
-                        class="clear-filters"
-                    >
-                        Limpar filtros
-                    </button>
 
                 </div>
 
 
-                <!-- Produtos -->
-
                 <div
-                    id="allProducts"
                     class="product-grid"
-                ></div>
+                    id="allProducts"
+                >
+                </div>
 
-
-                <!-- Estado vazio -->
 
                 <div
-                    id="emptyState"
                     class="empty-state"
+                    id="emptyState"
                     hidden
                 >
+
+                    <div class="empty-icon">
+                        !
+                    </div>
 
                     <h3>
                         Nenhum produto encontrado
                     </h3>
 
                     <p>
-                        Tente alterar sua busca ou remover os filtros.
+                        Tente alterar os filtros ou realizar uma nova busca.
                     </p>
 
                     <button
                         type="button"
-                        data-clear-filters
                         class="btn btn-primary"
+                        data-clear-filters
                     >
-                        Ver todos os produtos
+                        Limpar filtros
                     </button>
 
                 </div>
@@ -610,51 +599,55 @@
         </section>
 
 
-        <!-- =================================================
+        <!-- =====================================================
              NEWSLETTER
-        ================================================== -->
+        ====================================================== -->
 
-        <section
-            class="newsletter"
-            id="newsletter"
-        >
+        <section class="newsletter-section">
 
-            <div class="container newsletter-inner">
+            <div class="section-container">
 
-                <div>
+                <div class="newsletter">
 
-                    <span>
-                        TECH BRASIL
-                    </span>
+                    <div class="newsletter-content">
 
-                    <h2>
-                        Receba novidades e ofertas
-                    </h2>
+                        <span class="section-kicker">
+                            TECH NEWS
+                        </span>
 
-                    <p>
-                        Cadastre seu e-mail para acompanhar
-                        novos produtos e promoções.
-                    </p>
+                        <h2>
+                            Fique por dentro das novidades.
+                        </h2>
+
+                        <p>
+                            Receba informações sobre novos produtos,
+                            ofertas e novidades da Tech Brasil.
+                        </p>
+
+                    </div>
+
+                    <form
+                        class="newsletter-form"
+                        id="newsletterForm"
+                    >
+
+                        <input
+                            type="email"
+                            id="newsletterEmail"
+                            placeholder="Seu melhor e-mail"
+                            required
+                        >
+
+                        <button
+                            type="submit"
+                            class="btn btn-primary"
+                        >
+                            Cadastrar
+                        </button>
+
+                    </form>
 
                 </div>
-
-
-                <form id="newsletterForm">
-
-                    <input
-                        type="email"
-                        id="newsletterEmail"
-                        placeholder="Seu melhor e-mail"
-                        required
-                    >
-
-                    <button
-                        type="submit"
-                    >
-                        Cadastrar
-                    </button>
-
-                </form>
 
             </div>
 
@@ -663,33 +656,32 @@
     </main>
 
 
-    <!-- =====================================================
+    <!-- =========================================================
          CARRINHO
-    ====================================================== -->
+    ========================================================== -->
 
     <aside
-        id="cartDrawer"
         class="cart-drawer"
+        id="cartDrawer"
+        aria-hidden="true"
     >
 
         <div class="cart-header">
 
             <div>
-
-                <span>
-                    TECH BRASIL
+                <span class="section-kicker">
+                    SEU PEDIDO
                 </span>
 
                 <h2>
                     Meu carrinho
                 </h2>
-
             </div>
 
             <button
                 type="button"
-                id="closeCart"
                 class="close-button"
+                id="closeCart"
                 aria-label="Fechar carrinho"
             >
                 ×
@@ -699,30 +691,43 @@
 
 
         <div
+            class="cart-content"
             id="cartItems"
-            class="cart-items"
-        ></div>
+        >
+        </div>
 
 
         <div
-            id="cartEmpty"
             class="cart-empty"
+            id="cartEmpty"
         >
 
-            <strong>
-                Seu carrinho está vazio.
-            </strong>
+            <div class="cart-empty-icon">
+                +
+            </div>
+
+            <h3>
+                Seu carrinho está vazio
+            </h3>
 
             <p>
-                Adicione produtos para continuar.
+                Adicione produtos para começar sua compra.
             </p>
+
+            <button
+                type="button"
+                class="btn btn-primary"
+                id="continueShopping"
+            >
+                Continuar comprando
+            </button>
 
         </div>
 
 
         <div class="cart-footer">
 
-            <div class="cart-total">
+            <div class="cart-total-row">
 
                 <span>
                     Total
@@ -736,178 +741,173 @@
 
             <button
                 type="button"
-                id="checkoutButton"
                 class="btn btn-primary checkout-button"
+                id="checkoutButton"
             >
-                Finalizar compra
+                Finalizar pedido
             </button>
+
+            <small>
+                Pagamento demonstrativo. Nenhuma cobrança real será realizada.
+            </small>
 
         </div>
 
     </aside>
 
 
-    <!-- =====================================================
-         MODAL DO PRODUTO
-    ====================================================== -->
+    <!-- =========================================================
+         MODAL DE PRODUTO
+    ========================================================== -->
 
     <div
-        id="productModal"
         class="product-modal"
-        role="dialog"
-        aria-modal="true"
+        id="productModal"
+        aria-hidden="true"
     >
 
-        <div class="modal-header">
-
-            <span>
-                DETALHES DO PRODUTO
-            </span>
+        <div class="modal-box">
 
             <button
                 type="button"
+                class="close-button modal-close"
                 id="closeProductModal"
-                class="close-button"
+                aria-label="Fechar"
             >
                 ×
             </button>
 
-        </div>
+            <div
+                id="modalContent"
+                class="modal-content"
+            >
+            </div>
 
-        <div
-            id="modalContent"
-            class="modal-content"
-        ></div>
+        </div>
 
     </div>
 
 
-    <!-- =====================================================
-         OVERLAY
-    ====================================================== -->
+    <!-- OVERLAY -->
 
     <div
-        id="overlay"
         class="overlay"
+        id="overlay"
     ></div>
 
 
-    <!-- =====================================================
-         TOAST
-    ====================================================== -->
+    <!-- TOAST -->
 
     <div
-        id="toast"
         class="toast"
-    ></div>
+        id="toast"
+        role="status"
+        aria-live="polite"
+    >
+        <span class="toast-icon">✓</span>
+
+        <span id="toastMessage">
+            Produto adicionado ao carrinho.
+        </span>
+    </div>
 
 
-    <!-- =====================================================
+    <!-- =========================================================
          RODAPÉ
-    ====================================================== -->
+    ========================================================== -->
 
-    <footer class="footer">
+    <footer class="site-footer">
 
-        <div class="container footer-grid">
+        <div class="footer-container">
 
             <div class="footer-brand">
 
-                <div class="brand-name">
+                <a href="#" class="logo">
 
-                    <strong>
-                        TECH
-                    </strong>
+                    <span class="logo-icon">
+                        TB
+                    </span>
 
-                    <b>
-                        BRASIL
-                    </b>
+                    <span class="logo-text">
+                        TECH<span>BRASIL</span>
+                    </span>
 
-                </div>
+                </a>
 
                 <p>
-                    Tecnologia para quem leva seu
-                    setup a sério.
+                    Tecnologia para quem leva performance a sério.
                 </p>
 
             </div>
 
 
-            <div>
+            <div class="footer-column">
 
                 <h3>
-                    Categorias
+                    Loja
                 </h3>
 
-                <a
-                    href="#produtos"
-                    data-category-link="pc"
-                >
-                    PCs Montados
+                <a href="#produtos">
+                    Todos os produtos
                 </a>
 
-                <a
-                    href="#produtos"
-                    data-category-link="gpu"
-                >
-                    Placas de Vídeo
+                <a href="#produtos">
+                    PCs Gamer
                 </a>
 
-                <a
-                    href="#produtos"
-                    data-category-link="cpu"
-                >
+                <a href="#produtos">
+                    Placas de vídeo
+                </a>
+
+                <a href="#produtos">
                     Processadores
-                </a>
-
-                <a
-                    href="#produtos"
-                    data-category-link="ram"
-                >
-                    Memórias RAM
                 </a>
 
             </div>
 
 
-            <div>
+            <div class="footer-column">
 
                 <h3>
                     Atendimento
                 </h3>
 
-                <p>
-                    Suporte e informações
-                    sobre seus produtos.
-                </p>
+                <a href="#">
+                    Central de ajuda
+                </a>
 
-                <p>
-                    Segunda a sexta
-                </p>
+                <a href="#">
+                    Entrega
+                </a>
+
+                <a href="#">
+                    Trocas e devoluções
+                </a>
+
+                <a href="#">
+                    Contato
+                </a>
 
             </div>
 
 
-            <div>
+            <div class="footer-column">
 
                 <h3>
-                    Siga a Tech Brasil
+                    Tech Brasil
                 </h3>
 
-                <div class="social-links">
+                <a href="#">
+                    Sobre nós
+                </a>
 
-                    <a href="#">
-                        Instagram
-                    </a>
+                <a href="#">
+                    Privacidade
+                </a>
 
-                    <a href="#">
-                        Facebook
-                    </a>
-
-                    <a href="#">
-                        TikTok
-                    </a>
-
-                </div>
+                <a href="#">
+                    Termos de uso
+                </a>
 
             </div>
 
@@ -916,12 +916,16 @@
 
         <div class="footer-bottom">
 
-            <div class="container">
+            <div class="footer-bottom-container">
 
-                <p>
-                    © <span id="currentYear"></span>
-                    Tech Brasil. Todos os direitos reservados.
-                </p>
+                <span>
+                    © <span id="currentYear"></span> Tech Brasil. Todos os direitos reservados.
+                </span>
+
+                <span class="footer-status">
+                    <i></i>
+                    Sistema online
+                </span>
 
             </div>
 
@@ -933,5 +937,4 @@
     <script src="script.js"></script>
 
 </body>
-
 </html>
