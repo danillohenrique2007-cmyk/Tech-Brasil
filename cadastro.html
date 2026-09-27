@@ -77,6 +77,30 @@
                 btn.innerText = "Cadastrar";
                 btn.disabled = false;
             }
+            import { getFirestore, doc, setDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+const db = getFirestore(app);
+
+// Dentro da função de registo (quando o utilizador clica em criar conta):
+try {
+    // 1. Cria o utilizador na Autenticação
+    const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+    const user = userCredential.user;
+
+    // 2. Salva os dados extras dele numa coleção chamada "usuarios"
+    await setDoc(doc(db, "usuarios", user.uid), {
+        nome: nomeCompleto,
+        email: email,
+        telefone: telefone,
+        criadoEm: new Date()
+    });
+
+    alert("Conta criada com sucesso!");
+    window.location.href = "index.html";
+
+} catch (error) {
+    console.error("Erro ao registar:", error);
+}
         });
     </script>
 </body>
