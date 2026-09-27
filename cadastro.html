@@ -27,6 +27,10 @@
         <h2>Criar uma nova conta</h2>
         <form id="registerForm">
             <div class="form-group">
+                <label>Nome Completo</label>
+                <input type="text" id="regNome" class="form-control" required placeholder="Seu Nome">
+            </div>
+            <div class="form-group">
                 <label>E-mail</label>
                 <input type="email" id="regEmail" class="form-control" required placeholder="seu@email.com">
             </div>
@@ -42,10 +46,11 @@
         </div>
     </div>
 
-    <!-- Firebase Script de Registo -->
+    <!-- Firebase Script de Registo Integrado com Firestore -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
         import { getAuth, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+        import { getFirestore, doc, setDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyBsY-JGdy2D6eq2gCfKB_OAj3F1MlfS6Ks",
@@ -58,9 +63,11 @@
 
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
+        const db = getFirestore(app);
 
         document.getElementById('registerForm').addEventListener('submit', async (e) => {
             e.preventDefault();
+            const nome = document.getElementById('regNome').value.trim();
             const email = document.getElementById('regEmail').value.trim();
             const password = document.getElementById('regPassword').value;
             const btn = document.getElementById('btnRegister');
@@ -69,38 +76,27 @@
             btn.disabled = true;
 
             try {
-                await createUserWithEmailAndPassword(auth, email, password);
-                alert("Conta criada com sucesso! Já pode fazer login.");
-                window.location.href = "login.html"; // Redireciona para o login
+                // 1. Cria o utilizador no Firebase Auth
+                const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+                const user = userCredential.user;
+
+                // 2. Salva os dados na coleção "usuarios" com isAdmin: false por padrão
+                await setDoc(doc(db, "usuarios", user.uid), {
+                    nome: nome,
+                    email: email,
+                    isAdmin: false, // Começa sempre como cliente normal
+                    criadoEm: new Date()
+                });
+
+                alert("Conta criada com sucesso!");
+                window.location.href = "index.html"; 
+
             } catch (error) {
+                console.error("Erro ao registar:", error);
                 alert("Erro ao criar conta: " + error.message);
                 btn.innerText = "Cadastrar";
                 btn.disabled = false;
             }
-            import { getFirestore, doc, setDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
-
-const db = getFirestore(app);
-
-// Dentro da função de registo (quando o utilizador clica em criar conta):
-try {
-    // 1. Cria o utilizador na Autenticação
-    const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-    const user = userCredential.user;
-
-    // 2. Salva os dados extras dele numa coleção chamada "usuarios"
-    await setDoc(doc(db, "usuarios", user.uid), {
-        nome: nomeCompleto,
-        email: email,
-        telefone: telefone,
-        criadoEm: new Date()
-    });
-
-    alert("Conta criada com sucesso!");
-    window.location.href = "index.html";
-
-} catch (error) {
-    console.error("Erro ao registar:", error);
-}
         });
     </script>
 </body>
