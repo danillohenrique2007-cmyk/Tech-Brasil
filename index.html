@@ -10,8 +10,6 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-    <!-- FontAwesome para os ícones -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="style.css">
 
     <!-- Firebase App (Modular) -->
@@ -37,7 +35,6 @@
 
   // onSnapshot escuta o banco em TEMPO REAL
   onSnapshot(collection(db, "produtos"), (snapshot) => {
-    if (!container) return;
     container.innerHTML = ""; // Limpa os produtos antigos
     
     if (snapshot.empty) {
@@ -99,31 +96,29 @@
                 <button type="submit" aria-label="Pesquisar">⌕</button>
             </form>
 
-            <div class="header-actions">
-                <!-- Seção de Ações com os 3 ícones solicitados -->
-                <div style="display: flex; align-items: center; gap: 1.2rem;">
-                  <!-- Início -->
-                  <a href="index.html" style="color: var(--text-main, #fff); text-decoration: none; display: flex; align-items: center; gap: 6px; font-size: 0.9rem; transition: color 0.3s;" onmouseover="this.style.color='#00ff66'" onmouseout="this.style.color='var(--text-main, #fff)'">
-                    <i class="fa-solid fa-house" style="color: #00ff66;"></i> Início
-                  </a>
+            <<div class="header-actions">
+    <!-- Área dinâmica do usuário -->
+    <div id="userAuthArea" style="display: flex; align-items: center; gap: 1.2rem;">
+      <a href="index.html" style="color: var(--text-main, #fff); text-decoration: none; display: flex; align-items: center; gap: 6px; font-size: 0.9rem;">
+        <i class="fa-solid fa-house" style="color: #00ff66;"></i> Início
+      </a>
+      <!-- Entrar com redirecionamento forçado -->
+      <a href="login.html" onclick="window.location.href='login.html'; return false;" style="color: #fff; text-decoration: none; display: flex; align-items: center; gap: 6px; font-size: 0.9rem;">
+        <i class="fa-solid fa-right-to-bracket" style="color: #00ff66;"></i> Entrar
+      </a>
 
-                  <!-- Entrar -->
-                  <a href="login.html" style="color: var(--text-main, #fff); text-decoration: none; display: flex; align-items: center; gap: 6px; font-size: 0.9rem; transition: color 0.3s;" onmouseover="this.style.color='#00ff66'" onmouseout="this.style.color='var(--text-main, #fff)'">
-                    <i class="fa-solid fa-right-to-bracket" style="color: #00ff66;"></i> Entrar
-                  </a>
+      <!-- Criar Conta com redirecionamento forçado -->
+      <a href="cadastro.html" onclick="window.location.href='cadastro.html'; return false;" style="color: #fff; text-decoration: none; display: flex; align-items: center; gap: 6px; font-size: 0.9rem;">
+        <i class="fa-solid fa-user-plus" style="color: #00ff66;"></i> Criar conta
+      </a>
+    </div>
 
-                  <!-- Criar Conta -->
-                  <a href="cadastro.html" style="color: var(--text-main, #fff); text-decoration: none; display: flex; align-items: center; gap: 6px; font-size: 0.9rem; transition: color 0.3s;" onmouseover="this.style.color='#00ff66'" onmouseout="this.style.color='var(--text-main, #fff)'">
-                    <i class="fa-solid fa-user-plus" style="color: #00ff66;"></i> Criar conta
-                  </a>
-                </div>
-
-                <button class="cart-button" id="cartButton" type="button" aria-label="Abrir carrinho">
-                    <span class="cart-icon">🛒</span>
-                    <span class="cart-label">Carrinho</span>
-                    <b id="cartCount">0</b>
-                </button>
-            </div>
+    <button class="cart-button" id="cartButton" type="button" aria-label="Abrir carrinho">
+        <span class="cart-icon">🛒</span>
+        <span class="cart-label">Carrinho</span>
+        <b id="cartCount">0</b>
+    </button>
+</div>
         </div>
     </div>
 
