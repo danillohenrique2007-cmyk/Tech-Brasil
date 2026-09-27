@@ -14,110 +14,112 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="style.css">
 
-    <!-- Firebase App (Modular) e Lógica do Firestore / Auth -->
-<script type="module">
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-  import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
-  import { getFirestore, collection, onSnapshot, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+    <!-- Firebase App e Lógica do Firestore / Auth -->
+    <script type="module">
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+      import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+      import { getFirestore, collection, onSnapshot, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
-  // Suas credenciais do Firebase
-  const firebaseConfig = {
-    apiKey: "AIzaSyBsY-JGdy2D6eq2gCfKB_OAj3F1MlfS6Ks",
-    authDomain: "tech-brasil-1b89c.firebaseapp.com",
-    projectId: "tech-brasil-1b89c",
-    storageBucket: "tech-brasil-1b89c.firebasestorage.app",
-    messagingSenderId: "420995386502",
-    appId: "1:420995386502:web:cf0989265d9f4260c95507"
-  };
+      const firebaseConfig = {
+        apiKey: "AIzaSyBsY-JGdy2D6eq2gCfKB_OAj3F1MlfS6Ks",
+        authDomain: "tech-brasil-1b89c.firebaseapp.com",
+        projectId: "tech-brasil-1b89c",
+        storageBucket: "tech-brasil-1b89c.firebasestorage.app",
+        messagingSenderId: "420995386502",
+        appId: "1:420995386502:web:cf0989265d9f4260c95507"
+      };
 
-  // Inicializar Firebase
-  const app = initializeApp(firebaseConfig);
-  const auth = getAuth(app);
-  const db = getFirestore(app);
+      const app = initializeApp(firebaseConfig);
+      const auth = getAuth(app);
+      const db = getFirestore(app);
 
-  const userAuthArea = document.getElementById('userAuthArea');
-  const container = document.getElementById('allProducts'); // ou 'produtos-container' conforme o seu HTML
+      const userAuthArea = document.getElementById('userAuthArea');
+      const container = document.getElementById('allProducts');
+      const featuredContainer = document.getElementById('featuredProducts');
 
-  // 1. MONITOR DE AUTENTICAÇÃO E BUSCA DE DADOS NO FIRESTORE
-  onAuthStateChanged(auth, async (user) => {
-    if (!userAuthArea) return;
+      // 1. MONITOR DE AUTENTICAÇÃO
+      onAuthStateChanged(auth, async (user) => {
+        if (!userAuthArea) return;
 
-    if (user) {
-      let nomeExibicao = "Cliente";
+        if (user) {
+          let nomeExibicao = "Cliente";
+          try {
+            const docRef = doc(db, "usuarios", user.uid);
+            const docSnap = await getDoc(docRef);
+            if (docSnap.exists() && docSnap.data().nome) {
+              nomeExibicao = docSnap.data().nome;
+            } else {
+              nomeExibicao = user.email.split('@')[0];
+            }
+          } catch (error) {
+            nomeExibicao = user.email.split('@')[0];
+          }
+          
+          userAuthArea.innerHTML = `
+            <div style="color: #fff; font-size: 0.9rem; display: flex; align-items: center; gap: 8px;">
+              <i class="fa-solid fa-user-check" style="color: #00ff66;"></i>
+              <span>Olá, <strong style="color: #00ff66; text-transform: capitalize;">${nomeExibicao}</strong></span>
+              <button id="btnLogout" style="background: transparent; border: 1px solid #1f302a; color: #ff4d4d; padding: 4px 8px; border-radius: 6px; cursor: pointer; font-size: 0.8rem; margin-left: 8px;">Sair</button>
+            </div>
+          `;
 
-      try {
-        // Tenta buscar o nome salvo na coleção "usuarios" usando o UID do utilizador
-        const docRef = doc(db, "usuarios", user.uid);
-        const docSnap = await getDoc(docRef);
-
-        if (docSnap.exists() && docSnap.data().nome) {
-          nomeExibicao = docSnap.data().nome;
+          document.getElementById('btnLogout').addEventListener('click', async () => {
+            await signOut(auth);
+            window.location.reload();
+          });
         } else {
-          // Fallback se não encontrar o documento: usa o e-mail
-          nomeExibicao = user.email.split('@')[0];
+          userAuthArea.innerHTML = `
+            <a href="index.html" style="color: #fff; text-decoration: none; display: flex; align-items: center; gap: 6px; font-size: 0.9rem;">
+              <i class="fa-solid fa-house" style="color: #00ff66;"></i> Início
+            </a>
+            <a href="login.html" style="color: #fff; text-decoration: none; display: flex; align-items: center; gap: 6px; font-size: 0.9rem;">
+              <i class="fa-solid fa-right-to-bracket" style="color: #00ff66;"></i> Entrar
+            </a>
+            <a href="cadastro.html" style="color: #fff; text-decoration: none; display: flex; align-items: center; gap: 6px; font-size: 0.9rem;">
+              <i class="fa-solid fa-user-plus" style="color: #00ff66;"></i> Criar conta
+            </a>
+          `;
         }
-      } catch (error) {
-        console.error("Erro ao buscar dados do usuário:", error);
-        nomeExibicao = user.email.split('@')[0];
-      }
-      
-      userAuthArea.innerHTML = `
-        <div style="color: #fff; font-size: 0.9rem; display: flex; align-items: center; gap: 8px;">
-          <i class="fa-solid fa-user-check" style="color: #00ff66;"></i>
-          <span>Olá, <strong style="color: #00ff66; text-transform: capitalize;">${nomeExibicao}</strong></span>
-          <button id="btnLogout" style="background: transparent; border: 1px solid #1f302a; color: #ff4d4d; padding: 4px 8px; border-radius: 6px; cursor: pointer; font-size: 0.8rem; margin-left: 8px;">Sair</button>
-        </div>
-      `;
-
-      document.getElementById('btnLogout').addEventListener('click', async () => {
-        await signOut(auth);
-        window.location.reload();
       });
 
-    } else {
-      userAuthArea.innerHTML = `
-        <a href="index.html" style="color: #fff; text-decoration: none; display: flex; align-items: center; gap: 6px; font-size: 0.9rem;">
-          <i class="fa-solid fa-house" style="color: #00ff66;"></i> Início
-        </a>
-        <a href="login.html" style="color: #fff; text-decoration: none; display: flex; align-items: center; gap: 6px; font-size: 0.9rem;">
-          <i class="fa-solid fa-right-to-bracket" style="color: #00ff66;"></i> Entrar
-        </a>
-        <a href="cadastro.html" style="color: #fff; text-decoration: none; display: flex; align-items: center; gap: 6px; font-size: 0.9rem;">
-          <i class="fa-solid fa-user-plus" style="color: #00ff66;"></i> Criar conta
-        </a>
-      `;
-    }
-  });
+      // 2. CARREGAMENTO DOS PRODUTOS DO FIREBASE EM TEMPO REAL
+      if (container) {
+        onSnapshot(collection(db, "produtos"), (snapshot) => {
+          container.innerHTML = "";
+          if (featuredContainer) featuredContainer.innerHTML = "";
+          
+          if (snapshot.empty) {
+            container.innerHTML = "<p style='color: #9aa8a2; grid-column: 1/-1;'>Nenhum produto cadastrado no momento.</p>";
+            return;
+          }
 
-  // 2. CARREGAMENTO DOS PRODUTOS EM TEMPO REAL
-  if (container) {
-    onSnapshot(collection(db, "produtos"), (snapshot) => {
-      container.innerHTML = ""; // Limpa os produtos antigos
-      
-      if (snapshot.empty) {
-        container.innerHTML = "<p>Nenhum produto cadastrado no momento.</p>";
-        return;
+          snapshot.forEach((docSnap) => {
+            const produto = docSnap.data();
+            const id = docSnap.id;
+
+            // HTML padrão do card compatível com o design da Tech Brasil
+            const cardHTML = `
+              <div class="product-card" data-id="${id}" data-category="${produto.categoria || 'accessories'}">
+                <div class="product-image" style="background-image: url('${produto.imagem || ''}'); background-size: cover; background-position: center; height: 180px; border-radius: 8px 8px 0 0;"></div>
+                <div class="product-info" style="padding: 1rem;">
+                  <h3 class="product-title" style="font-size: 1rem; margin-bottom: 0.5rem; color: #fff;">${produto.nome}</h3>
+                  <p class="product-price" style="font-weight: 700; color: #00ff66; margin-bottom: 1rem;">R$ ${Number(produto.preco || 0).toFixed(2)}</p>
+                  <button class="btn btn-primary" style="width: 100%; padding: 0.5rem; cursor: pointer;" onclick="window.adicionarAoCarrinhoPorId ? window.adicionarAoCarrinhoPorId('${id}') : alert('Produto: ${produto.nome}')">Comprar</button>
+                </div>
+              </div>
+            `;
+
+            // Adiciona na grade principal
+            container.insertAdjacentHTML('beforeend', cardHTML);
+
+            // Adiciona também nos destaques (opcional, exibe os primeiros produtos)
+            if (featuredContainer && featuredContainer.children.length < 4) {
+              featuredContainer.insertAdjacentHTML('beforeend', cardHTML);
+            }
+          });
+        });
       }
-
-      snapshot.forEach((docSnap) => {
-        const produto = docSnap.data();
-        const id = docSnap.id;
-
-        const card = document.createElement('div');
-        card.className = 'product-card';
-        card.innerHTML = `
-          <div class="product-image" style="background-image: url('${produto.imagem}'); background-size: cover; background-position: center;"></div>
-          <div class="product-info">
-            <h3 class="product-title">${produto.nome}</h3>
-            <p class="product-price">R$ ${Number(produto.preco).toFixed(2)}</p>
-            <button onclick="adicionarAoCarrinho('${id}')">Comprar</button>
-          </div>
-        `;
-        container.appendChild(card);
-      });
-    });
-  }
-</script>
+    </script>
 </head>
 <body>
 
@@ -155,25 +157,24 @@
             </form>
 
             <div class="header-actions">
-    <!-- Área de Autenticação Fixa no HTML -->
-    <div id="userAuthArea" style="display: flex; align-items: center; gap: 1.2rem;">
-      <a href="index.html" style="color: #fff; text-decoration: none; display: flex; align-items: center; gap: 6px; font-size: 0.9rem;">
-        <i class="fa-solid fa-house" style="color: #00ff66;"></i> Início
-      </a>
-      <a href="login.html" style="color: #fff; text-decoration: none; display: flex; align-items: center; gap: 6px; font-size: 0.9rem;">
-        <i class="fa-solid fa-right-to-bracket" style="color: #00ff66;"></i> Entrar
-      </a>
-      <a href="cadastro.html" style="color: #fff; text-decoration: none; display: flex; align-items: center; gap: 6px; font-size: 0.9rem;">
-        <i class="fa-solid fa-user-plus" style="color: #00ff66;"></i> Criar conta
-      </a>
-    </div>
+                <div id="userAuthArea" style="display: flex; align-items: center; gap: 1.2rem;">
+                  <a href="index.html" style="color: #fff; text-decoration: none; display: flex; align-items: center; gap: 6px; font-size: 0.9rem;">
+                    <i class="fa-solid fa-house" style="color: #00ff66;"></i> Início
+                  </a>
+                  <a href="login.html" style="color: #fff; text-decoration: none; display: flex; align-items: center; gap: 6px; font-size: 0.9rem;">
+                    <i class="fa-solid fa-right-to-bracket" style="color: #00ff66;"></i> Entrar
+                  </a>
+                  <a href="cadastro.html" style="color: #fff; text-decoration: none; display: flex; align-items: center; gap: 6px; font-size: 0.9rem;">
+                    <i class="fa-solid fa-user-plus" style="color: #00ff66;"></i> Criar conta
+                  </a>
+                </div>
 
-    <button class="cart-button" id="cartButton" type="button" aria-label="Abrir carrinho">
-        <span class="cart-icon">🛒</span>
-        <span class="cart-label">Carrinho</span>
-        <b id="cartCount">0</b>
-    </button>
-</div>
+                <button class="cart-button" id="cartButton" type="button" aria-label="Abrir carrinho">
+                    <span class="cart-icon">🛒</span>
+                    <span class="cart-label">Carrinho</span>
+                    <b id="cartCount">0</b>
+                </button>
+            </div>
         </div>
     </div>
 
