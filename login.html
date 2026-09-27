@@ -42,11 +42,11 @@
         </div>
     </div>
 
-    <!-- Firebase Script de Login -->
-  <!-- Firebase Script de Login Corrigido -->
+    <!-- Firebase Script de Login com verificação de Admin -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
         import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+        import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyBsY-JGdy2D6eq2gCfKB_OAj3F1MlfS6Ks",
@@ -59,8 +59,8 @@
 
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
+        const db = getFirestore(app);
 
-        // Ação de envio do formulário de login
         document.getElementById('loginForm').addEventListener('submit', async (e) => {
             e.preventDefault();
             const email = document.getElementById('loginEmail').value.trim();
@@ -71,14 +71,25 @@
             btn.disabled = true;
 
             try {
-                // Faz o login real no Firebase Authentication
-                await signInWithEmailAndPassword(auth, email, password);
-                
-                // Redireciona para a página principal da loja com o utilizador logado
-                window.location.href = "index.html"; 
-                
+                // 1. Autentica o utilizador
+                const userCredential = await signInWithEmailAndPassword(auth, email, password);
+                const user = userCredential.user;
+
+                // 2. Vai ao Firestore buscar os dados dele para ver se é admin
+                const docRef = doc(db, "usuarios", user.uid);
+                const docSnap = await getDoc(docRef);
+
+                if (docSnap.exists() && docSnap.data().isAdmin === true) {
+                    // Se for admin, manda para a página de administração
+                    window.location.href = "admin.html"; // (Certifique-se de que o seu painel se chama admin.html)
+                } else {
+                    // Se for cliente normal, manda para a loja
+                    window.location.href = "index.html";
+                }
+
             } catch (error) {
-                alert("Erro ao entrar: Verifique seu e-mail e senha.");
+                console.error("Erro no login:", error);
+                alert("Erro ao entrar: E-mail ou senha incorretos.");
                 btn.innerText = "Entrar";
                 btn.disabled = false;
             }
