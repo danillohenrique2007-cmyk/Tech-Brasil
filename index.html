@@ -6,17 +6,18 @@
     <title>Tech Brasil - Loja de Eletrônicos e Tecnologia</title>
     <!-- FontAwesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     
     <style>
         :root {
             --primary: #00ff66;
             --primary-dark: #00cc52;
-            --bg-dark: #0b0f0e;
-            --bg-card: #131b18;
-            --text-main: #f0f4f1;
-            --text-muted: #9aa8a2;
-            --border: #1f302a;
+            --bg-dark: #070908;
+            --bg-card: #111714;
+            --bg-card-hover: #16201b;
+            --text-main: #ffffff;
+            --text-muted: #8b9bb4;
+            --border: #1f3028;
             --danger: #ff3344;
         }
 
@@ -24,7 +25,7 @@
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Poppins', sans-serif;
+            font-family: 'Inter', sans-serif;
             scroll-behavior: smooth;
         }
 
@@ -37,9 +38,10 @@
         }
 
         header {
-            background: var(--bg-card);
+            background: rgba(17, 23, 20, 0.95);
+            backdrop-filter: blur(10px);
             border-bottom: 1px solid var(--border);
-            padding: 1rem 2rem;
+            padding: 1rem 5%;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -49,13 +51,14 @@
         }
 
         .logo {
-            font-size: 1.5rem;
-            font-weight: 700;
+            font-size: 1.4rem;
+            font-weight: 800;
             color: var(--text-main);
             text-decoration: none;
             display: flex;
             align-items: center;
             gap: 0.5rem;
+            letter-spacing: -0.5px;
         }
 
         .logo span {
@@ -69,38 +72,39 @@
         }
 
         .btn-cart {
-            background: transparent;
-            border: 1px solid var(--border);
-            color: var(--text-main);
-            padding: 0.5rem 1rem;
+            background: rgba(0, 255, 102, 0.1);
+            border: 1px solid var(--primary);
+            color: var(--primary);
+            padding: 0.6rem 1.2rem;
             border-radius: 8px;
             cursor: pointer;
             display: flex;
             align-items: center;
-            gap: 0.5rem;
-            transition: all 0.3s;
-            position: relative;
+            gap: 0.6rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
         }
 
         .btn-cart:hover {
-            border-color: var(--primary);
-            color: var(--primary);
+            background: var(--primary);
+            color: #000;
+            box-shadow: 0 0 15px rgba(0, 255, 102, 0.3);
         }
 
         .cart-badge {
             background: var(--primary);
             color: #000;
             font-size: 0.75rem;
-            font-weight: 700;
-            padding: 0.1rem 0.4rem;
-            border-radius: 50%;
+            font-weight: 800;
+            padding: 0.1rem 0.5rem;
+            border-radius: 20px;
         }
 
         .btn-admin-link {
-            background: rgba(0, 255, 102, 0.1);
-            border: 1px solid var(--primary);
-            color: var(--primary);
-            padding: 0.5rem 1rem;
+            background: transparent;
+            border: 1px solid var(--border);
+            color: var(--text-muted);
+            padding: 0.6rem 1rem;
             border-radius: 8px;
             text-decoration: none;
             font-size: 0.9rem;
@@ -108,92 +112,106 @@
             display: flex;
             align-items: center;
             gap: 0.5rem;
-            transition: background 0.3s;
+            transition: all 0.3s;
         }
 
         .btn-admin-link:hover {
-            background: rgba(0, 255, 102, 0.2);
+            border-color: var(--text-main);
+            color: var(--text-main);
         }
 
         .hero {
-            background: linear-gradient(135deg, #131b18 0%, #080d0b 100%);
+            background: radial-gradient(circle at center, #12221b 0%, var(--bg-dark) 70%);
             border-bottom: 1px solid var(--border);
-            padding: 4rem 2rem;
+            padding: 5rem 2rem;
             text-align: center;
         }
 
         .hero h1 {
-            font-size: 2.5rem;
+            font-size: 3rem;
+            font-weight: 800;
             margin-bottom: 1rem;
+            letter-spacing: -1px;
         }
 
         .hero h1 span {
             color: var(--primary);
+            text-shadow: 0 0 20px rgba(0, 255, 102, 0.2);
         }
 
         .hero p {
             color: var(--text-muted);
             max-width: 600px;
-            margin: 0 auto 2rem;
+            margin: 0 auto;
+            font-size: 1.1rem;
         }
 
         main {
             flex: 1;
-            max-width: 1200px;
+            max-width: 1300px;
             margin: 0 auto;
-            padding: 2rem;
+            padding: 3rem 2rem;
             width: 100%;
         }
 
-        .filters-bar {
+        .controls-container {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 1.5rem;
+            margin-bottom: 2.5rem;
             display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 2rem;
-            flex-wrap: wrap;
-            gap: 1rem;
+            flex-direction: column;
+            gap: 1.5rem;
         }
 
         .search-box {
             display: flex;
-            background: var(--bg-card);
+            background: var(--bg-dark);
             border: 1px solid var(--border);
-            border-radius: 8px;
+            border-radius: 10px;
             overflow: hidden;
             width: 100%;
-            max-width: 350px;
+            transition: border-color 0.3s;
+        }
+
+        .search-box:focus-within {
+            border-color: var(--primary);
         }
 
         .search-box input {
             background: transparent;
             border: none;
-            padding: 0.75rem 1rem;
+            padding: 0.9rem 1.2rem;
             color: var(--text-main);
             width: 100%;
             outline: none;
+            font-size: 1rem;
         }
 
         .search-box button {
             background: transparent;
             border: none;
             color: var(--text-muted);
-            padding: 0 1rem;
+            padding: 0 1.2rem;
             cursor: pointer;
         }
 
         .category-filters {
             display: flex;
-            gap: 0.5rem;
+            gap: 0.6rem;
             flex-wrap: wrap;
         }
 
         .filter-btn {
-            background: var(--bg-card);
+            background: var(--bg-dark);
             border: 1px solid var(--border);
             color: var(--text-muted);
-            padding: 0.5rem 1rem;
+            padding: 0.6rem 1.2rem;
             border-radius: 8px;
             cursor: pointer;
+            font-weight: 500;
+            font-size: 0.9rem;
             transition: all 0.3s;
         }
 
@@ -203,57 +221,69 @@
             background: rgba(0, 255, 102, 0.05);
         }
 
-        .section-title {
-            font-size: 1.5rem;
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
             margin-bottom: 1.5rem;
+        }
+
+        .section-title {
+            font-size: 1.4rem;
+            font-weight: 700;
             display: flex;
             align-items: center;
-            gap: 0.5rem;
+            gap: 0.7rem;
         }
 
         .products-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-            gap: 1.5rem;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1.8rem;
             margin-bottom: 3rem;
         }
 
         .product-card {
             background: var(--bg-card);
             border: 1px solid var(--border);
-            border-radius: 12px;
+            border-radius: 14px;
             overflow: hidden;
             display: flex;
             flex-direction: column;
-            transition: transform 0.3s, border-color 0.3s;
+            transition: all 0.3s ease;
         }
 
         .product-card:hover {
-            transform: translateY(-5px);
+            transform: translateY(-6px);
             border-color: var(--primary);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            background: var(--bg-card-hover);
         }
 
         .product-img-container {
             width: 100%;
-            height: 200px;
-            background: #080d0b;
+            height: 220px;
+            background: #050706;
             position: relative;
             overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
         .product-img {
             width: 100%;
             height: 100%;
             object-fit: cover;
-            transition: transform 0.3s;
+            transition: transform 0.4s ease;
         }
 
         .product-card:hover .product-img {
-            transform: scale(1.05);
+            transform: scale(1.08);
         }
 
         .product-info {
-            padding: 1.2rem;
+            padding: 1.5rem;
             display: flex;
             flex-direction: column;
             flex: 1;
@@ -261,54 +291,61 @@
 
         .product-category {
             font-size: 0.75rem;
-            color: var(--text-muted);
+            color: var(--primary);
             text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-bottom: 0.3rem;
+            letter-spacing: 1.2px;
+            font-weight: 700;
+            margin-bottom: 0.4rem;
         }
 
         .product-name {
-            font-size: 1rem;
+            font-size: 1.05rem;
             font-weight: 600;
-            margin-bottom: 0.5rem;
+            margin-bottom: 0.8rem;
+            line-height: 1.4;
         }
 
         .product-price {
-            font-size: 1.2rem;
-            font-weight: 700;
-            color: var(--primary);
+            font-size: 1.35rem;
+            font-weight: 800;
+            color: var(--text-main);
             margin-top: auto;
-            margin-bottom: 1rem;
+            margin-bottom: 1.2rem;
         }
 
         .btn-add-cart {
             background: var(--primary);
             color: #000;
             border: none;
-            padding: 0.7rem;
+            padding: 0.8rem;
             border-radius: 8px;
-            font-weight: 600;
+            font-weight: 700;
             cursor: pointer;
             width: 100%;
-            transition: background 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            transition: all 0.3s;
         }
 
         .btn-add-cart:hover {
             background: var(--primary-dark);
+            box-shadow: 0 0 15px rgba(0, 255, 102, 0.4);
         }
 
         .cart-sidebar {
             position: fixed;
             top: 0;
-            right: -400px;
+            right: -420px;
             width: 100%;
-            max-width: 400px;
+            max-width: 420px;
             height: 100vh;
             background: var(--bg-card);
             border-left: 1px solid var(--border);
             z-index: 1000;
-            box-shadow: -5px 0 25px rgba(0,0,0,0.5);
-            transition: right 0.3s ease;
+            box-shadow: -10px 0 30px rgba(0,0,0,0.7);
+            transition: right 0.4s cubic-bezier(0.16, 1, 0.3, 1);
             display: flex;
             flex-direction: column;
         }
@@ -337,18 +374,18 @@
         .cart-item {
             display: flex;
             gap: 1rem;
-            background: #080d0b;
-            padding: 0.8rem;
-            border-radius: 8px;
+            background: var(--bg-dark);
+            padding: 1rem;
+            border-radius: 10px;
             border: 1px solid var(--border);
             align-items: center;
         }
 
         .cart-item img {
-            width: 60px;
-            height: 60px;
+            width: 65px;
+            height: 65px;
             object-fit: cover;
-            border-radius: 6px;
+            border-radius: 8px;
         }
 
         .cart-item-details {
@@ -356,29 +393,29 @@
         }
 
         .cart-item-title {
-            font-size: 0.9rem;
+            font-size: 0.95rem;
             font-weight: 600;
-            margin-bottom: 0.2rem;
+            margin-bottom: 0.3rem;
         }
 
         .cart-item-price {
             color: var(--primary);
-            font-size: 0.9rem;
-            font-weight: 600;
+            font-size: 0.95rem;
+            font-weight: 700;
         }
 
         .cart-footer {
             padding: 1.5rem;
             border-top: 1px solid var(--border);
-            background: #080d0b;
+            background: var(--bg-dark);
         }
 
         .cart-total {
             display: flex;
             justify-content: space-between;
-            font-size: 1.1rem;
+            font-size: 1.2rem;
             font-weight: 700;
-            margin-bottom: 1rem;
+            margin-bottom: 1.2rem;
         }
 
         .btn-checkout {
@@ -386,10 +423,16 @@
             color: #000;
             border: none;
             width: 100%;
-            padding: 0.9rem;
-            border-radius: 8px;
-            font-weight: 700;
+            padding: 1rem;
+            border-radius: 10px;
+            font-weight: 800;
+            font-size: 1rem;
             cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .btn-checkout:hover {
+            background: var(--primary-dark);
         }
 
         .overlay {
@@ -398,7 +441,8 @@
             left: 0;
             width: 100%;
             height: 100vh;
-            background: rgba(0,0,0,0.6);
+            background: rgba(0,0,0,0.7);
+            backdrop-filter: blur(3px);
             z-index: 900;
             display: none;
         }
@@ -411,9 +455,14 @@
             background: var(--bg-card);
             border-top: 1px solid var(--border);
             text-align: center;
-            padding: 2rem;
+            padding: 2.5rem;
             color: var(--text-muted);
             font-size: 0.9rem;
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 2.2rem; }
+            header { padding: 1rem; }
         }
     </style>
 </head>
@@ -422,7 +471,7 @@
     <header>
         <a href="index.html" class="logo"><i class="fa-solid fa-bolt" style="color: var(--primary);"></i> Tech<span>Brasil</span></a>
         <div class="header-actions">
-            <a href="admin.html" class="btn-admin-link"><i class="fa-solid fa-gear"></i> Painel Admin</a>
+            <a href="admin.html" class="btn-admin-link"><i class="fa-solid fa-gear"></i> Admin</a>
             <button class="btn-cart" id="btnOpenCart">
                 <i class="fa-solid fa-cart-shopping"></i> Carrinho
                 <span class="cart-badge" id="cartCount">0</span>
@@ -436,13 +485,13 @@
     </section>
 
     <main>
-        <div class="filters-bar">
+        <div class="controls-container">
             <div class="search-box">
-                <input type="text" id="searchInput" placeholder="Buscar produtos...">
+                <input type="text" id="searchInput" placeholder="O que você está procurando hoje? (Ex: Placa de vídeo, Teclado...)">
                 <button><i class="fa-solid fa-magnifying-glass"></i></button>
             </div>
             <div class="category-filters">
-                <button class="filter-btn active" data-category="all">Todos</button>
+                <button class="filter-btn active" data-category="all">Todos os Produtos</button>
                 <button class="filter-btn" data-category="perifericos">Periféricos</button>
                 <button class="filter-btn" data-category="hardware">Hardware</button>
                 <button class="filter-btn" data-category="audio">Áudio</button>
@@ -450,17 +499,20 @@
             </div>
         </div>
 
-        <h2 class="section-title"><i class="fa-solid fa-store" style="color: var(--primary);"></i> Catálogo de Produtos</h2>
+        <div class="section-header">
+            <h2 class="section-title"><i class="fa-solid fa-store" style="color: var(--primary);"></i> Catálogo de Produtos</h2>
+        </div>
+
         <div class="products-grid" id="productsGrid">
-            <div style="grid-column: 1/-1; text-align: center; color: var(--text-muted); padding: 4rem;">A carregar produtos do Firebase...</div>
+            <div style="grid-column: 1/-1; text-align: center; color: var(--text-muted); padding: 4rem;">Carregando produtos do banco de dados...</div>
         </div>
     </main>
 
     <div class="overlay" id="cartOverlay"></div>
     <div class="cart-sidebar" id="cartSidebar">
         <div class="cart-header">
-            <h3>Seu Carrinho</h3>
-            <button id="btnCloseCart" style="background:none; border:none; color:var(--text-main); font-size:1.2rem; cursor:pointer;"><i class="fa-solid fa-xmark"></i></button>
+            <h3 style="font-weight: 700;">Seu Carrinho</h3>
+            <button id="btnCloseCart" style="background:none; border:none; color:var(--text-main); font-size:1.3rem; cursor:pointer;"><i class="fa-solid fa-xmark"></i></button>
         </div>
         <div class="cart-items" id="cartItemsContainer">
             <p style="text-align: center; color: var(--text-muted); margin-top: 2rem;">Seu carrinho está vazio.</p>
@@ -470,7 +522,7 @@
                 <span>Total:</span>
                 <span id="cartTotalPrice" style="color: var(--primary);">R$ 0,00</span>
             </div>
-            <button class="btn-checkout" onclick="checkoutWhatsApp()">Finalizar no WhatsApp</button>
+            <button class="btn-checkout" onclick="checkoutWhatsApp()">Finalizar Pedido no WhatsApp</button>
         </div>
     </div>
 
@@ -533,13 +585,15 @@
             grid.innerHTML = filtered.map(p => `
                 <div class="product-card">
                     <div class="product-img-container">
-                        <img src="${p.image}" alt="${p.name}" class="product-img" onerror="this.src='https://via.placeholder.com/300'">
+                        <img src="${p.image}" alt="${p.name}" class="product-img" onerror="this.src='https://via.placeholder.com/300/111714/8b9bb4?text=Sem+Imagem'">
                     </div>
                     <div class="product-info">
                         <span class="product-category">${p.category}</span>
                         <h3 class="product-name">${p.name}</h3>
                         <div class="product-price">R$ ${Number(p.price).toFixed(2).replace('.', ',')}</div>
-                        <button class="btn-add-cart" onclick="window.addToCart('${p.id}')">Adicionar ao Carrinho</button>
+                        <button class="btn-add-cart" onclick="window.addToCart('${p.id}')">
+                            <i class="fa-solid fa-cart-plus"></i> Adicionar
+                        </button>
                     </div>
                 </div>
             `).join('');
@@ -598,7 +652,7 @@
                             <div class="cart-item-title">${item.name}</div>
                             <div class="cart-item-price">R$ ${Number(item.price).toFixed(2).replace('.', ',')} x ${item.quantity}</div>
                         </div>
-                        <button onclick="window.removeFromCart('${item.id}')" style="background:none; border:none; color:var(--danger); cursor:pointer;"><i class="fa-solid fa-trash"></i></button>
+                        <button onclick="window.removeFromCart('${item.id}')" style="background:none; border:none; color:var(--danger); cursor:pointer; font-size: 1.1rem;"><i class="fa-solid fa-trash"></i></button>
                     </div>
                 `;
             }).join('');
