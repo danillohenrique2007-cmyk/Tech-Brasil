@@ -43,11 +43,12 @@
     </div>
 
     <!-- Firebase Script de Login -->
-    <script type="module">
+   <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
   import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
   import { getFirestore, collection, onSnapshot } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
+  // Suas credenciais do Firebase
   const firebaseConfig = {
     apiKey: "AIzaSyBsY-JGdy2D6eq2gCfKB_OAj3F1MlfS6Ks",
     authDomain: "tech-brasil-1b89c.firebaseapp.com",
@@ -57,6 +58,7 @@
     appId: "1:420995386502:web:cf0989265d9f4260c95507"
   };
 
+  // Inicializar Firebase
   const app = initializeApp(firebaseConfig);
   const auth = getAuth(app);
   const db = getFirestore(app);
@@ -64,7 +66,7 @@
   const userAuthArea = document.getElementById('userAuthArea');
   const container = document.getElementById('produtos-container');
 
-  // Monitora o login sem destruir os links estáticos se o utilizador não estiver logado
+  // 1. MONITOR DE AUTENTICAÇÃO (Gerencia o "Olá, nome" e os botões)
   onAuthStateChanged(auth, (user) => {
     if (user) {
       const nomeUsuario = user.email ? user.email.split('@')[0] : 'Cliente';
@@ -81,11 +83,23 @@
         await signOut(auth);
         window.location.reload();
       });
+
+    } else {
+      userAuthArea.innerHTML = `
+        <a href="index.html" style="color: #fff; text-decoration: none; display: flex; align-items: center; gap: 6px; font-size: 0.9rem;">
+          <i class="fa-solid fa-house" style="color: #00ff66;"></i> Início
+        </a>
+        <a href="login.html" style="color: #fff; text-decoration: none; display: flex; align-items: center; gap: 6px; font-size: 0.9rem;">
+          <i class="fa-solid fa-right-to-bracket" style="color: #00ff66;"></i> Entrar
+        </a>
+        <a href="cadastro.html" style="color: #fff; text-decoration: none; display: flex; align-items: center; gap: 6px; font-size: 0.9rem;">
+          <i class="fa-solid fa-user-plus" style="color: #00ff66;"></i> Criar conta
+        </a>
+      `;
     }
-    // Se não estiver logado, ele mantém os links HTML originais intactos e funcionais!
   });
 
-  // Carregamento dos produtos em tempo real
+  // 2. CARREGAMENTO DOS PRODUTOS DO BANCO EM TEMPO REAL
   if (container) {
     onSnapshot(collection(db, "produtos"), (snapshot) => {
       container.innerHTML = ""; 
