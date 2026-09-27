@@ -14,54 +14,93 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="style.css">
 
-    <!-- Firebase App (Modular) -->
+    <!-- Firebase App (Modular) e Autenticação -->
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+  import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
   import { getFirestore, collection, onSnapshot } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
-  // Suas credenciais do Firebase
+  // Suas credenciais reais do Firebase
   const firebaseConfig = {
-    apiKey: "SUA_API_KEY",
-    authDomain: "SEU_PROJETO.firebaseapp.com",
-    projectId: "SEU_PROJECT_ID",
-    storageBucket: "SEU_PROJETO.appspot.com",
-    messagingSenderId: "SEU_MESSAGING_SENDER_ID",
-    appId: "SEU_APP_ID"
+    apiKey: "AIzaSyBsY-JGdy2D6eq2gCfKB_OAj3F1MlfS6Ks",
+    authDomain: "tech-brasil-1b89c.firebaseapp.com",
+    projectId: "tech-brasil-1b89c",
+    storageBucket: "tech-brasil-1b89c.firebasestorage.app",
+    messagingSenderId: "420995386502",
+    appId: "1:420995386502:web:cf0989265d9f4260c95507"
   };
 
   // Inicializar Firebase
   const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
   const db = getFirestore(app);
 
-  const container = document.getElementById('produtos-container');
+  const userAuthArea = document.getElementById('userAuthArea');
+  const container = document.getElementById('allProducts'); // O ID correto no seu HTML para os produtos
 
-  // onSnapshot escuta o banco em TEMPO REAL
-  onSnapshot(collection(db, "produtos"), (snapshot) => {
-    if (!container) return;
-    container.innerHTML = ""; // Limpa os produtos antigos
-    
-    if (snapshot.empty) {
-      container.innerHTML = "<p>Nenhum produto cadastrado no momento.</p>";
-      return;
-    }
+  // 1. MONITOR DE AUTENTICAÇÃO (Muda para "Olá, [nome]" se logado)
+  onAuthStateChanged(auth, (user) => {
+    if (!userAuthArea) return;
 
-    snapshot.forEach((docSnap) => {
-      const produto = docSnap.data();
-      const id = docSnap.id;
-
-      const card = document.createElement('div');
-      card.className = 'product-card';
-      card.innerHTML = `
-        <div class="product-image" style="background-image: url('${produto.imagem}'); background-size: cover; background-position: center;"></div>
-        <div class="product-info">
-          <h3 class="product-title">${produto.nome}</h3>
-          <p class="product-price">R$ ${Number(produto.preco).toFixed(2)}</p>
-          <button onclick="adicionarAoCarrinho('${id}')">Comprar</button>
+    if (user) {
+      const nomeUsuario = user.email ? user.email.split('@')[0] : 'Cliente';
+      
+      userAuthArea.innerHTML = `
+        <div style="color: #fff; font-size: 0.9rem; display: flex; align-items: center; gap: 8px;">
+          <i class="fa-solid fa-user-check" style="color: #00ff66;"></i>
+          <span>Olá, <strong style="color: #00ff66; text-transform: capitalize;">${nomeUsuario}</strong></span>
+          <button id="btnLogout" style="background: transparent; border: 1px solid #1f302a; color: #ff4d4d; padding: 4px 8px; border-radius: 6px; cursor: pointer; font-size: 0.8rem; margin-left: 8px;">Sair</button>
         </div>
       `;
-      container.appendChild(card);
-    });
+
+      document.getElementById('btnLogout').addEventListener('click', async () => {
+        await signOut(auth);
+        window.location.reload();
+      });
+
+    } else {
+      userAuthArea.innerHTML = `
+        <a href="index.html" style="color: #fff; text-decoration: none; display: flex; align-items: center; gap: 6px; font-size: 0.9rem;">
+          <i class="fa-solid fa-house" style="color: #00ff66;"></i> Início
+        </a>
+        <a href="login.html" style="color: #fff; text-decoration: none; display: flex; align-items: center; gap: 6px; font-size: 0.9rem;">
+          <i class="fa-solid fa-right-to-bracket" style="color: #00ff66;"></i> Entrar
+        </a>
+        <a href="cadastro.html" style="color: #fff; text-decoration: none; display: flex; align-items: center; gap: 6px; font-size: 0.9rem;">
+          <i class="fa-solid fa-user-plus" style="color: #00ff66;"></i> Criar conta
+        </a>
+      `;
+    }
   });
+
+  // 2. CARREGAMENTO DOS PRODUTOS EM TEMPO REAL
+  if (container) {
+    onSnapshot(collection(db, "produtos"), (snapshot) => {
+      container.innerHTML = ""; 
+      
+      if (snapshot.empty) {
+        container.innerHTML = "<p>Nenhum produto cadastrado no momento.</p>";
+        return;
+      }
+
+      snapshot.forEach((docSnap) => {
+        const produto = docSnap.data();
+        const id = docSnap.id;
+
+        const card = document.createElement('div');
+        card.className = 'product-card';
+        card.innerHTML = `
+          <div class="product-image" style="background-image: url('${produto.imagem}'); background-size: cover; background-position: center;"></div>
+          <div class="product-info">
+            <h3 class="product-title">${produto.nome}</h3>
+            <p class="product-price">R$ ${Number(produto.preco).toFixed(2)}</p>
+            <button onclick="adicionarAoCarrinho('${id}')">Comprar</button>
+          </div>
+        `;
+        container.appendChild(card);
+      });
+    });
+  }
 </script>
 </head>
 <body>
