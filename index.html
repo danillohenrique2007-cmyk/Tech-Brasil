@@ -98,7 +98,6 @@
             const p = docSnap.data();
             const id = docSnap.id;
 
-            // Busca os dados aceitando tanto inglês quanto português para evitar erros
             const nome = p.name || p.nome || p.titulo || p.title || "Produto sem nome";
             const preco = Number(p.price || p.preco || p.valor || 0);
             const imagem = p.image || p.imagem || p.foto || p.url || "";
@@ -110,10 +109,19 @@
                 <div class="product-info" style="padding: 1rem;">
                   <h3 class="product-title" style="font-size: 1rem; margin-bottom: 0.5rem; color: #fff;">${nome}</h3>
                   <p class="product-price" style="font-weight: 700; color: #00ff66; margin-bottom: 1rem;">R$ ${preco.toFixed(2)}</p>
-                  <button class="btn btn-primary" style="width: 100%; padding: 0.5rem; cursor: pointer;">Comprar</button>
+                  <button class="btn btn-primary" data-add="${id}" style="width: 100%; padding: 0.5rem; cursor: pointer;">Comprar</button>
                 </div>
               </div>
             `;
+
+            // Adiciona na grade principal
+            container.insertAdjacentHTML('beforeend', cardHTML);
+
+            // Adiciona nos destaques
+            if (featuredContainer && featuredContainer.children.length < 4) {
+              featuredContainer.insertAdjacentHTML('beforeend', cardHTML);
+            }
+          });
 
             // Adiciona na grade principal
             container.insertAdjacentHTML('beforeend', cardHTML);
