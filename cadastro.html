@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Criar Conta | Tech Brasil</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        body { background-color: #0b0f0e; color: #f0f4f1; display: flex; justify-content: center; align-items: center; height: 100vh; font-family: 'Inter', sans-serif; margin: 0; }
+        .auth-card { background: #131b18; border: 1px solid #1f302a; padding: 2.5rem; border-radius: 12px; width: 100%; max-width: 400px; }
+        .auth-card h2 { margin-bottom: 1.5rem; font-size: 1.5rem; color: #fff; }
+        .form-group { margin-bottom: 1.2rem; }
+        .form-group label { display: block; font-size: 0.85rem; color: #9aa8a2; margin-bottom: 0.4rem; }
+        .form-control { width: 100%; background: #080d0b; border: 1px solid #1f302a; padding: 0.75rem; border-radius: 8px; color: #fff; outline: none; box-sizing: border-box; }
+        .form-control:focus { border-color: #00ff66; }
+        .btn-auth { background: #00ff66; color: #000; border: none; width: 100%; padding: 0.75rem; border-radius: 8px; font-weight: 600; cursor: pointer; margin-top: 1rem; }
+        .btn-auth:hover { background: #00cc52; }
+        .auth-footer { text-align: center; margin-top: 1.5rem; font-size: 0.9rem; color: #9aa8a2; }
+        .auth-footer a { color: #00ff66; text-decoration: none; }
+    </style>
+</head>
+<body>
+
+    <div class="auth-card">
+        <h2>Criar uma nova conta</h2>
+        <form id="registerForm">
+            <div class="form-group">
+                <label>E-mail</label>
+                <input type="email" id="regEmail" class="form-control" required placeholder="seu@email.com">
+            </div>
+            <div class="form-group">
+                <label>Senha (mínimo 6 caracteres)</label>
+                <input type="password" id="regPassword" class="form-control" required placeholder="••••••••">
+            </div>
+            <button type="submit" class="btn-auth" id="btnRegister">Cadastrar</button>
+        </form>
+        <div class="auth-footer">
+            Já tem uma conta? <a href="login.html">Entrar</a><br><br>
+            <a href="index.html"><i class="fa-solid fa-arrow-left"></i> Voltar para a Loja</a>
+        </div>
+    </div>
+
+    <!-- Firebase Script de Registo -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getAuth, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyBsY-JGdy2D6eq2gCfKB_OAj3F1MlfS6Ks",
+            authDomain: "tech-brasil-1b89c.firebaseapp.com",
+            projectId: "tech-brasil-1b89c",
+            storageBucket: "tech-brasil-1b89c.firebasestorage.app",
+            messagingSenderId: "420995386502",
+            appId: "1:420995386502:web:cf0989265d9f4260c95507"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+
+        document.getElementById('registerForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const email = document.getElementById('regEmail').value.trim();
+            const password = document.getElementById('regPassword').value;
+            const btn = document.getElementById('btnRegister');
+
+            btn.innerText = "A criar conta...";
+            btn.disabled = true;
+
+            try {
+                await createUserWithEmailAndPassword(auth, email, password);
+                alert("Conta criada com sucesso! Já pode fazer login.");
+                window.location.href = "login.html"; // Redireciona para o login
+            } catch (error) {
+                alert("Erro ao criar conta: " + error.message);
+                btn.innerText = "Cadastrar";
+                btn.disabled = false;
+            }
+        });
+    </script>
+</body>
+</html>
