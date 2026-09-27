@@ -36,6 +36,7 @@
             flex-direction: column;
         }
 
+        /* Header */
         header {
             background: var(--bg-card);
             border-bottom: 1px solid var(--border);
@@ -115,6 +116,7 @@
             background: rgba(0, 255, 102, 0.2);
         }
 
+        /* Hero */
         .hero {
             background: linear-gradient(135deg, #131b18 0%, #080d0b 100%);
             border-bottom: 1px solid var(--border);
@@ -137,6 +139,7 @@
             margin: 0 auto 2rem;
         }
 
+        /* Main Content */
         main {
             flex: 1;
             max-width: 1200px;
@@ -203,6 +206,7 @@
             background: rgba(0, 255, 102, 0.05);
         }
 
+        /* Products Grid */
         .section-title {
             font-size: 1.5rem;
             margin-bottom: 1.5rem;
@@ -239,6 +243,7 @@
             background: #080d0b;
             position: relative;
             overflow: hidden;
+            cursor: pointer;
         }
 
         .product-img {
@@ -271,6 +276,11 @@
             font-size: 1rem;
             font-weight: 600;
             margin-bottom: 0.5rem;
+            cursor: pointer;
+        }
+
+        .product-name:hover {
+            color: var(--primary);
         }
 
         .product-price {
@@ -297,6 +307,7 @@
             background: var(--primary-dark);
         }
 
+        /* Carrinho Lateral / Modal */
         .cart-sidebar {
             position: fixed;
             top: 0;
@@ -452,10 +463,11 @@
 
         <h2 class="section-title"><i class="fa-solid fa-store" style="color: var(--primary);"></i> Catálogo de Produtos</h2>
         <div class="products-grid" id="productsGrid">
-            <div style="grid-column: 1/-1; text-align: center; color: var(--text-muted); padding: 4rem;">A carregar produtos do Firebase...</div>
+            <div style="grid-column: 1/-1; text-align: center; color: var(--text-muted); padding: 4rem;">Carregando produtos do Firebase...</div>
         </div>
     </main>
 
+    <!-- Carrinho Sidebar -->
     <div class="overlay" id="cartOverlay"></div>
     <div class="cart-sidebar" id="cartSidebar">
         <div class="cart-header">
@@ -478,6 +490,7 @@
         <p>&copy; 2026 Tech Brasil. Todos os direitos reservados.</p>
     </footer>
 
+    <!-- Firebase SDKs e Lógica -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
         import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
@@ -545,6 +558,7 @@
             `).join('');
         }
 
+        // Filtros de Categoria
         document.querySelectorAll('.filter-btn').forEach(btn => {
             btn.addEventListener('click', (e) => {
                 document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
@@ -554,11 +568,13 @@
             });
         });
 
+        // Busca em tempo real
         document.getElementById('searchInput').addEventListener('input', (e) => {
             searchQuery = e.target.value;
             renderProducts();
         });
 
+        // Carrinho Logic
         window.addToCart = (id) => {
             const product = allProducts.find(p => p.id === id);
             if (!product) return;
