@@ -14,13 +14,13 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="style.css">
 
-    <!-- Firebase App (Modular) e Autenticação -->
+    <!-- Firebase App (Modular) e Lógica do Firestore / Auth -->
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
   import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
-  import { getFirestore, collection, onSnapshot } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+  import { getFirestore, collection, onSnapshot, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
-  // Suas credenciais reais do Firebase
+  // Suas credenciais do Firebase
   const firebaseConfig = {
     apiKey: "AIzaSyBsY-JGdy2D6eq2gCfKB_OAj3F1MlfS6Ks",
     authDomain: "tech-brasil-1b89c.firebaseapp.com",
@@ -36,19 +36,35 @@
   const db = getFirestore(app);
 
   const userAuthArea = document.getElementById('userAuthArea');
-  const container = document.getElementById('allProducts'); // O ID correto no seu HTML para os produtos
+  const container = document.getElementById('allProducts'); // ou 'produtos-container' conforme o seu HTML
 
-  // 1. MONITOR DE AUTENTICAÇÃO (Muda para "Olá, [nome]" se logado)
-  onAuthStateChanged(auth, (user) => {
+  // 1. MONITOR DE AUTENTICAÇÃO E BUSCA DE DADOS NO FIRESTORE
+  onAuthStateChanged(auth, async (user) => {
     if (!userAuthArea) return;
 
     if (user) {
-      const nomeUsuario = user.email ? user.email.split('@')[0] : 'Cliente';
+      let nomeExibicao = "Cliente";
+
+      try {
+        // Tenta buscar o nome salvo na coleção "usuarios" usando o UID do utilizador
+        const docRef = doc(db, "usuarios", user.uid);
+        const docSnap = await getDoc(docRef);
+
+        if (docSnap.exists() && docSnap.data().nome) {
+          nomeExibicao = docSnap.data().nome;
+        } else {
+          // Fallback se não encontrar o documento: usa o e-mail
+          nomeExibicao = user.email.split('@')[0];
+        }
+      } catch (error) {
+        console.error("Erro ao buscar dados do usuário:", error);
+        nomeExibicao = user.email.split('@')[0];
+      }
       
       userAuthArea.innerHTML = `
         <div style="color: #fff; font-size: 0.9rem; display: flex; align-items: center; gap: 8px;">
           <i class="fa-solid fa-user-check" style="color: #00ff66;"></i>
-          <span>Olá, <strong style="color: #00ff66; text-transform: capitalize;">${nomeUsuario}</strong></span>
+          <span>Olá, <strong style="color: #00ff66; text-transform: capitalize;">${nomeExibicao}</strong></span>
           <button id="btnLogout" style="background: transparent; border: 1px solid #1f302a; color: #ff4d4d; padding: 4px 8px; border-radius: 6px; cursor: pointer; font-size: 0.8rem; margin-left: 8px;">Sair</button>
         </div>
       `;
@@ -76,7 +92,7 @@
   // 2. CARREGAMENTO DOS PRODUTOS EM TEMPO REAL
   if (container) {
     onSnapshot(collection(db, "produtos"), (snapshot) => {
-      container.innerHTML = ""; 
+      container.innerHTML = ""; // Limpa os produtos antigos
       
       if (snapshot.empty) {
         container.innerHTML = "<p>Nenhum produto cadastrado no momento.</p>";
