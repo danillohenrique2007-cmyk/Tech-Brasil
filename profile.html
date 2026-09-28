@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tech Brasil | Meu Perfil</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .profile-container {
+            max-width: 1000px;
+            margin: 3rem auto;
+            padding: 0 1.5rem;
+            display: grid;
+            grid-template-columns: 300px 1fr;
+            gap: 2rem;
+        }
+        @media(max-width: 850px) {
+            .profile-container { grid-template-columns: 1fr; }
+        }
+        .profile-sidebar {
+            background: #111816;
+            border: 1px solid #1f302a;
+            border-radius: 12px;
+            padding: 2rem;
+            text-align: center;
+            height: fit-content;
+        }
+        .profile-avatar {
+            width: 80px;
+            height: 80px;
+            background: rgba(0, 255, 102, 0.1);
+            border: 2px solid #00ff66;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.2rem;
+            color: #00ff66;
+            margin: 0 auto 1rem auto;
+        }
+        .profile-content {
+            background: #111816;
+            border: 1px solid #1f302a;
+            border-radius: 12px;
+            padding: 2rem;
+        }
+        .profile-content h2 {
+            color: #fff;
+            margin-bottom: 1.5rem;
+            font-size: 1.3rem;
+            border-bottom: 1px solid #1f302a;
+            padding-bottom: 0.5rem;
+        }
+        .order-card {
+            background: #0a0d0f;
+            border: 1px solid #1f302a;
+            border-radius: 8px;
+            padding: 1.2rem;
+            margin-bottom: 1rem;
+        }
+        .order-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.8rem;
+            font-size: 0.9rem;
+            border-bottom: 1px solid #1f302a;
+            padding-bottom: 0.5rem;
+        }
+        .badge-status {
+            background: rgba(0, 255, 102, 0.1);
+            color: #00ff66;
+            padding: 0.25rem 0.6rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+        .form-group {
+            margin-bottom: 1.2rem;
+        }
+        .form-group label {
+            display: block;
+            color: #9aa8a2;
+            margin-bottom: 0.4rem;
+            font-size: 0.9rem;
+        }
+        .form-group input {
+            width: 100%;
+            padding: 0.75rem;
+            background: #0a0d0f;
+            border: 1px solid #1f302a;
+            border-radius: 6px;
+            color: #fff;
+            font-size: 1rem;
+        }
+        .form-group input:focus {
+            border-color: #00ff66;
+            outline: none;
+        }
+    </style>
+</head>
+<body style="background: #0a0d0f; color: #fff; font-family: 'Inter', sans-serif;">
+
+<header class="site-header">
+    <div class="main-header">
+        <div class="container header-inner">
+            <a class="brand" href="index.html">
+                <span class="brand-mark"><span class="brand-t">T</span><span class="brand-b">B</span></span>
+                <span class="brand-name"><strong>TECH</strong><b>BRASIL</b></span>
+            </a>
+            <nav style="display: flex; gap: 1.5rem; align-items: center;">
+                <a href="index.html" style="color: #9aa8a2; text-decoration: none; font-size: 0.9rem;"><i class="fa-solid fa-store"></i> Loja</a>
+                <a href="profile.html" style="color: #00ff66; text-decoration: none; font-size: 0.9rem; font-weight: 600;"><i class="fa-solid fa-user"></i> Meu Perfil</a>
+            </nav>
+        </div>
+    </div>
+</header>
+
+<main class="profile-container">
+    <!-- Sidebar de Informações -->
+    <div class="profile-sidebar">
+        <div class="profile-avatar">
+            <i class="fa-solid fa-user"></i>
+        </div>
+        <h3 id="profileUserEmail" style="font-size: 1rem; color: #fff; margin-bottom: 0.5rem; word-break: break-all;">carregando...</h3>
+        <p style="font-size: 0.8rem; color: #00ff66; margin-bottom: 1.5rem;"><i class="fa-solid fa-circle-check"></i> Conta Verificada</p>
+        
+        <button id="btnLogout" style="width: 100%; background: rgba(255, 77, 77, 0.1); border: 1px solid #ff4d4d; color: #ff4d4d; padding: 0.7rem; border-radius: 6px; cursor: pointer; font-weight: 600; transition: 0.2s;">
+            <i class="fa-solid fa-right-from-bracket"></i> Sair da Conta
+        </button>
+    </div>
+
+    <!-- Área Principal de Conteúdo -->
+    <div class="profile-content">
+        <h2><i class="fa-solid fa-bag-shopping" style="color: #00ff66;"></i> Meus Pedidos e Andamento</h2>
+        <div id="ordersListContainer">
+            <p style="color: #9aa8a2; font-size: 0.9rem;">Buscando seus pedidos...</p>
+        </div>
+
+        <h2 style="margin-top: 2.5rem;"><i class="fa-solid fa-pen-to-square" style="color: #00ff66;"></i> Editar Informações do Perfil</h2>
+        <form id="updateProfileForm">
+            <div class="form-group">
+                <label for="updateName">Nome Completo</label>
+                <input type="text" id="updateName" placeholder="Seu nome completo">
+            </div>
+            <div class="form-group">
+                <label for="updatePhone">Telefone / WhatsApp</label>
+                <input type="text" id="updatePhone" placeholder="(00) 00000-0000">
+            </div>
+            <button type="submit" class="btn btn-primary" style="padding: 0.75rem 1.5rem; cursor: pointer; font-size: 0.95rem;">
+                Salvar Alterações
+            </button>
+        </form>
+    </div>
+</main>
+
+<div class="toast" id="toast" role="status"></div>
+
+<script type="module" src="profile.js"></script>
+</body>
+</html>
