@@ -51,6 +51,11 @@
             border-radius: 6px;
             color: #fff;
             font-size: 1rem;
+            transition: border-color 0.2s;
+        }
+        .form-group input:focus {
+            border-color: #00ff66;
+            outline: none;
         }
         .form-row {
             display: grid;
@@ -67,41 +72,71 @@
             border-bottom: 1px solid #1f302a;
             padding-bottom: 0.5rem;
         }
-        /* Estilo para os cartões de seleção de pagamento */
+        
+        /* Cards de Pagamento com Animação Profissional */
         .payment-methods-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: 10px;
+            gap: 12px;
             margin-bottom: 1.5rem;
         }
         .payment-card {
             background: #0a0d0f;
             border: 2px solid #1f302a;
-            border-radius: 8px;
-            padding: 1rem;
+            border-radius: 10px;
+            padding: 1.2rem 1rem;
             text-align: center;
             cursor: pointer;
-            transition: all 0.2s ease;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             color: #fff;
         }
         .payment-card i {
-            font-size: 1.5rem;
+            font-size: 1.6rem;
             margin-bottom: 0.5rem;
             color: #9aa8a2;
+            transition: color 0.3s;
         }
         .payment-card span {
             display: block;
-            font-size: 0.85rem;
+            font-size: 0.9rem;
             font-weight: 500;
         }
+        /* Efeito Hover Animado */
+        .payment-card:hover {
+            transform: translateY(-4px);
+            border-color: #2b4c40;
+            background: #141f1c;
+            box-shadow: 0 6px 15px rgba(0, 255, 102, 0.05);
+        }
+        .payment-card:hover i {
+            color: #00ff66;
+        }
+        /* Estado Ativo Selecionado */
         .payment-card.active {
             border-color: #00ff66;
-            background: rgba(0, 255, 102, 0.05);
+            background: rgba(0, 255, 102, 0.06);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 255, 102, 0.15);
         }
         .payment-card.active i {
             color: #00ff66;
         }
-     /* Modal do QR Code Pix Corrigido e Centralizado */
+
+        /* Container dinâmico para os campos de pagamento */
+        .dynamic-payment-section {
+            background: #0a0d0f;
+            border: 1px solid #1f302a;
+            border-radius: 8px;
+            padding: 1.2rem;
+            margin-bottom: 1.5rem;
+            animation: fadeIn 0.3s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Modal do QR Code Pix */
         .pix-modal {
             display: none;
             position: fixed;
@@ -121,7 +156,7 @@
             width: 90%;
             display: flex;
             flex-direction: column;
-            align-items: center; /* Força todos os itens internos a ficarem no centro */
+            align-items: center;
             justify-content: center;
         }
         .pix-modal-content img {
@@ -156,7 +191,7 @@
     <div class="checkout-box">
         <h2>1. Selecione a Forma de Pagamento</h2>
         
-        <!-- Ícones de Seleção de Pagamento -->
+        <!-- Cards de Pagamento Animados -->
         <div class="payment-methods-grid">
             <div class="payment-card active" data-method="pix">
                 <i class="fa-brands fa-pix"></i>
@@ -170,6 +205,11 @@
                 <i class="fa-solid fa-barcode"></i>
                 <span>Boleto</span>
             </div>
+        </div>
+
+        <!-- Área Dinâmica baseada no pagamento escolhido -->
+        <div id="dynamicPaymentContainer" class="dynamic-payment-section">
+            <p style="color: #00ff66; font-size: 0.9rem; margin: 0;"><i class="fa-solid fa-bolt"></i> Aprovação imediata via Pix com QR Code.</p>
         </div>
 
         <h2>2. Dados de Entrega</h2>
@@ -226,7 +266,6 @@
         <h3 style="color: #00ff66; margin-bottom: 0.5rem;"><i class="fa-brands fa-pix"></i> Pagamento via Pix</h3>
         <p style="font-size: 0.9rem; color: #9aa8a2;">Escaneie o QR Code abaixo com o aplicativo do seu banco para pagar:</p>
         
-        <!-- Imagem de QR Code gerada por API pública baseada no valor -->
         <img id="pixQRCodeImg" src="" alt="QR Code Pix">
         
         <p style="font-size: 0.8rem; color: #9aa8a2; margin-bottom: 1rem; word-break: break-all;">Chave: <strong>techbrasil@pagamentos.com.br</strong></p>
