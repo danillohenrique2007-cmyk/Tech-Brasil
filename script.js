@@ -23,7 +23,7 @@ let products = [];
 let currentProducts = [];
 let cart = JSON.parse(localStorage.getItem("techBrasilCart") || "[]");
 
-const $ = (selector) => document.querySelector(selector); const $$ = (selector) => [...document.querySelectorAll(selector)];
+const $ = (selector) => document.querySelector(selector);  const $$ = (selector) => [...document.querySelectorAll(selector)];
 
 const money = (value) =>
     Number(value || 0).toLocaleString("pt-BR", {
@@ -68,22 +68,22 @@ document.addEventListener("DOMContentLoaded", () => {
                 const docSnap = await getDoc(docRef);
                 if (docSnap.exists() && docSnap.data().nome) {
                     nomeExibicao = docSnap.data().nome;
+                } else if (user.displayName) {
+                    nomeExibicao = user.displayName;
                 } else {
                     nomeExibicao = user.email.split('@')[0];
                 }
             } catch (error) {
-                nomeExibicao = user.email.split('@')[0];
+                nomeExibicao = user.email ? user.email.split('@')[0] : "Cliente";
             }
             
             userAuthArea.innerHTML = `
-              userAuthArea.innerHTML = `
-                userAuthArea.innerHTML = `
-    <a href="profile.html" style="color: #fff; text-decoration: none; display: flex; align-items: center; gap: 8px; font-size: 0.9rem; background: rgba(0, 255, 102, 0.08); padding: 6px 14px; border-radius: 20px; border: 1px solid rgba(0, 255, 102, 0.2);">
-        <i class="fa-solid fa-user-circle" style="color: #00ff66; font-size: 1.2rem;"></i>
-        <span>Olá, <strong style="color: #00ff66;">${userName || "Cliente"}</strong></span>
-    </a>
-    <button id="btnLogout" style="background: rgba(255, 77, 77, 0.1); border: 1px solid #ff4d4d; color: #ff4d4d; padding: 6px 12px; border-radius: 6px; cursor: pointer; font-size: 0.85rem; font-weight: 600;">Sair</button>
-`;
+                <a href="profile.html" style="color: #fff; text-decoration: none; display: flex; align-items: center; gap: 8px; font-size: 0.9rem; background: rgba(0, 255, 102, 0.08); padding: 6px 14px; border-radius: 20px; border: 1px solid rgba(0, 255, 102, 0.2);">
+                    <i class="fa-solid fa-user-circle" style="color: #00ff66; font-size: 1.2rem;"></i>
+                    <span>Olá, <strong style="color: #00ff66;">${escapeHTML(nomeExibicao)}</strong></span>
+                </a>
+                <button id="btnLogout" style="background: rgba(255, 77, 77, 0.1); border: 1px solid #ff4d4d; color: #ff4d4d; padding: 6px 12px; border-radius: 6px; cursor: pointer; font-size: 0.85rem; font-weight: 600;">Sair</button>
+            `;
 
             const btnLogout = document.getElementById('btnLogout');
             if (btnLogout) {
@@ -174,30 +174,17 @@ function renderProducts(list, targetId) {
     bindProductButtons();
 }
 
-// ============================================================
-// EVENTOS DOS BOTÕES DOS PRODUTOS (Corrigido para evitar clique duplo)
-// ============================================================
-
 function bindProductButtons() {
-    $$("[data-add]").forEach(button => {
-        // Remove eventuais eventos antigos para não duplicar o clique
+    $$("[data-add]").forEach(button => {         const newButton = button.cloneNode(true);         button.parentNode.replaceChild(newButton, button);         newButton.addEventListener("click", () => {             addToCart(newButton.dataset.add);         });     });      $$
+("[data-view]").forEach(button => {
         const newButton = button.cloneNode(true);
         button.parentNode.replaceChild(newButton, button);
-
-        newButton.addEventListener("click", () => {
-            addToCart(newButton.dataset.add);
-        });
-    });
-
-    $$("[data-view]").forEach(button => {
-        const newButton = button.cloneNode(true);
-        button.parentNode.replaceChild(newButton, button);
-
         newButton.addEventListener("click", () => {
             openProductModal(newButton.dataset.view);
         });
     });
 }
+
 function renderFeatured() {
     renderProducts(products.slice(0, 4), "featuredProducts");
 }
@@ -315,7 +302,7 @@ function updateCartUI() {
 
         return `
             <div class="cart-item" style="display: flex; gap: 10px; align-items: center; margin-bottom: 1rem; border-bottom: 1px solid #1f302a; padding-bottom: 1rem;">
-                <div style="width: 50px; height: 50px; background-image: url('${product.image}'); background-size: cover; border-radius: 6px; background-color: #1f302a;"></div>
+                <div style="width: 50px; height: 50px; background-image: url('${escapeHTML(product.image)}'); background-size: cover; border-radius: 6px; background-color: #1f302a;"></div>
                 <div style="flex: 1;">
                     <strong style="color: #fff; font-size: 0.9rem;">${escapeHTML(product.name)}</strong>
                     <small style="display: block; color: #00ff66;">${money(product.price)} cada</small>
@@ -382,7 +369,7 @@ function openProductModal(productId) {
     if (modalContent) {
         modalContent.innerHTML = `
             <div class="modal-product">
-                <div class="modal-product-image" style="background-image: url('${product.image}'); background-size: cover; height: 220px; border-radius: 8px; background-color: #1f302a;"></div>
+                <div class="modal-product-image" style="background-image: url('${escapeHTML(product.image)}'); background-size: cover; height: 220px; border-radius: 8px; background-color: #1f302a;"></div>
                 <div class="modal-product-info" style="margin-top: 1rem;">
                     <span class="section-kicker">${escapeHTML(categoryNames[product.category] || "Acessórios")}</span>
                     <h2 style="color: #fff; margin: 0.5rem 0;">${escapeHTML(product.name)}</h2>
@@ -459,7 +446,7 @@ if (categoryFilter) categoryFilter.addEventListener("change", renderAllProducts)
 const sortFilter = $("#sortFilter");
 if (sortFilter) sortFilter.addEventListener("change", renderAllProducts);
 
-$$("[data-category]").forEach(button => {     button.addEventListener("click", () => scrollToProducts(button.dataset.category)); });  $$
+$$("[data-category]").forEach(button => {      button.addEventListener("click", () => scrollToProducts(button.dataset.category));  });  $$
 ("[data-category-link]").forEach(link => {
     link.addEventListener("click", event => {
         event.preventDefault();
@@ -506,7 +493,7 @@ const clearFiltersBtn = $("#clearFilters");
 if (clearFiltersBtn) {
     clearFiltersBtn.addEventListener("click", () => {
         if ($("#searchInput")) $("#searchInput").value = "";
-        if ($("#categoryFilter")) $("#categoryFilter",).value = "all";
+        if ($("#categoryFilter")) $("#categoryFilter").value = "all";
         if ($("#sortFilter")) $("#sortFilter").value = "featured";
         renderAllProducts();
     });
