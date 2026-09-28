@@ -76,12 +76,13 @@ document.addEventListener("DOMContentLoaded", () => {
             }
             
             userAuthArea.innerHTML = `
-              <a href="profile.html" style="color: #fff; font-size: 0.9rem; display: flex; align-items: center; gap: 8px;">
-                    <i class="fa-solid fa-user-check" style="color: #00ff66;"></i>
-                    <span>Olá, <strong style="color: #00ff66; text-transform: capitalize;">${nomeExibicao}</strong></span>
-                    <button id="btnLogout" style="background: transparent; border: 1px solid #1f302a; color: #ff4d4d; padding: 4px 8px; border-radius: 6px; cursor: pointer; font-size: 0.8rem; margin-left: 8px;">Sair</button>
-                </div>
-            `;
+              userAuthArea.innerHTML = `
+    <a href="profile.html" style="color: #fff; text-decoration: none; display: flex; align-items: center; gap: 8px; font-size: 0.9rem; background: rgba(0, 255, 102, 0.08); padding: 6px 12px; border-radius: 20px; border: 1px solid rgba(0, 255, 102, 0.2);">
+        <i class="fa-solid fa-user-circle" style="color: #00ff66; font-size: 1.1rem;"></i>
+        <span>Olá, <strong style="color: #00ff66;">${nomeDoUsuario}</strong></span>
+    </a>
+    <button id="btnLogout" style="...">Sair</button>
+`;
 
             const btnLogout = document.getElementById('btnLogout');
             if (btnLogout) {
