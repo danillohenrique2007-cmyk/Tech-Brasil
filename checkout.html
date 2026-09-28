@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tech Brasil | Finalizar Pedido</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .checkout-container {
+            max-width: 1200px;
+            margin: 3rem auto;
+            padding: 0 1.5rem;
+            display: grid;
+            grid-template-columns: 1fr 400px;
+            gap: 2rem;
+        }
+        @media(max-width: 900px) {
+            .checkout-container { grid-template-columns: 1fr; }
+        }
+        .checkout-box {
+            background: #111816;
+            border: 1px solid #1f302a;
+            border-radius: 12px;
+            padding: 2rem;
+        }
+        .checkout-box h2 {
+            color: #fff;
+            margin-bottom: 1.5rem;
+            font-size: 1.2rem;
+            border-bottom: 1px solid #1f302a;
+            padding-bottom: 0.5rem;
+        }
+        .form-group {
+            margin-bottom: 1.2rem;
+        }
+        .form-group label {
+            display: block;
+            color: #9aa8a2;
+            margin-bottom: 0.4rem;
+            font-size: 0.9rem;
+        }
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 0.75rem;
+            background: #0a0d0f;
+            border: 1px solid #1f302a;
+            border-radius: 6px;
+            color: #fff;
+            font-size: 1rem;
+        }
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+        .order-summary-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+            color: #fff;
+            font-size: 0.9rem;
+            border-bottom: 1px solid #1f302a;
+            padding-bottom: 0.5rem;
+        }
+    </style>
+</head>
+<body style="background: #0a0d0f; color: #fff; font-family: 'Inter', sans-serif;">
+
+<header class="site-header">
+    <div class="main-header">
+        <div class="container header-inner">
+            <a class="brand" href="index.html">
+                <span class="brand-mark"><span class="brand-t">T</span><span class="brand-b">B</span></span>
+                <span class="brand-name"><strong>TECH</strong><b>BRASIL</b></span>
+            </a>
+            <span style="color: #00ff66; font-size: 0.9rem;"><i class="fa-solid fa-lock"></i> Ambiente Seguro</span>
+        </div>
+    </div>
+</header>
+
+<main class="checkout-container">
+    <!-- Formulário de Dados -->
+    <div class="checkout-box">
+        <h2>1. Dados de Entrega e Pagamento</h2>
+        <form id="checkoutForm">
+            <div class="form-group">
+                <label for="fullName">Nome Completo</label>
+                <input type="text" id="fullName" required placeholder="Seu nome completo">
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="email">E-mail</label>
+                    <input type="email" id="email" required placeholder="seu@email.com">
+                </div>
+                <div class="form-group">
+                    <label for="phone">Telefone / WhatsApp</label>
+                    <input type="text" id="phone" required placeholder="(00) 00000-0000">
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="cep">CEP</label>
+                    <input type="text" id="cep" required placeholder="00000-000">
+                </div>
+                <div class="form-group">
+                    <label for="city">Cidade / Estado</label>
+                    <input type="text" id="city" required placeholder="Ex: São Paulo - SP">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="address">Endereço (Rua, Número e Bairro)</label>
+                <input type="text" id="address" required placeholder="Rua Exemplo, 123 - Centro">
+            </div>
+
+            <div class="form-group" style="margin-top: 1.5rem;">
+                <label for="paymentMethod">Forma de Pagamento</label>
+                <select id="paymentMethod" required>
+                    <option value="pix">Pix (Aprovação imediata)</option>
+                    <option value="credit">Cartão de Crédito</option>
+                    <option value="boleto">Boleto Bancário</option>
+                </select>
+            </div>
+
+            <button type="submit" class="btn btn-primary" style="width: 100%; padding: 1rem; margin-top: 1.5rem; cursor: pointer; font-size: 1rem;">
+                Confirmar e Finalizar Pedido
+            </button>
+        </form>
+    </div>
+
+    <!-- Resumo do Carrinho -->
+    <div class="checkout-box" style="height: fit-content;">
+        <h2>Resumo do Pedido</h2>
+        <div id="checkoutItemsList"></div>
+        <div style="border-top: 2px solid #1f302a; margin-top: 1.5rem; padding-top: 1rem; display: flex; justify-content: space-between; font-size: 1.2rem; font-weight: bold;">
+            <span>Total:</span>
+            <span id="checkoutTotal" style="color: #00ff66;">R$ 0,00</span>
+        </div>
+    </div>
+</main>
+
+<div class="toast" id="toast" role="status"></div>
+
+<!-- Script do Checkout integrado ao Firebase para salvar o pedido -->
+<script type="module" src="checkout.js"></script>
+</body>
+</html>
