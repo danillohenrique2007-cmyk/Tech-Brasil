@@ -77,11 +77,12 @@ document.addEventListener("DOMContentLoaded", () => {
             
             userAuthArea.innerHTML = `
               userAuthArea.innerHTML = `
-    <a href="profile.html" style="color: #fff; text-decoration: none; display: flex; align-items: center; gap: 8px; font-size: 0.9rem; background: rgba(0, 255, 102, 0.08); padding: 6px 12px; border-radius: 20px; border: 1px solid rgba(0, 255, 102, 0.2);">
-        <i class="fa-solid fa-user-circle" style="color: #00ff66; font-size: 1.1rem;"></i>
-        <span>Olá, <strong style="color: #00ff66;">${nomeDoUsuario}</strong></span>
+                userAuthArea.innerHTML = `
+    <a href="profile.html" style="color: #fff; text-decoration: none; display: flex; align-items: center; gap: 8px; font-size: 0.9rem; background: rgba(0, 255, 102, 0.08); padding: 6px 14px; border-radius: 20px; border: 1px solid rgba(0, 255, 102, 0.2);">
+        <i class="fa-solid fa-user-circle" style="color: #00ff66; font-size: 1.2rem;"></i>
+        <span>Olá, <strong style="color: #00ff66;">${userName || "Cliente"}</strong></span>
     </a>
-    <button id="btnLogout" style="...">Sair</button>
+    <button id="btnLogout" style="background: rgba(255, 77, 77, 0.1); border: 1px solid #ff4d4d; color: #ff4d4d; padding: 6px 12px; border-radius: 6px; cursor: pointer; font-size: 0.85rem; font-weight: 600;">Sair</button>
 `;
 
             const btnLogout = document.getElementById('btnLogout');
