@@ -101,7 +101,7 @@
         .payment-card.active i {
             color: #00ff66;
         }
-        /* Modal do QR Code Pix */
+     /* Modal do QR Code Pix Corrigido e Centralizado */
         .pix-modal {
             display: none;
             position: fixed;
@@ -119,6 +119,10 @@
             text-align: center;
             max-width: 400px;
             width: 90%;
+            display: flex;
+            flex-direction: column;
+            align-items: center; /* Força todos os itens internos a ficarem no centro */
+            justify-content: center;
         }
         .pix-modal-content img {
             width: 200px;
@@ -127,6 +131,9 @@
             background: #fff;
             padding: 10px;
             border-radius: 8px;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
         }
     </style>
 </head>
