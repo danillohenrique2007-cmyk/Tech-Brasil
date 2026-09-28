@@ -276,6 +276,22 @@
     </div>
 </div>
 
+    <!-- Modal de Sucesso do Pedido (Substitui o alerta feio do navegador) -->
+<div class="pix-modal" id="successModal">
+    <div class="pix-modal-content" style="max-width: 420px;">
+        <div style="width: 70px; height: 70px; background: rgba(0, 255, 102, 0.1); border: 2px solid #00ff66; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1.2rem auto;">
+            <i class="fa-solid fa-check" style="font-size: 2rem; color: #00ff66;"></i>
+        </div>
+        <h3 style="color: #fff; margin-bottom: 0.5rem; font-size: 1.4rem;">Pedido Realizado!</h3>
+        <p id="successModalText" style="font-size: 0.9rem; color: #9aa8a2; margin-bottom: 1.5rem; line-height: 1.5;">
+            Seu pedido foi processado com sucesso e já está sendo preparado.
+        </p>
+        <button class="btn btn-primary" id="btnBackToHome" style="width: 100%; padding: 0.85rem; cursor: pointer; font-size: 1rem; font-weight: 600;">
+            Voltar para a Loja
+        </button>
+    </div>
+</div>
+
 <div class="toast" id="toast" role="status"></div>
 
 <script type="module" src="checkout.js"></script>
