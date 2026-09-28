@@ -17,11 +17,21 @@ const db = getFirestore(app);
 
 let cart = JSON.parse(localStorage.getItem("techBrasilCart") || "[]");
 let productsData = [];
+let selectedPaymentMethod = "pix"; // Padrão inicial
 
 const money = (value) => Number(value || 0).toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
 
+// Controle de seleção dos cards de pagamento
+const paymentCards = document.querySelectorAll(".payment-card");
+paymentCards.forEach(card => {
+    card.addEventListener("click", () => {
+        paymentCards.forEach(c => c.classList.remove("active"));
+        card.classList.add("active");
+        selectedPaymentMethod = card.dataset.method;
+    });
+});
+
 async function initCheckout() {
-    // Buscar produtos do Firestore para garantir preços atualizados
     try {
         const querySnapshot = await getDocs(collection(db, "products"));
         querySnapshot.forEach((docSnap) => {
@@ -70,7 +80,6 @@ function renderCheckoutSummary() {
     if (totalEl) totalEl.textContent = money(total);
 }
 
-// Preencher e-mail automaticamente se o usuário estiver logado
 onAuthStateChanged(auth, (user) => {
     if (user && user.email) {
         const emailInput = document.getElementById("email");
@@ -78,7 +87,6 @@ onAuthStateChanged(auth, (user) => {
     }
 });
 
-// Processar Envio do Formulário de Pedido
 const checkoutForm = document.getElementById("checkoutForm");
 if (checkoutForm) {
     checkoutForm.addEventListener("submit", async (e) => {
@@ -95,7 +103,6 @@ if (checkoutForm) {
         const cep = document.getElementById("cep").value;
         const city = document.getElementById("city").value;
         const address = document.getElementById("address").value;
-        const paymentMethod = document.getElementById("paymentMethod").value;
 
         let totalOrderValue = 0;
         const itemsWithDetails = cart.map(item => {
@@ -115,22 +122,41 @@ if (checkoutForm) {
             clientEmail: email,
             clientPhone: phone,
             shippingAddress: { cep, city, address },
-            paymentMethod: paymentMethod,
+            paymentMethod: selectedPaymentMethod,
             items: itemsWithDetails,
             totalAmount: totalOrderValue,
-            status: "Pendente",
+            status: selectedPaymentMethod === "pix" ? "Aguardando Pix" : "Pendente",
             createdAt: new Date().toISOString()
         };
 
         try {
-            // Salvar na coleção "orders" do Firestore
+            // Salvar pedido no Firestore
             await addDoc(collection(db, "orders"), newOrder);
-            
-            // Limpar o carrinho
-            localStorage.removeItem("techBrasilCart");
-            
-            alert("Pedido realizado com sucesso! Obrigado por comprar na Tech Brasil.");
-            window.location.href = "index.html";
+
+            // Se a forma escolhida for PIX, exibe o QR Code dinâmico
+            if (selectedPaymentMethod === "pix") {
+                const pixModal = document.getElementById("pixModal");
+                const qrCodeImg = document.getElementById("pixQRCodeImg");
+                
+                // Gera QR Code simulado com o valor total via API pública do qrserver
+                const qrText = `TechBrasil-Pix-R$${totalOrderValue}-${email}`;
+                qrCodeImg.src = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(qrText)}`;
+                
+                pixModal.style.display = "flex";
+                
+                // Botão de concluir após pagar via Pix
+                document.getElementById("btnFinishPix").onclick = () => {
+                    localStorage.removeItem("techBrasilCart");
+                    alert("Pedido com Pix registrado com sucesso!");
+                    window.location.href = "index.html";
+                };
+            } else {
+                // Para Cartão ou Boleto, limpa o carrinho e redireciona direto
+                localStorage.removeItem("techBrasilCart");
+                alert("Pedido realizado com sucesso! Redirecionando...");
+                window.location.href = "index.html";
+            }
+
         } catch (error) {
             console.error("Erro ao salvar pedido:", error);
             alert("Ocorreu um erro ao processar seu pedido. Tente novamente.");
