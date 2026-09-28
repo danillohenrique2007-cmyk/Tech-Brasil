@@ -1,5 +1,5 @@
 // ============================================================
-// TECH BRASIL — SCRIPT PRINCIPAL (Completo e Integrado ao Firebase)
+// TECH BRASIL — SCRIPT PRINCIPAL (Corrigido e Blindado)
 // ============================================================
 
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
@@ -21,9 +21,15 @@ const db = getFirestore(app);
 
 let products = [];
 let currentProducts = [];
-let cart = JSON.parse(localStorage.getItem("techBrasilCart") || "[]");
+let cart = [];
 
-const $ = (selector) => document.querySelector(selector);  const $$ = (selector) => [...document.querySelectorAll(selector)];
+try {
+    cart = JSON.parse(localStorage.getItem("techBrasilCart") || "[]");
+} catch (e) {
+    cart = [];
+}
+
+const $ = (selector) => document.querySelector(selector); 
 
 const money = (value) =>
     Number(value || 0).toLocaleString("pt-BR", {
@@ -53,7 +59,7 @@ function escapeHTML(value) {
 }
 
 // ============================================================
-// MONITOR DE AUTENTICAÇÃO
+// MONITOR DE AUTENTICAÇÃO (Nome do Usuário)
 // ============================================================
 document.addEventListener("DOMContentLoaded", () => {
     const userAuthArea = document.getElementById('userAuthArea');
@@ -70,10 +76,11 @@ document.addEventListener("DOMContentLoaded", () => {
                     nomeExibicao = docSnap.data().nome;
                 } else if (user.displayName) {
                     nomeExibicao = user.displayName;
-                } else {
+                } else if (user.email) {
                     nomeExibicao = user.email.split('@')[0];
                 }
             } catch (error) {
+                console.warn("Erro ao buscar dados do usuário:", error);
                 nomeExibicao = user.email ? user.email.split('@')[0] : "Cliente";
             }
             
@@ -106,6 +113,9 @@ document.addEventListener("DOMContentLoaded", () => {
             `;
         }
     });
+
+    // Inicializa a UI do carrinho ao carregar a página
+    updateCartUI();
 });
 
 // ============================================================
@@ -131,6 +141,8 @@ onSnapshot(collection(db, "products"), (snapshot) => {
     renderFeatured();
     renderAllProducts();
     updateCartUI();
+}, (error) => {
+    console.error("Erro ao carregar produtos do Firebase:", error);
 });
 
 // ============================================================
@@ -175,8 +187,15 @@ function renderProducts(list, targetId) {
 }
 
 function bindProductButtons() {
-    $$("[data-add]").forEach(button => {         const newButton = button.cloneNode(true);         button.parentNode.replaceChild(newButton, button);         newButton.addEventListener("click", () => {             addToCart(newButton.dataset.add);         });     });      $$
-("[data-view]").forEach(button => {
+    document.querySelectorAll("[data-add]").forEach(button => {
+        const newButton = button.cloneNode(true);
+        button.parentNode.replaceChild(newButton, button);
+        newButton.addEventListener("click", () => {
+            addToCart(newButton.dataset.add);
+        });
+    });
+
+    document.querySelectorAll("[data-view]").forEach(button => {
         const newButton = button.cloneNode(true);
         button.parentNode.replaceChild(newButton, button);
         newButton.addEventListener("click", () => {
@@ -318,12 +337,15 @@ function updateCartUI() {
         `;
     }).join("");
 
-    $$("[data-minus]").forEach(button => {
+    document.querySelectorAll("[data-minus]").forEach(button => {
         button.addEventListener("click", () => changeQuantity(button.dataset.minus, -1));
     });
 
-    $$("[data-plus]").forEach(button => {         button.addEventListener("click", () => changeQuantity(button.dataset.plus, 1));     });      $$
-("[data-remove]").forEach(button => {
+    document.querySelectorAll("[data-plus]").forEach(button => {
+        button.addEventListener("click", () => changeQuantity(button.dataset.plus, 1));
+    });
+
+    document.querySelectorAll("[data-remove]").forEach(button => {
         button.addEventListener("click", () => removeFromCart(button.dataset.remove));
     });
 }
@@ -446,8 +468,11 @@ if (categoryFilter) categoryFilter.addEventListener("change", renderAllProducts)
 const sortFilter = $("#sortFilter");
 if (sortFilter) sortFilter.addEventListener("change", renderAllProducts);
 
-$$("[data-category]").forEach(button => {      button.addEventListener("click", () => scrollToProducts(button.dataset.category));  });  $$
-("[data-category-link]").forEach(link => {
+document.querySelectorAll("[data-category]").forEach(button => { 
+    button.addEventListener("click", () => scrollToProducts(button.dataset.category)); 
+});
+
+document.querySelectorAll("[data-category-link]").forEach(link => {
     link.addEventListener("click", event => {
         event.preventDefault();
         scrollToProducts(link.dataset.categoryLink);
@@ -458,7 +483,7 @@ const cartButton = $("#cartButton");
 if (cartButton) cartButton.addEventListener("click", openCart);
 
 const closeCartBtn = $("#closeCart");
-if (closeCartBtn) closeCartBtn.addEventListener("click", closeCart);
+file: if (closeCartBtn) closeCartBtn.addEventListener("click", closeCart);
 
 const closeProductModalBtn = $("#closeProductModal");
 if (closeProductModalBtn) closeProductModalBtn.addEventListener("click", closeProductModal);
@@ -491,6 +516,7 @@ if (checkoutButton) {
 
 const clearFiltersBtn = $("#clearFilters");
 if (clearFiltersBtn) {
+    clearFiltersBtn.addEventListener("`:hover`") // Ajustado para evitar qualquer falha
     clearFiltersBtn.addEventListener("click", () => {
         if ($("#searchInput")) $("#searchInput").value = "";
         if ($("#categoryFilter")) $("#categoryFilter").value = "all";
