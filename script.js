@@ -76,7 +76,7 @@ document.addEventListener("DOMContentLoaded", () => {
             }
             
             userAuthArea.innerHTML = `
-                <div style="color: #fff; font-size: 0.9rem; display: flex; align-items: center; gap: 8px;">
+              <a href="profile.html" style="color: #fff; font-size: 0.9rem; display: flex; align-items: center; gap: 8px;">
                     <i class="fa-solid fa-user-check" style="color: #00ff66;"></i>
                     <span>Olá, <strong style="color: #00ff66; text-transform: capitalize;">${nomeExibicao}</strong></span>
                     <button id="btnLogout" style="background: transparent; border: 1px solid #1f302a; color: #ff4d4d; padding: 4px 8px; border-radius: 6px; cursor: pointer; font-size: 0.8rem; margin-left: 8px;">Sair</button>
