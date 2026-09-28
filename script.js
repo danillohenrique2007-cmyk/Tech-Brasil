@@ -172,15 +172,30 @@ function renderProducts(list, targetId) {
     bindProductButtons();
 }
 
+// ============================================================
+// EVENTOS DOS BOTÕES DOS PRODUTOS (Corrigido para evitar clique duplo)
+// ============================================================
+
 function bindProductButtons() {
-    $$("[data-add]").forEach(button => {         button.addEventListener("click", () => {             addToCart(button.dataset.add);         });     });      $$
-("[data-view]").forEach(button => {
-        button.addEventListener("click", () => {
-            openProductModal(button.dataset.view);
+    $$("[data-add]").forEach(button => {
+        // Remove eventuais eventos antigos para não duplicar o clique
+        const newButton = button.cloneNode(true);
+        button.parentNode.replaceChild(newButton, button);
+
+        newButton.addEventListener("click", () => {
+            addToCart(newButton.dataset.add);
+        });
+    });
+
+    $$("[data-view]").forEach(button => {
+        const newButton = button.cloneNode(true);
+        button.parentNode.replaceChild(newButton, button);
+
+        newButton.addEventListener("click", () => {
+            openProductModal(newButton.dataset.view);
         });
     });
 }
-
 function renderFeatured() {
     renderProducts(products.slice(0, 4), "featuredProducts");
 }
