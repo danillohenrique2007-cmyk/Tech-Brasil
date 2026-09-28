@@ -21,7 +21,31 @@ let selectedPaymentMethod = "pix";
 
 const money = (value) => Number(value || 0).toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
 
-// Gerenciamento dos Cards de Pagamento com troca de campos dinâmicos
+// Função auxiliar para exibir o modal de sucesso profissional
+function showSuccessModal(paymentType) {
+    const pixModal = document.getElementById("pixModal");
+    if (pixModal) pixModal.style.display = "none"; // Fecha o modal do Pix se estiver aberto
+
+    const successModal = document.getElementById("successModal");
+    const successText = document.getElementById("successModalText");
+
+    if (paymentType === "pix") {
+        successText.innerHTML = `Pagamento via <strong>Pix</strong> confirmado com sucesso! O comprovante e os detalhes foram enviados para o seu e-mail.`;
+    } else if (paymentType === "credit") {
+        successText.innerHTML = `Pagamento via <strong>Cartão de Crédito</strong> aprovado com sucesso! Acompanhe o envio pelo seu painel.`;
+    } else {
+        successText.innerHTML = `Pedido registrado com sucesso via <strong>Boleto Bancário</strong>! O boleto foi gerado e enviado para o seu e-mail.`;
+    }
+
+    successModal.style.display = "flex";
+
+    document.getElementById("btnBackToHome").onclick = () => {
+        localStorage.removeItem("techBrasilCart");
+        window.location.href = "index.html";
+    };
+}
+
+// Gerenciamento dos Cards de Pagamento
 const paymentCards = document.querySelectorAll(".payment-card");
 const dynamicContainer = document.getElementById("dynamicPaymentContainer");
 
@@ -31,7 +55,6 @@ paymentCards.forEach(card => {
         card.classList.add("active");
         selectedPaymentMethod = card.dataset.method;
 
-        // Atualiza os campos conforme o método escolhido
         if (selectedPaymentMethod === "pix") {
             dynamicContainer.innerHTML = `
                 <p style="color: #00ff66; font-size: 0.9rem; margin: 0;"><i class="fa-solid fa-bolt"></i> Aprovação imediata via Pix com QR Code.</p>
@@ -171,15 +194,13 @@ if (checkoutForm) {
                 
                 pixModal.style.display = "flex";
                 
+                // Quando clicar que já pagou o Pix, abre a tela de sucesso profissional
                 document.getElementById("btnFinishPix").onclick = () => {
-                    localStorage.removeItem("techBrasilCart");
-                    alert("Pedido com Pix registrado com sucesso!");
-                    window.location.href = "index.html";
+                    showSuccessModal("pix");
                 };
             } else {
-                localStorage.removeItem("techBrasilCart");
-                alert(`Pedido realizado com sucesso via ${selectedPaymentMethod === 'credit' ? 'Cartão de Crédito' : 'Boleto'}! Redirecionando...`);
-                window.location.href = "index.html";
+                // Para Cartão ou Boleto, exibe direto o modal de sucesso profissional
+                showSuccessModal(selectedPaymentMethod);
             }
 
         } catch (error) {
