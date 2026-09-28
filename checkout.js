@@ -17,17 +17,47 @@ const db = getFirestore(app);
 
 let cart = JSON.parse(localStorage.getItem("techBrasilCart") || "[]");
 let productsData = [];
-let selectedPaymentMethod = "pix"; // Padrão inicial
+let selectedPaymentMethod = "pix";
 
 const money = (value) => Number(value || 0).toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
 
-// Controle de seleção dos cards de pagamento
+// Gerenciamento dos Cards de Pagamento com troca de campos dinâmicos
 const paymentCards = document.querySelectorAll(".payment-card");
+const dynamicContainer = document.getElementById("dynamicPaymentContainer");
+
 paymentCards.forEach(card => {
     card.addEventListener("click", () => {
         paymentCards.forEach(c => c.classList.remove("active"));
         card.classList.add("active");
         selectedPaymentMethod = card.dataset.method;
+
+        // Atualiza os campos conforme o método escolhido
+        if (selectedPaymentMethod === "pix") {
+            dynamicContainer.innerHTML = `
+                <p style="color: #00ff66; font-size: 0.9rem; margin: 0;"><i class="fa-solid fa-bolt"></i> Aprovação imediata via Pix com QR Code.</p>
+            `;
+        } else if (selectedPaymentMethod === "credit") {
+            dynamicContainer.innerHTML = `
+                <div style="margin-bottom: 0.8rem;">
+                    <label style="display:block; color:#9aa8a2; font-size:0.85rem; margin-bottom:0.3rem;">Número do Cartão</label>
+                    <input type="text" id="cardNumber" placeholder="0000 0000 0000 0000" required style="width:100%; padding:0.6rem; background:#0a0d0f; border:1px solid #1f302a; border-radius:6px; color:#fff;">
+                </div>
+                <div style="display:grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+                    <div>
+                        <label style="display:block; color:#9aa8a2; font-size:0.85rem; margin-bottom:0.3rem;">Validade (MM/AA)</label>
+                        <input type="text" id="cardExpiry" placeholder="MM/AA" required style="width:100%; padding:0.6rem; background:#0a0d0f; border:1px solid #1f302a; border-radius:6px; color:#fff;">
+                    </div>
+                    <div>
+                        <label style="display:block; color:#9aa8a2; font-size:0.85rem; margin-bottom:0.3rem;">CVV</label>
+                        <input type="text" id="cardCvv" placeholder="123" required style="width:100%; padding:0.6rem; background:#0a0d0f; border:1px solid #1f302a; border-radius:6px; color:#fff;">
+                    </div>
+                </div>
+            `;
+        } else if (selectedPaymentMethod === "boleto") {
+            dynamicContainer.innerHTML = `
+                <p style="color: #ffcc00; font-size: 0.9rem; margin: 0;"><i class="fa-solid fa-file-invoice"></i> O boleto será gerado após a finalização e enviado ao seu e-mail (Vencimento em 2 dias úteis).</p>
+            `;
+        }
     });
 });
 
@@ -125,35 +155,30 @@ if (checkoutForm) {
             paymentMethod: selectedPaymentMethod,
             items: itemsWithDetails,
             totalAmount: totalOrderValue,
-            status: selectedPaymentMethod === "pix" ? "Aguardando Pix" : "Pendente",
+            status: selectedPaymentMethod === "pix" ? "Aguardando Pix" : (selectedPaymentMethod === "credit" ? "Pago com Cartão" : "Aguardando Boleto"),
             createdAt: new Date().toISOString()
         };
 
         try {
-            // Salvar pedido no Firestore
             await addDoc(collection(db, "orders"), newOrder);
 
-            // Se a forma escolhida for PIX, exibe o QR Code dinâmico
             if (selectedPaymentMethod === "pix") {
                 const pixModal = document.getElementById("pixModal");
                 const qrCodeImg = document.getElementById("pixQRCodeImg");
                 
-                // Gera QR Code simulado com o valor total via API pública do qrserver
                 const qrText = `TechBrasil-Pix-R$${totalOrderValue}-${email}`;
                 qrCodeImg.src = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(qrText)}`;
                 
                 pixModal.style.display = "flex";
                 
-                // Botão de concluir após pagar via Pix
                 document.getElementById("btnFinishPix").onclick = () => {
                     localStorage.removeItem("techBrasilCart");
                     alert("Pedido com Pix registrado com sucesso!");
                     window.location.href = "index.html";
                 };
             } else {
-                // Para Cartão ou Boleto, limpa o carrinho e redireciona direto
                 localStorage.removeItem("techBrasilCart");
-                alert("Pedido realizado com sucesso! Redirecionando...");
+                alert(`Pedido realizado com sucesso via ${selectedPaymentMethod === 'credit' ? 'Cartão de Crédito' : 'Boleto'}! Redirecionando...`);
                 window.location.href = "index.html";
             }
 
